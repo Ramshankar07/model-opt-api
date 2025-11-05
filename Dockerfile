@@ -11,6 +11,9 @@ RUN pip install --upgrade pip && pip install -r requirements.txt && pip install 
 
 COPY src /app/src
 
+# Add src to Python path so federated_api can be found
+ENV PYTHONPATH=/app/src:$PYTHONPATH
+
 # Railway injects PORT; bind to it
 ENV PORT=8000
 EXPOSE 8000

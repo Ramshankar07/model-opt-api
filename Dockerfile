@@ -7,11 +7,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn
 
 COPY src /app/src
 
+# Railway injects PORT; bind to it
+ENV PORT=8000
 EXPOSE 8000
 
-CMD ["uvicorn", "federated_api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "gunicorn federated_api.main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT}"]
 

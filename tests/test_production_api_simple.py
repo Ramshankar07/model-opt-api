@@ -26,9 +26,9 @@ async def test_sample_tree():
         response = await client.get(f"{PRODUCTION_URL}/api/v1/trees/sample")
         assert response.status_code == 200
         data = response.json()
-        assert "nodes" in data
-        assert "edges" in data
-        print(f"[OK] Sample tree: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
+        assert "data" in data
+        assert isinstance(data["data"], dict)
+        print(f"[OK] Sample tree: Empty taxonomy structure")
 
 
 async def test_clone_tree():
@@ -51,43 +51,73 @@ async def test_clone_tree():
         assert response.status_code == 200
         data = response.json()
         assert "tree_id" in data
+        assert "taxonomy" in data
         print(f"[OK] Clone tree: Created tree {data['tree_id']}")
         return data["tree_id"]
 
 
-async def test_import_legacy_tree():
-    """Test importing legacy tree format."""
+async def test_import_taxonomy():
+    """Test importing taxonomy structure."""
     headers = {"Content-Type": "application/json"}
     if API_KEY:
         headers["Authorization"] = f"Bearer {API_KEY}"
     
-    legacy_tree = {
-        "nodes": {
-            "test_node_1": {
-                "architecture": {"family": "CNN", "variant": "ResNet"},
-                "compression_config": {"type": "quantization", "bits": 8},
-                "performance": {"accuracy_retention": 0.98}
+    # Create a simple taxonomy structure
+    taxonomy = {
+        "CNN": {
+            "Classification Models": {
+                "ResNet": {
+                    "optimization_methods": {
+                        "quantization": {
+                            "weight_only": {
+                                "methods": [
+                                    {
+                                        "name": "int8_weight_only",
+                                        "paper_title": "Post-Training Quantization for Neural Networks",
+                                        "paper_link": "https://arxiv.org/abs/1234.5678",
+                                        "venue": "ICML",
+                                        "year": 2024,
+                                        "authors": "Author et al.",
+                                        "bit_widths": ["W8", "W4"],
+                                        "granularity": "per_layer",
+                                        "effectiveness": "high",
+                                        "compression_ratio": "4×",
+                                        "speedup": "2×",
+                                        "accuracy_impact": "minimal",
+                                        "notes": "Test method"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "model_characteristics": {
+                        "architecture_type": "cnn",
+                        "key_components": ["conv", "bn", "relu"]
+                    },
+                    "calibration_free_status": {
+                        "available_methods": "abundant",
+                        "research_gap": False
+                    }
+                }
             }
-        },
-        "edges": [],
-        "metadata": {"node_count": 1, "edge_count": 0}
+        }
     }
     
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"{PRODUCTION_URL}/api/v1/trees/import",
-            json=legacy_tree,
+            json={"taxonomy": taxonomy},
             headers=headers
         )
         
         if response.status_code == 401:
-            print("[SKIP] Import tree: Requires API key")
+            print("[SKIP] Import taxonomy: Requires API key")
             return
         
         assert response.status_code == 200
         data = response.json()
         assert "tree_id" in data
-        print(f"[OK] Import legacy tree: Imported as {data['tree_id']}")
+        print(f"[OK] Import taxonomy: Imported as {data['tree_id']}")
 
 
 async def main():
@@ -106,7 +136,7 @@ async def main():
         await test_health()
         await test_sample_tree()
         await test_clone_tree()
-        await test_import_legacy_tree()
+        await test_import_taxonomy()
         print()
         print("=" * 60)
         print("[OK] All tests passed!")
@@ -123,4 +153,3 @@ async def main():
 
 if __name__ == "__main__":
     exit(asyncio.run(main()))
-

@@ -10,125 +10,212 @@ class TreeService:
     def __init__(self):
         self.validation_service = ValidationService()
 
-    @staticmethod
-    def _update_metadata(tree: Dict[str, Any]) -> None:
-        """Update metadata fields (node_count, edge_count) to match actual counts."""
-        tree.setdefault("meta", {})
-        tree["meta"]["node_count"] = len(tree.get("nodes", []))
-        tree["meta"]["edge_count"] = len(tree.get("edges", []))
-
-    @staticmethod
-    def _get_node_index(tree: Dict[str, Any], node_id: str) -> int:
-        """Get the index of a node by ID. Returns -1 if not found."""
-        for i, node in enumerate(tree.get("nodes", [])):
-            if node.get("id") == node_id:
-                return i
-        return -1
-
-    @staticmethod
-    def _get_node_by_id(tree: Dict[str, Any], node_id: str) -> Optional[Dict[str, Any]]:
-        """Get a node by ID. Returns None if not found."""
-        index = TreeService._get_node_index(tree, node_id)
-        if index >= 0:
-            return tree.get("nodes", [])[index]
-        return None
-
-    @staticmethod
-    def cleanup_orphaned_edges(tree: Dict[str, Any]) -> int:
-        """Remove edges that reference non-existent nodes. Returns number of edges removed."""
-        node_ids = {node.get("id") for node in tree.get("nodes", []) if node.get("id")}
-        edges = tree.get("edges", [])
-        original_count = len(edges)
-        
-        tree["edges"] = [
-            e for e in edges
-            if e.get("source") in node_ids and e.get("target") in node_ids
-        ]
-        
-        removed_count = original_count - len(tree["edges"])
-        return removed_count
-
     def clone(self, architecture: str, constraints: Dict[str, Any]) -> Dict[str, Any]:
-        tree = {
-            "nodes": [],
-            "edges": [],
-            "meta": {"architecture": architecture, "constraints": constraints},
-        }
-        # Validate the tree (even though it's empty, ensures structure is correct)
-        self.validation_service.validate_tree(tree)
-        self._update_metadata(tree)
-        tree_id = tree_repository.create(tree)
-        tree = tree_repository.get(tree_id) or {"nodes": [], "edges": [], "meta": {}}
-        return {"tree_id": tree_id, "tree": tree}
+        """Create a new empty taxonomy structure."""
+        taxonomy = {}
+        # Validate the empty structure (should pass)
+        self.validation_service.validate_schema_structure(taxonomy)
+        tree_id = tree_repository.create(taxonomy)
+        taxonomy = tree_repository.get(tree_id) or {}
+        return {"tree_id": tree_id, "taxonomy": taxonomy}
 
-    def expand(self, tree_id: str, architecture: str) -> List[Dict[str, Any]]:
-        # Stub expansion: return empty list for now
-        return []
+    def expand(self, tree_id: str, architecture: str, path: Optional[str] = None) -> Dict[str, Any]:
+        """Expand taxonomy structure. Stub implementation for now."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        return {"expanded": True, "path": path}
 
-    def add_node_to_tree(self, tree_id: str, node_data: Dict[str, Any]) -> None:
-        """Add a node to a tree with validation."""
-        tree = tree_repository.get(tree_id)
-        if tree is None:
-            raise ValueError(f"Tree not found: {tree_id}")
-        
-        # Get existing node IDs for uniqueness check
-        existing_node_ids = {n.get("id") for n in tree.get("nodes", []) if n.get("id")}
-        self.validation_service.validate_node(node_data, existing_node_ids)
-        
-        tree.setdefault("nodes", []).append(node_data)
-        self._update_metadata(tree)
-        tree_repository.upsert(tree_id, tree)
+    def get_taxonomy(self, tree_id: str) -> Dict[str, Any]:
+        """Get full taxonomy structure."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        return taxonomy
 
-    def remove_node_from_tree(self, tree_id: str, node_id: str) -> bool:
-        """Remove a node from a tree and clean up its edges. Returns True if removed."""
-        tree = tree_repository.get(tree_id)
-        if tree is None:
-            raise ValueError(f"Tree not found: {tree_id}")
+    def get_model_family(self, tree_id: str, family_name: str) -> Optional[Dict[str, Any]]:
+        """Get a specific model family."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        return taxonomy.get(family_name)
+
+    def get_path(self, tree_id: str, path: str) -> Optional[Any]:
+        """Get data at a specific path (e.g., 'model_family/subcategory/specific_model')."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
         
-        before = len(tree.get("nodes", []))
-        tree["nodes"] = [n for n in tree.get("nodes", []) if n.get("id") != node_id]
-        after = len(tree.get("nodes", []))
+        self.validation_service.validate_path(path)
+        parts = path.split('/')
+        current = taxonomy
+        for part in parts:
+            if not isinstance(current, dict) or part not in current:
+                return None
+            current = current[part]
+        return current
+
+    def get_optimization_methods(self, tree_id: str, path: str) -> Optional[List[Dict[str, Any]]]:
+        """Get optimization methods for a specific model path."""
+        model_data = self.get_path(tree_id, path)
+        if model_data is None or not isinstance(model_data, dict):
+            return None
         
-        if before == after:
+        opt_methods = model_data.get('optimization_methods', {})
+        if not isinstance(opt_methods, dict):
+            return None
+        
+        # Collect all methods from all categories
+        all_methods = []
+        for category in ['quantization', 'fusion', 'pruning', 'structural']:
+            if category in opt_methods:
+                category_data = opt_methods[category]
+                if isinstance(category_data, dict):
+                    for subcat_name, subcat_data in category_data.items():
+                        if isinstance(subcat_data, dict) and 'methods' in subcat_data:
+                            methods = subcat_data['methods']
+                            if isinstance(methods, list):
+                                all_methods.extend(methods)
+        
+        return all_methods if all_methods else None
+
+    def add_optimization_method(
+        self, 
+        tree_id: str, 
+        path: str, 
+        category: str, 
+        subcategory: str, 
+        method_data: Dict[str, Any]
+    ) -> None:
+        """Add an optimization method to a specific path."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        self.validation_service.validate_path(path)
+        self.validation_service.validate_method_data(method_data)
+        
+        # Navigate to the model
+        parts = path.split('/')
+        if len(parts) < 3:
+            raise ValueError("Path must be at least model_family/subcategory/specific_model")
+        
+        current = taxonomy
+        for part in parts:
+            if part not in current:
+                current[part] = {}
+            current = current[part]
+        
+        # Ensure optimization_methods structure exists
+        if 'optimization_methods' not in current:
+            current['optimization_methods'] = {}
+        
+        opt_methods = current['optimization_methods']
+        
+        # Ensure category exists
+        if category not in opt_methods:
+            opt_methods[category] = {}
+        
+        # Ensure subcategory exists
+        if subcategory not in opt_methods[category]:
+            opt_methods[category][subcategory] = {'methods': []}
+        
+        # Add the method
+        opt_methods[category][subcategory]['methods'].append(method_data)
+        
+        # Validate the updated structure
+        self.validation_service.validate_schema_structure(taxonomy)
+        tree_repository.upsert(tree_id, taxonomy)
+
+    def update_optimization_method(
+        self, 
+        tree_id: str, 
+        path: str, 
+        category: str, 
+        subcategory: str, 
+        method_index: int, 
+        updates: Dict[str, Any]
+    ) -> None:
+        """Update an existing optimization method."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        self.validation_service.validate_path(path)
+        
+        # Navigate to the methods list
+        parts = path.split('/')
+        current = taxonomy
+        for part in parts:
+            if part not in current:
+                raise ValueError(f"Path not found: {path}")
+            current = current[part]
+        
+        if 'optimization_methods' not in current:
+            raise ValueError(f"No optimization_methods found at path: {path}")
+        
+        opt_methods = current['optimization_methods']
+        if category not in opt_methods:
+            raise ValueError(f"Category '{category}' not found")
+        
+        if subcategory not in opt_methods[category]:
+            raise ValueError(f"Subcategory '{subcategory}' not found in category '{category}'")
+        
+        methods = opt_methods[category][subcategory].get('methods', [])
+        if not isinstance(methods, list) or method_index < 0 or method_index >= len(methods):
+            raise ValueError(f"Invalid method index: {method_index}")
+        
+        # Update the method
+        methods[method_index].update(updates)
+        
+        # Validate the updated method
+        self.validation_service.validate_optimization_method(methods[method_index])
+        
+        # Validate the entire structure
+        self.validation_service.validate_schema_structure(taxonomy)
+        tree_repository.upsert(tree_id, taxonomy)
+
+    def remove_optimization_method(
+        self, 
+        tree_id: str, 
+        path: str, 
+        category: str, 
+        subcategory: str, 
+        method_index: int
+    ) -> bool:
+        """Remove an optimization method."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        self.validation_service.validate_path(path)
+        
+        # Navigate to the methods list
+        parts = path.split('/')
+        current = taxonomy
+        for part in parts:
+            if part not in current:
+                raise ValueError(f"Path not found: {path}")
+            current = current[part]
+        
+        if 'optimization_methods' not in current:
             return False
         
-        # Remove all edges referencing the deleted node
-        tree["edges"] = [
-            e for e in tree.get("edges", [])
-            if e.get("source") != node_id and e.get("target") != node_id
-        ]
+        opt_methods = current['optimization_methods']
+        if category not in opt_methods:
+            return False
         
-        self._update_metadata(tree)
-        tree_repository.upsert(tree_id, tree)
+        if subcategory not in opt_methods[category]:
+            return False
+        
+        methods = opt_methods[category][subcategory].get('methods', [])
+        if not isinstance(methods, list) or method_index < 0 or method_index >= len(methods):
+            return False
+        
+        # Remove the method
+        methods.pop(method_index)
+        
+        # Validate the updated structure
+        self.validation_service.validate_schema_structure(taxonomy)
+        tree_repository.upsert(tree_id, taxonomy)
         return True
-
-    def add_edge_to_tree(self, tree_id: str, edge_data: Dict[str, Any]) -> None:
-        """Add an edge to a tree with validation."""
-        tree = tree_repository.get(tree_id)
-        if tree is None:
-            raise ValueError(f"Tree not found: {tree_id}")
-        
-        self.validation_service.validate_edge_for_tree(edge_data, tree)
-        tree.setdefault("edges", []).append(edge_data)
-        self._update_metadata(tree)
-        tree_repository.upsert(tree_id, tree)
-
-    def remove_edge_from_tree(self, tree_id: str, source: str, target: str) -> bool:
-        """Remove an edge from a tree. Returns True if removed."""
-        tree = tree_repository.get(tree_id)
-        if tree is None:
-            raise ValueError(f"Tree not found: {tree_id}")
-        
-        edges = tree.get("edges", [])
-        original_count = len(edges)
-        tree["edges"] = [
-            e for e in edges
-            if not (e.get("source") == source and e.get("target") == target)
-        ]
-        
-        removed = len(edges) != len(tree["edges"])
-        if removed:
-            self._update_metadata(tree)
-            tree_repository.upsert(tree_id, tree)
-        return removed
-

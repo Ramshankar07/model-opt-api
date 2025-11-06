@@ -5,7 +5,7 @@ from uuid import uuid4
 
 
 class TreeRepository:
-    """In-memory repository for trees. Each tree is a dict with nodes and edges.
+    """In-memory repository for taxonomy structures. Each taxonomy is a dict following CALIBRATION_FREE_SCHEMA.
 
     This interface is kept minimal and is intended to be swapped with a
     persistent backend (e.g., MongoDB) in a future iteration without changing
@@ -23,7 +23,7 @@ class TreeRepository:
 
     def create(self, tree: Optional[Dict[str, Any]] = None) -> str:
         tree_id = self.new_id()
-        self._trees[tree_id] = tree or {"nodes": [], "edges": [], "meta": {}}
+        self._trees[tree_id] = tree or {}
         return tree_id
 
     def get(self, tree_id: str) -> Optional[Dict[str, Any]]:

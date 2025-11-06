@@ -57,12 +57,9 @@ class TestPublicEndpoints:
         response = await public_client.get("/api/v1/trees/sample")
         assert response.status_code == 200
         data = response.json()
-        assert "nodes" in data
-        assert "edges" in data
-        assert "meta" in data
-        assert isinstance(data["nodes"], list)
-        assert isinstance(data["edges"], list)
-        print(f"[OK] Sample tree retrieved: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
+        assert "data" in data
+        assert isinstance(data["data"], dict)
+        print(f"[OK] Sample tree retrieved: Empty taxonomy structure")
 
 
 @pytest.mark.asyncio
@@ -87,8 +84,8 @@ class TestTreeOperations:
         assert response.status_code == 200
         data = response.json()
         assert "tree_id" in data
-        assert "tree" in data
-        assert data["tree"]["meta"]["architecture"] == "transformer"
+        assert "taxonomy" in data
+        assert isinstance(data["taxonomy"], dict)
         print(f"[OK] Tree cloned: {data['tree_id']}")
         return data["tree_id"]
     
@@ -109,8 +106,8 @@ class TestTreeOperations:
         response = await client.get(f"/api/v1/trees/{tree_id}")
         assert response.status_code == 200
         data = response.json()
-        assert "nodes" in data
-        assert "edges" in data
+        assert "data" in data
+        assert isinstance(data["data"], dict)
         print(f"[OK] Tree retrieved: {tree_id}")
     
     async def test_get_nonexistent_tree(self, client):
@@ -118,99 +115,103 @@ class TestTreeOperations:
         response = await client.get("/api/v1/trees/nonexistent-tree-id-12345")
         assert response.status_code == 404
         print("[OK] Non-existent tree correctly returns 404")
-
-
-@pytest.mark.asyncio
-class TestLegacyTreeImport:
-    """Test importing trees in legacy format."""
     
-    async def test_import_legacy_tree(self, client):
-        """Test importing a tree in legacy format."""
-        legacy_tree = {
-            "nodes": {
-                "node_quantize_int8_cnn": {
-                    "architecture": {"family": "CNN", "variant": "ResNet"},
-                    "compression_config": {
-                        "type": "quantization",
-                        "bits": 8,
-                        "method": "int8_weight_only"
-                    },
-                    "performance": {
-                        "accuracy_retention": 0.98,
-                        "compression_ratio": 4.0,
-                        "latency_speedup": 2.0,
-                        "memory_gb": 2.5,
-                        "latency_ms": 12.5
-                    },
-                    "validation": {
-                        "sample_count": 15,
-                        "confidence": 0.85,
-                        "validators": 3,
-                        "source": "validated"
-                    },
-                    "source": {
-                        "origin": "federated",
-                        "paper_refs": ["Post-Training Quantization for Neural Networks"],
-                        "status": "validated",
-                        "paper_score": 0.9
-                    },
-                    "visit_count": 0,
-                    "q_value": 0.5,
-                    "local_updated": "2024-01-15T10:00:00"
-                },
-                "node_quantize_prune_cnn": {
-                    "architecture": {"family": "CNN", "variant": "ResNet"},
-                    "compression_config": {
-                        "type": "quantization",
-                        "bits": 8,
-                        "method": "int8_weight_only",
-                        "pruning": {"type": "structured", "ratio": 0.3}
-                    },
-                    "performance": {
-                        "accuracy_retention": 0.95,
-                        "compression_ratio": 5.5,
-                        "latency_speedup": 2.8,
-                        "memory_gb": 1.8,
-                        "latency_ms": 10.0
-                    },
-                    "validation": {
-                        "sample_count": 12,
-                        "confidence": 0.78,
-                        "validators": 2,
-                        "source": "validated"
-                    },
-                    "source": {
-                        "origin": "federated",
-                        "paper_refs": ["Structured Pruning and Quantization for Efficient Inference"],
-                        "status": "validated",
-                        "paper_score": 0.85
-                    },
-                    "visit_count": 0,
-                    "q_value": 0.5,
-                    "local_updated": "2024-01-15T10:00:00"
-                }
-            },
-            "edges": [
-                {
-                    "parent": "node_quantize_int8_cnn",
-                    "child": "node_quantize_prune_cnn",
-                    "data": {
-                        "weights": {
-                            "success_probability": 0.82,
-                            "sample_count": 12,
-                            "confidence": 0.78
-                        }
+    async def test_get_taxonomy(self, client):
+        """Test getting full taxonomy."""
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        response = await client.get(f"/api/v1/trees/{tree_id}/taxonomy")
+        assert response.status_code == 200
+        data = response.json()
+        assert isinstance(data, dict)
+        print(f"[OK] Taxonomy retrieved: {tree_id}")
+    
+    async def test_get_path(self, client):
+        """Test getting data at a specific path."""
+        # First import a taxonomy with data
+        taxonomy = {
+            "CNN": {
+                "Classification": {
+                    "ResNet": {
+                        "optimization_methods": {},
+                        "model_characteristics": {},
+                        "calibration_free_status": {}
                     }
                 }
-            ],
-            "metadata": {
-                "node_count": 2,
-                "edge_count": 1,
-                "saved_at": "2024-01-15T10:00:00"
             }
         }
         
-        response = await client.post("/api/v1/trees/import", json=legacy_tree)
+        import_response = await client.post(
+            "/api/v1/trees/import",
+            json={"taxonomy": taxonomy}
+        )
+        
+        if import_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = import_response.json()["tree_id"]
+        
+        # Get path
+        response = await client.get(f"/api/v1/trees/{tree_id}/path/CNN/Classification/ResNet")
+        assert response.status_code == 200
+        data = response.json()
+        assert "optimization_methods" in data
+        print(f"[OK] Path data retrieved")
+
+
+@pytest.mark.asyncio
+class TestTaxonomyImport:
+    """Test importing taxonomy structures."""
+    
+    async def test_import_taxonomy(self, client):
+        """Test importing a taxonomy structure."""
+        taxonomy = {
+            "CNN": {
+                "Classification Models": {
+                    "ResNet": {
+                        "optimization_methods": {
+                            "quantization": {
+                                "weight_only": {
+                                    "methods": [
+                                        {
+                                            "name": "int8_weight_only",
+                                            "paper_title": "Post-Training Quantization",
+                                            "paper_link": "https://arxiv.org/abs/1234.5678",
+                                            "venue": "ICML",
+                                            "year": 2024,
+                                            "authors": "Author et al.",
+                                            "bit_widths": ["W8", "W4"],
+                                            "granularity": "per_layer",
+                                            "effectiveness": "high",
+                                            "compression_ratio": "4×",
+                                            "speedup": "2×",
+                                            "accuracy_impact": "minimal",
+                                            "notes": "Test method"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "model_characteristics": {
+                            "architecture_type": "cnn"
+                        },
+                        "calibration_free_status": {
+                            "available_methods": "abundant"
+                        }
+                    }
+                }
+            }
+        }
+        
+        response = await client.post("/api/v1/trees/import", json={"taxonomy": taxonomy})
         
         if response.status_code == 401:
             pytest.skip("API key authentication required")
@@ -220,25 +221,22 @@ class TestLegacyTreeImport:
         assert "tree_id" in data
         tree_id = data["tree_id"]
         
-        # Verify the tree was imported correctly
+        # Verify the taxonomy was imported correctly
         get_response = await client.get(f"/api/v1/trees/{tree_id}")
         assert get_response.status_code == 200
-        imported_tree = get_response.json()
-        assert len(imported_tree["nodes"]) == 2
-        assert len(imported_tree["edges"]) == 1
-        # Verify conversion: parent/child -> source/target
-        assert imported_tree["edges"][0]["source"] == "node_quantize_int8_cnn"
-        assert imported_tree["edges"][0]["target"] == "node_quantize_prune_cnn"
-        print(f"[OK] Legacy tree imported and verified: {tree_id}")
+        imported_taxonomy = get_response.json()
+        assert "data" in imported_taxonomy
+        assert "CNN" in imported_taxonomy["data"]
+        print(f"[OK] Taxonomy imported and verified: {tree_id}")
 
 
 @pytest.mark.asyncio
-class TestNodeOperations:
-    """Test node CRUD operations."""
+class TestMethodOperations:
+    """Test optimization method CRUD operations."""
     
-    async def test_add_node(self, client):
-        """Test adding a node to a tree."""
-        # First create a tree
+    async def test_add_method(self, client):
+        """Test adding an optimization method."""
+        # First create a tree and set up a path
         clone_response = await client.post(
             "/api/v1/trees/clone",
             json={"architecture": "test", "constraints": {}}
@@ -249,74 +247,159 @@ class TestNodeOperations:
         
         tree_id = clone_response.json()["tree_id"]
         
-        # Add a node
-        node_data = {
-            "id": "test_node_123",
-            "architecture": {"family": "CNN", "variant": "ResNet"},
-            "compression_config": {"type": "quantization", "bits": 8},
-            "performance": {"accuracy_retention": 0.95}
+        # First, we need to create the path structure
+        taxonomy = {
+            "CNN": {
+                "Classification": {
+                    "ResNet": {
+                        "optimization_methods": {
+                            "quantization": {
+                                "weight_only": {
+                                    "methods": []
+                                }
+                            }
+                        },
+                        "model_characteristics": {},
+                        "calibration_free_status": {}
+                    }
+                }
+            }
         }
         
+        # Import the structure
+        await client.post(f"/api/v1/trees/import", json={"taxonomy": taxonomy})
+        # Actually, let's use the tree_id we just created
+        # We'll need to manually set up the structure or use a different approach
+        
+        # For now, let's test with a simpler approach - add method to existing path
+        method_data = {
+            "path": "CNN/Classification/ResNet",
+            "category": "quantization",
+            "subcategory": "weight_only",
+            "name": "test_method",
+            "paper_title": "Test Paper",
+            "paper_link": "https://arxiv.org/abs/1234.5678",
+            "venue": "ICML",
+            "year": 2024,
+            "authors": "Author et al.",
+            "effectiveness": "high",
+            "accuracy_impact": "minimal",
+            "bit_widths": ["W8"],
+            "notes": "Test"
+        }
+        
+        # First import the base structure
+        await client.post("/api/v1/trees/import", json={"taxonomy": taxonomy})
+        # Get the new tree_id
+        import_response = await client.post("/api/v1/trees/import", json={"taxonomy": taxonomy})
+        tree_id = import_response.json()["tree_id"]
+        
         response = await client.post(
-            f"/api/v1/trees/{tree_id}/nodes",
-            json=node_data
+            f"/api/v1/trees/{tree_id}/methods",
+            json=method_data
         )
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "added"
-        print(f"[OK] Node added to tree: {tree_id}")
+        print(f"[OK] Method added to tree: {tree_id}")
     
-    async def test_update_node(self, client):
-        """Test updating a node."""
-        # Create tree and add node
-        clone_response = await client.post(
-            "/api/v1/trees/clone",
-            json={"architecture": "test", "constraints": {}}
-        )
+    async def test_update_method(self, client):
+        """Test updating an optimization method."""
+        # Create taxonomy with a method
+        taxonomy = {
+            "CNN": {
+                "Classification": {
+                    "ResNet": {
+                        "optimization_methods": {
+                            "quantization": {
+                                "weight_only": {
+                                    "methods": [
+                                        {
+                                            "name": "test_method",
+                                            "paper_title": "Test Paper",
+                                            "paper_link": "https://arxiv.org/abs/1234.5678",
+                                            "venue": "ICML",
+                                            "year": 2024,
+                                            "authors": "Author et al.",
+                                            "effectiveness": "high",
+                                            "accuracy_impact": "minimal"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "model_characteristics": {},
+                        "calibration_free_status": {}
+                    }
+                }
+            }
+        }
         
-        if clone_response.status_code == 401:
+        import_response = await client.post("/api/v1/trees/import", json={"taxonomy": taxonomy})
+        
+        if import_response.status_code == 401:
             pytest.skip("API key authentication required")
         
-        tree_id = clone_response.json()["tree_id"]
+        tree_id = import_response.json()["tree_id"]
         
-        node_data = {"id": "updatable_node", "performance": {"accuracy_retention": 0.90}}
-        await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node_data)
-        
-        # Update the node
-        updates = {"performance": {"accuracy_retention": 0.95}}
+        # Update the method
+        updates = {"effectiveness": "medium", "notes": "Updated"}
         response = await client.put(
-            f"/api/v1/trees/{tree_id}/nodes/updatable_node",
+            f"/api/v1/trees/{tree_id}/methods/CNN/Classification/ResNet/quantization/weight_only/0",
             json=updates
         )
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "updated"
-        print(f"[OK] Node updated: updatable_node")
+        print(f"[OK] Method updated")
     
-    async def test_delete_node(self, client):
-        """Test deleting a node."""
-        # Create tree and add node
-        clone_response = await client.post(
-            "/api/v1/trees/clone",
-            json={"architecture": "test", "constraints": {}}
-        )
+    async def test_delete_method(self, client):
+        """Test deleting an optimization method."""
+        # Create taxonomy with a method
+        taxonomy = {
+            "CNN": {
+                "Classification": {
+                    "ResNet": {
+                        "optimization_methods": {
+                            "quantization": {
+                                "weight_only": {
+                                    "methods": [
+                                        {
+                                            "name": "deletable_method",
+                                            "paper_title": "Test Paper",
+                                            "paper_link": "https://arxiv.org/abs/1234.5678",
+                                            "venue": "ICML",
+                                            "year": 2024,
+                                            "authors": "Author et al.",
+                                            "effectiveness": "high",
+                                            "accuracy_impact": "minimal"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "model_characteristics": {},
+                        "calibration_free_status": {}
+                    }
+                }
+            }
+        }
         
-        if clone_response.status_code == 401:
+        import_response = await client.post("/api/v1/trees/import", json={"taxonomy": taxonomy})
+        
+        if import_response.status_code == 401:
             pytest.skip("API key authentication required")
         
-        tree_id = clone_response.json()["tree_id"]
+        tree_id = import_response.json()["tree_id"]
         
-        node_data = {"id": "deletable_node", "test": True}
-        await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node_data)
-        
-        # Delete the node
+        # Delete the method
         response = await client.delete(
-            f"/api/v1/trees/{tree_id}/nodes/deletable_node"
+            f"/api/v1/trees/{tree_id}/methods/CNN/Classification/ResNet/quantization/weight_only/0"
         )
         assert response.status_code == 200
         data = response.json()
-        assert data["status"] == "pruned"
-        print(f"[OK] Node deleted: deletable_node")
+        assert data["status"] == "removed"
+        print(f"[OK] Method deleted")
 
 
 @pytest.mark.asyncio
@@ -343,9 +426,8 @@ class TestTreeExpansion:
         )
         assert response.status_code == 200
         data = response.json()
-        assert "new_nodes" in data
-        assert isinstance(data["new_nodes"], list)
-        print(f"[OK] Tree expanded: {len(data['new_nodes'])} new nodes")
+        assert "expanded" in data
+        print(f"[OK] Tree expanded: {tree_id}")
 
 
 @pytest.mark.asyncio
@@ -367,15 +449,8 @@ class TestSyncOperations:
         
         # Sync changes
         sync_payload = {
-            "local_tree": {
-                "nodes": [{"id": "local_node", "test": True}],
-                "edges": [],
-                "meta": {}
-            },
-            "changes": {
-                "updated_edges": [],
-                "new_nodes": [{"id": "local_node"}]
-            }
+            "local_taxonomy": {"data": {}},
+            "changes": {}
         }
         
         response = await client.put(
@@ -407,14 +482,8 @@ class TestMergeOperations:
         
         # Merge changes
         merge_payload = {
-            "local_tree": {
-                "nodes": [{"id": "merged_node", "test": True}],
-                "edges": [],
-                "meta": {}
-            },
-            "changes": {
-                "new_nodes": [{"id": "merged_node"}]
-            }
+            "local_taxonomy": {"data": {}},
+            "changes": {}
         }
         
         response = await client.post(
@@ -452,176 +521,95 @@ class TestMergeOperations:
 class TestValidationAndIntegrity:
     """Test validation and data integrity features."""
     
-    async def test_duplicate_node_prevention(self, client):
-        """Test that duplicate node IDs are prevented."""
-        # Create a tree
-        clone_response = await client.post(
-            "/api/v1/trees/clone",
-            json={"architecture": "test", "constraints": {}}
-        )
-        
-        if clone_response.status_code == 401:
-            pytest.skip("API key authentication required")
-        
-        tree_id = clone_response.json()["tree_id"]
-        
-        # Add a node
-        node_data = {"id": "unique_node", "test": True}
-        response = await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node_data)
-        assert response.status_code == 200
-        
-        # Try to add another node with the same ID
-        response = await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node_data)
-        assert response.status_code == 400
-        assert "duplicate" in response.json()["detail"].lower()
-        print("[OK] Duplicate node ID prevented")
-    
-    async def test_orphaned_edge_cleanup(self, client):
-        """Test that edges are cleaned up when a node is deleted."""
-        # Create a tree
-        clone_response = await client.post(
-            "/api/v1/trees/clone",
-            json={"architecture": "test", "constraints": {}}
-        )
-        
-        if clone_response.status_code == 401:
-            pytest.skip("API key authentication required")
-        
-        tree_id = clone_response.json()["tree_id"]
-        
-        # Add two nodes
-        node1 = {"id": "node1", "test": True}
-        node2 = {"id": "node2", "test": True}
-        await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node1)
-        await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node2)
-        
-        # Manually add an edge (if edge endpoint exists, otherwise we'll test the cleanup)
-        # For now, we'll test that deleting a node doesn't leave orphaned edges
-        # by checking the tree structure after deletion
-        
-        # Get tree before deletion
-        tree_before = await client.get(f"/api/v1/trees/{tree_id}")
-        assert tree_before.status_code == 200
-        
-        # Delete node1
-        delete_response = await client.delete(f"/api/v1/trees/{tree_id}/nodes/node1")
-        assert delete_response.status_code == 200
-        
-        # Get tree after deletion
-        tree_after = await client.get(f"/api/v1/trees/{tree_id}")
-        assert tree_after.status_code == 200
-        tree_data = tree_after.json()
-        
-        # Verify node1 is gone
-        node_ids = [n["id"] for n in tree_data["nodes"]]
-        assert "node1" not in node_ids
-        assert "node2" in node_ids
-        
-        # Verify no edges reference node1 (if edges existed)
-        for edge in tree_data.get("edges", []):
-            assert edge.get("source") != "node1"
-            assert edge.get("target") != "node1"
-        
-        print("[OK] Orphaned edges cleaned up on node deletion")
-    
-    async def test_metadata_consistency(self, client):
-        """Test that metadata node_count and edge_count are consistent."""
-        # Create a tree
-        clone_response = await client.post(
-            "/api/v1/trees/clone",
-            json={"architecture": "test", "constraints": {}}
-        )
-        
-        if clone_response.status_code == 401:
-            pytest.skip("API key authentication required")
-        
-        tree_id = clone_response.json()["tree_id"]
-        
-        # Get initial tree
-        tree_response = await client.get(f"/api/v1/trees/{tree_id}")
-        tree_data = tree_response.json()
-        
-        # Check metadata consistency
-        meta = tree_data.get("meta", {})
-        actual_node_count = len(tree_data.get("nodes", []))
-        actual_edge_count = len(tree_data.get("edges", []))
-        
-        # Metadata should match actual counts
-        assert meta.get("node_count") == actual_node_count
-        assert meta.get("edge_count") == actual_edge_count
-        
-        # Add a node
-        node_data = {"id": "meta_test_node", "test": True}
-        await client.post(f"/api/v1/trees/{tree_id}/nodes", json=node_data)
-        
-        # Check metadata again
-        tree_response = await client.get(f"/api/v1/trees/{tree_id}")
-        tree_data = tree_response.json()
-        meta = tree_data.get("meta", {})
-        actual_node_count = len(tree_data.get("nodes", []))
-        
-        assert meta.get("node_count") == actual_node_count
-        print("[OK] Metadata consistency maintained")
-    
-    async def test_invalid_edge_validation(self, client):
-        """Test that edges with invalid node references are rejected."""
-        # Try to import a tree with invalid edges (in legacy format)
-        # The edge references a node that doesn't exist
-        invalid_tree = {
-            "nodes": {
-                "node1": {"test": True}
-            },
-            "edges": [
-                {
-                    "parent": "node1",
-                    "child": "nonexistent_node",
-                    "data": {}
+    async def test_invalid_taxonomy_validation(self, client):
+        """Test that invalid taxonomy structures are rejected."""
+        # Try to import an invalid taxonomy (missing required fields in method)
+        invalid_taxonomy = {
+            "CNN": {
+                "Classification": {
+                    "ResNet": {
+                        "optimization_methods": {
+                            "quantization": {
+                                "weight_only": {
+                                    "methods": [
+                                        {
+                                            "name": "invalid_method"
+                                            # Missing required fields
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
                 }
-            ],
-            "metadata": {}
+            }
         }
         
-        response = await client.post("/api/v1/trees/import", json=invalid_tree)
+        response = await client.post("/api/v1/trees/import", json={"taxonomy": invalid_taxonomy})
+        
+        if response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
         assert response.status_code == 400
-        assert "non-existent" in response.json()["detail"].lower() or "invalid" in response.json()["detail"].lower()
-        print("[OK] Invalid edge validation working")
+        assert "required" in response.json()["detail"].lower() or "missing" in response.json()["detail"].lower()
+        print("[OK] Invalid taxonomy validation working")
     
-    async def test_tree_validation_on_import(self, client):
-        """Test that tree validation catches issues on import."""
-        if client.base_url.host == "model-opt-api-production-06d6.up.railway.app":
-            # Skip if API key not available for production
-            if not API_KEY or API_KEY == "test-key-placeholder":
-                pytest.skip("API key required for production")
+    async def test_path_validation(self, client):
+        """Test path validation."""
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
         
-        # Try to import tree with duplicate node IDs
-        invalid_tree = {
-            "nodes": {
-                "node1": {"test": True},
-                "node2": {"test": True}
-            },
-            "edges": [],
-            "metadata": {}
-        }
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
         
-        # Convert to API format manually for test
-        # The conversion should create duplicate IDs if we manipulate it
-        # Actually, let's test with a tree that has duplicate IDs after conversion
-        # Since conversion uses node_id as the key, duplicates aren't possible in legacy format
-        # So we'll test with missing required fields instead
+        tree_id = clone_response.json()["tree_id"]
         
-        invalid_tree_missing_fields = {
-            "nodes": [
-                {"id": "node1"},  # Valid
-                {"label": "node without id"}  # Invalid - missing id
-            ],
-            "edges": [],
-            "metadata": {}
-        }
-        
-        response = await client.post("/api/v1/trees/import", json=invalid_tree_missing_fields)
-        # Should fail validation
+        # Try to get an invalid path
+        response = await client.get(f"/api/v1/trees/{tree_id}/path/invalid")
         assert response.status_code == 400
-        print("[OK] Tree validation on import working")
+        print("[OK] Path validation working")
+    
+    async def test_method_validation(self, client):
+        """Test that method validation catches issues."""
+        taxonomy = {
+            "CNN": {
+                "Classification": {
+                    "ResNet": {
+                        "optimization_methods": {
+                            "quantization": {
+                                "weight_only": {
+                                    "methods": []
+                                }
+                            }
+                        },
+                        "model_characteristics": {},
+                        "calibration_free_status": {}
+                    }
+                }
+            }
+        }
+        
+        import_response = await client.post("/api/v1/trees/import", json={"taxonomy": taxonomy})
+        
+        if import_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = import_response.json()["tree_id"]
+        
+        # Try to add a method with missing required fields
+        invalid_method = {
+            "path": "CNN/Classification/ResNet",
+            "category": "quantization",
+            "subcategory": "weight_only",
+            "name": "test"
+            # Missing required fields
+        }
+        
+        response = await client.post(f"/api/v1/trees/{tree_id}/methods", json=invalid_method)
+        assert response.status_code == 400
+        print("[OK] Method validation working")
 
 
 @pytest.mark.asyncio
@@ -662,4 +650,3 @@ def run_all_tests():
 
 if __name__ == "__main__":
     run_all_tests()
-

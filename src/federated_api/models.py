@@ -5,47 +5,83 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
 
-class Node(BaseModel):
-    id: str
-    label: Optional[str] = None
-    data: Dict[str, Any] = Field(default_factory=dict)
+class OptimizationMethod(BaseModel):
+    """Standardized structure for all optimization methods."""
+    name: str
+    paper_title: str
+    paper_link: str
+    venue: str
+    year: int
+    authors: str
+    effectiveness: str  # 'high' | 'medium' | 'low'
+    accuracy_impact: str  # 'zero' | 'minimal' | 'moderate'
+    
+    # Optional fields
+    bit_widths: List[str] = Field(default_factory=list)
+    granularity: Optional[str] = None
+    compression_ratio: Optional[str] = None
+    speedup: Optional[str] = None
+    notes: str = Field(default="")
+
+
+class OptimizationMethods(BaseModel):
+    """Container for optimization methods by category and subcategory."""
+    quantization: Dict[str, Dict[str, List[OptimizationMethod]]] = Field(default_factory=dict)
+    fusion: Dict[str, Dict[str, List[OptimizationMethod]]] = Field(default_factory=dict)
+    pruning: Dict[str, Dict[str, List[OptimizationMethod]]] = Field(default_factory=dict)
+    structural: Dict[str, Dict[str, List[OptimizationMethod]]] = Field(default_factory=dict)
+
+
+class ModelCharacteristics(BaseModel):
+    """Characteristics of a specific model."""
+    architecture_type: Optional[str] = None  # 'cnn' | 'transformer' | 'hybrid' | 'multimodal'
+    key_components: List[str] = Field(default_factory=list)
+    has_batch_norm: Optional[bool] = None
+    has_layer_norm: Optional[bool] = None
+    has_attention: Optional[bool] = None
+    has_skip_connections: Optional[bool] = None
+    optimization_challenges: List[str] = Field(default_factory=list)
+
+
+class CalibrationFreeStatus(BaseModel):
+    """Status information about calibration-free methods availability."""
+    available_methods: Optional[str] = None  # 'abundant' | 'moderate' | 'minimal'
+    research_gap: Optional[bool] = None
+    recommended_approach: Optional[str] = None
+
+
+class SpecificModel(BaseModel):
+    """Represents a specific model with its optimization methods and characteristics."""
+    optimization_methods: Dict[str, Any] = Field(default_factory=dict)
+    model_characteristics: Dict[str, Any] = Field(default_factory=dict)
+    calibration_free_status: Dict[str, Any] = Field(default_factory=dict)
+
+
+class OptimizationTaxonomy(BaseModel):
+    """Main taxonomy structure matching CALIBRATION_FREE_SCHEMA."""
+    data: Dict[str, Any] = Field(default_factory=dict)  # model_family -> subcategory -> specific_model
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+    def get_path(self, path: str) -> Optional[Any]:
+        """Get data at a specific path (e.g., 'model_family/subcategory/specific_model')."""
+        parts = path.split('/')
+        current = self.data
+        for part in parts:
+            if not isinstance(current, dict) or part not in current:
+                return None
+            current = current[part]
+        return current
 
-class Edge(BaseModel):
-    source: str
-    target: str
-    relation: Optional[str] = None
-    data: Dict[str, Any] = Field(default_factory=dict)
-
-
-class Tree(BaseModel):
-    nodes: List[Node] = Field(default_factory=list)
-    edges: List[Edge] = Field(default_factory=list)
-    meta: Dict[str, Any] = Field(default_factory=dict)
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-    def get_node(self, node_id: str) -> Optional[Node]:
-        """Get a node by ID. Returns None if not found."""
-        return next((n for n in self.nodes if n.id == node_id), None)
-
-    def has_node(self, node_id: str) -> bool:
-        """Check if a node with the given ID exists."""
-        return any(n.id == node_id for n in self.nodes)
-
-    def get_edges_for_node(self, node_id: str) -> List[Edge]:
-        """Get all edges connected to a node (as source or target)."""
-        return [e for e in self.edges if e.source == node_id or e.target == node_id]
-
-    def get_children(self, node_id: str) -> List[str]:
-        """Get child node IDs (nodes that this node points to)."""
-        return [e.target for e in self.edges if e.source == node_id]
-
-    def get_parents(self, node_id: str) -> List[str]:
-        """Get parent node IDs (nodes that point to this node)."""
-        return [e.source for e in self.edges if e.target == node_id]
+    def set_path(self, path: str, value: Any) -> None:
+        """Set data at a specific path."""
+        parts = path.split('/')
+        current = self.data
+        for part in parts[:-1]:
+            if part not in current:
+                current[part] = {}
+            current = current[part]
+        current[parts[-1]] = value
 
 
 class CloneRequest(BaseModel):
@@ -55,24 +91,26 @@ class CloneRequest(BaseModel):
 
 class CloneResponse(BaseModel):
     tree_id: str
-    tree: Tree
+    taxonomy: OptimizationTaxonomy
 
 
 class ExpandRequest(BaseModel):
     architecture: str
+    path: Optional[str] = None  # Optional path to expand
 
 
 class ExpandResponse(BaseModel):
-    new_nodes: List[Node] = Field(default_factory=list)
+    expanded: bool
+    path: Optional[str] = None
 
 
 class SyncRequest(BaseModel):
-    local_tree: Tree
+    local_taxonomy: OptimizationTaxonomy
     changes: Dict[str, Any] = Field(default_factory=dict)
 
 
 class MergeRequest(BaseModel):
-    local_tree: Tree
+    local_taxonomy: OptimizationTaxonomy
     changes: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -90,4 +128,3 @@ class ConflictListResponse(BaseModel):
 
 class ResolveConflictRequest(BaseModel):
     resolution: Dict[str, Any] = Field(default_factory=dict)
-

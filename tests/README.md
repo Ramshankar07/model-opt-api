@@ -33,6 +33,7 @@ FEDERATED_API_KEY=your-api-key pytest tests/test_production_api.py -v
 
 # Run specific test class
 pytest tests/test_production_api.py::TestPublicEndpoints -v
+pytest tests/test_production_api.py::TestValidationAndIntegrity -v
 
 # Run with output
 pytest tests/test_production_api.py -v -s
@@ -71,9 +72,17 @@ The test suite covers:
    - Merge changes
    - Get conflicts
 
-8. **Error Handling**
+8. **Validation and Integrity** (auth required)
+   - Duplicate node ID prevention
+   - Orphaned edge cleanup verification
+   - Metadata consistency checks
+   - Invalid edge validation
+   - Tree validation on import
+
+9. **Error Handling**
    - Invalid tree IDs
    - Invalid payloads
+   - Validation errors (400 status codes)
 
 ### Environment Variables
 
@@ -98,6 +107,11 @@ URL: https://model-opt-api-production-06d6.up.railway.app
 ✅ Tree cloned: abc123...
 ✅ Tree retrieved: abc123...
 ✅ Legacy tree imported and verified: xyz789...
+✅ Duplicate node ID prevented
+✅ Orphaned edges cleaned up on node deletion
+✅ Metadata consistency maintained
+✅ Invalid edge validation working
+✅ Tree validation on import working
 ...
 ```
 

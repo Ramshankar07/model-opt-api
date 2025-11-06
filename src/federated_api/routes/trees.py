@@ -13,6 +13,7 @@ from federated_api.models import (
     Tree,
 )
 from federated_api.services.tree_service import TreeService
+from federated_api.services.validation_service import ValidationService
 
 # We expose a combined router that includes both public and protected sub-routers
 router = APIRouter()
@@ -20,6 +21,7 @@ authed = APIRouter(prefix="/api/v1/trees", tags=["trees"], dependencies=[Depends
 public = APIRouter(prefix="/api/v1/trees", tags=["trees"])
 
 service = TreeService()
+validation_service = ValidationService()
 
 
 def _convert_legacy_tree(legacy: Dict[str, Any]) -> Dict[str, Any]:
@@ -83,8 +85,14 @@ async def import_legacy_tree(payload: Dict[str, Any]) -> Dict[str, str]:
     """Import a tree in legacy format (dict of nodes) and convert to API format."""
     try:
         converted = _convert_legacy_tree(payload)
+        # Validate the converted tree (checks for duplicate nodes, invalid edges, etc.)
+        validation_service.validate_tree(converted)
+        # Update metadata
+        service._update_metadata(converted)
         tree_id = tree_repository.create(converted)
         return {"tree_id": tree_id}
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 

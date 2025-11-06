@@ -120,6 +120,143 @@ async def test_import_taxonomy():
         print(f"[OK] Import taxonomy: Imported as {data['tree_id']}")
 
 
+async def test_import_legacy_with_weights():
+    """Test importing legacy format with edge weights."""
+    headers = {"Content-Type": "application/json"}
+    if API_KEY:
+        headers["Authorization"] = f"Bearer {API_KEY}"
+    
+    # Legacy format with edge weights
+    legacy_tree = {
+        "nodes": {
+            "node1": {"test": True},
+            "node2": {"test": True}
+        },
+        "edges": [
+            {
+                "parent": "node1",
+                "child": "node2",
+                "data": {
+                    "weights": {
+                        "success_probability": 0.82,
+                        "sample_count": 12,
+                        "confidence": 0.78
+                    }
+                }
+            }
+        ]
+    }
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{PRODUCTION_URL}/api/v1/trees/import",
+            json=legacy_tree,
+            headers=headers
+        )
+        
+        if response.status_code == 401:
+            print("[SKIP] Import legacy with weights: Requires API key")
+            return
+        
+        assert response.status_code == 200
+        data = response.json()
+        assert "tree_id" in data
+        assert data.get("converted_from_legacy") == True
+        print(f"[OK] Import legacy with weights: Converted to {data['tree_id']}")
+        return data["tree_id"]
+
+
+async def test_add_relationship():
+    """Test adding a relationship with weights."""
+    headers = {"Content-Type": "application/json"}
+    if API_KEY:
+        headers["Authorization"] = f"Bearer {API_KEY}"
+    
+    async with httpx.AsyncClient() as client:
+        # First create a tree
+        clone_response = await client.post(
+            f"{PRODUCTION_URL}/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}},
+            headers=headers
+        )
+        
+        if clone_response.status_code == 401:
+            print("[SKIP] Add relationship: Requires API key")
+            return
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship with weights
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "sample_count": 15,
+                "confidence": 0.80
+            },
+            "relationship_type": "compatibility"
+        }
+        
+        response = await client.post(
+            f"{PRODUCTION_URL}/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data,
+            headers=headers
+        )
+        
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "added"
+        assert "relationship_id" in data
+        print(f"[OK] Add relationship: Added relationship {data['relationship_id']}")
+
+
+async def test_get_relationships():
+    """Test getting relationships."""
+    headers = {"Content-Type": "application/json"}
+    if API_KEY:
+        headers["Authorization"] = f"Bearer {API_KEY}"
+    
+    async with httpx.AsyncClient() as client:
+        # First create a tree and add a relationship
+        clone_response = await client.post(
+            f"{PRODUCTION_URL}/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}},
+            headers=headers
+        )
+        
+        if clone_response.status_code == 401:
+            print("[SKIP] Get relationships: Requires API key")
+            return
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "confidence": 0.80
+            }
+        }
+        await client.post(
+            f"{PRODUCTION_URL}/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data,
+            headers=headers
+        )
+        
+        # Get all relationships
+        response = await client.get(
+            f"{PRODUCTION_URL}/api/v1/trees/{tree_id}/relationships",
+            headers=headers
+        )
+        
+        assert response.status_code == 200
+        data = response.json()
+        assert "relationships" in data
+        assert data["count"] >= 1
+        print(f"[OK] Get relationships: Found {data['count']} relationships")
+
+
 async def main():
     """Run all simple tests."""
     print("=" * 60)
@@ -137,6 +274,9 @@ async def main():
         await test_sample_tree()
         await test_clone_tree()
         await test_import_taxonomy()
+        await test_import_legacy_with_weights()
+        await test_add_relationship()
+        await test_get_relationships()
         print()
         print("=" * 60)
         print("[OK] All tests passed!")

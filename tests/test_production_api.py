@@ -518,6 +518,317 @@ class TestMergeOperations:
 
 
 @pytest.mark.asyncio
+class TestRelationshipOperations:
+    """Test relationship/weight operations for backward compatibility."""
+    
+    async def test_add_relationship(self, client):
+        """Test adding a relationship with weights."""
+        # Create a tree
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship with weights
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "sample_count": 15,
+                "confidence": 0.80
+            },
+            "relationship_type": "compatibility"
+        }
+        
+        response = await client.post(
+            f"/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "added"
+        assert "relationship_id" in data
+        print(f"[OK] Relationship added: {data['relationship_id']}")
+        return tree_id, data["relationship_id"]
+    
+    async def test_get_relationships(self, client):
+        """Test getting all relationships."""
+        # Create tree and add relationship
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "confidence": 0.80
+            }
+        }
+        await client.post(
+            f"/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data
+        )
+        
+        # Get all relationships
+        response = await client.get(f"/api/v1/trees/{tree_id}/relationships")
+        assert response.status_code == 200
+        data = response.json()
+        assert "relationships" in data
+        assert data["count"] >= 1
+        assert len(data["relationships"]) >= 1
+        print(f"[OK] Retrieved {data['count']} relationships")
+    
+    async def test_get_relationship_by_id(self, client):
+        """Test getting a specific relationship by ID."""
+        # Create tree and add relationship
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "confidence": 0.80
+            }
+        }
+        add_response = await client.post(
+            f"/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data
+        )
+        relationship_id = add_response.json()["relationship_id"]
+        
+        # Get the relationship
+        response = await client.get(f"/api/v1/trees/{tree_id}/relationships/id/{relationship_id}")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["id"] == relationship_id
+        assert "weights" in data
+        assert data["weights"]["success_probability"] == 0.85
+        print(f"[OK] Retrieved relationship: {relationship_id}")
+    
+    async def test_update_relationship(self, client):
+        """Test updating a relationship."""
+        # Create tree and add relationship
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "confidence": 0.80
+            }
+        }
+        add_response = await client.post(
+            f"/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data
+        )
+        relationship_id = add_response.json()["relationship_id"]
+        
+        # Update the relationship
+        updates = {
+            "weights": {
+                "success_probability": 0.90,
+                "confidence": 0.85
+            }
+        }
+        response = await client.put(
+            f"/api/v1/trees/{tree_id}/relationships/{relationship_id}",
+            json=updates
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "updated"
+        print(f"[OK] Relationship updated: {relationship_id}")
+    
+    async def test_delete_relationship(self, client):
+        """Test deleting a relationship."""
+        # Create tree and add relationship
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "confidence": 0.80
+            }
+        }
+        add_response = await client.post(
+            f"/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data
+        )
+        relationship_id = add_response.json()["relationship_id"]
+        
+        # Delete the relationship
+        response = await client.delete(f"/api/v1/trees/{tree_id}/relationships/{relationship_id}")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "removed"
+        print(f"[OK] Relationship deleted: {relationship_id}")
+    
+    async def test_import_legacy_with_weights(self, client):
+        """Test importing legacy format with edge weights."""
+        legacy_tree = {
+            "nodes": {
+                "node1": {"test": True},
+                "node2": {"test": True}
+            },
+            "edges": [
+                {
+                    "parent": "node1",
+                    "child": "node2",
+                    "data": {
+                        "weights": {
+                            "success_probability": 0.82,
+                            "sample_count": 12,
+                            "confidence": 0.78
+                        }
+                    }
+                }
+            ]
+        }
+        
+        response = await client.post("/api/v1/trees/import", json=legacy_tree)
+        
+        if response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        assert response.status_code == 200
+        data = response.json()
+        assert "tree_id" in data
+        assert data.get("converted_from_legacy") == True
+        
+        # Verify relationships were created
+        tree_id = data["tree_id"]
+        rel_response = await client.get(f"/api/v1/trees/{tree_id}/relationships")
+        assert rel_response.status_code == 200
+        rel_data = rel_response.json()
+        assert rel_data["count"] >= 1
+        
+        # Verify weights were preserved
+        relationship = rel_data["relationships"][0]
+        assert "weights" in relationship
+        assert relationship["weights"]["success_probability"] == 0.82
+        assert relationship["weights"]["confidence"] == 0.78
+        print(f"[OK] Legacy import with weights: {tree_id}")
+    
+    async def test_export_to_legacy_format(self, client):
+        """Test exporting taxonomy to legacy format with weights preserved."""
+        # Create tree and add relationship
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add a relationship with weights
+        relationship_data = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 0.85,
+                "sample_count": 15,
+                "confidence": 0.80
+            }
+        }
+        await client.post(
+            f"/api/v1/trees/{tree_id}/relationships",
+            json=relationship_data
+        )
+        
+        # Export as legacy format
+        response = await client.get(f"/api/v1/trees/{tree_id}/export?format=legacy")
+        assert response.status_code == 200
+        data = response.json()
+        assert "edges" in data
+        assert len(data["edges"]) >= 1
+        
+        # Verify weights are in edges
+        edge = data["edges"][0]
+        assert "data" in edge
+        assert "weights" in edge["data"]
+        assert edge["data"]["weights"]["success_probability"] == 0.85
+        print(f"[OK] Export to legacy format: weights preserved")
+    
+    async def test_get_all_weights(self, client):
+        """Test getting all weights from a taxonomy."""
+        # Create tree and add relationships
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Add multiple relationships with weights
+        for i in range(2):
+            relationship_data = {
+                "methods": [f"method{i*2+1}", f"method{i*2+2}"],
+                "weights": {
+                    "success_probability": 0.8 + i * 0.05,
+                    "confidence": 0.75 + i * 0.05
+                }
+            }
+            await client.post(
+                f"/api/v1/trees/{tree_id}/relationships",
+                json=relationship_data
+            )
+        
+        # Get all weights
+        response = await client.get(f"/api/v1/trees/{tree_id}/weights")
+        assert response.status_code == 200
+        data = response.json()
+        assert "weights" in data
+        assert data["count"] >= 2
+        assert len(data["weights"]) >= 2
+        print(f"[OK] Retrieved {data['count']} weight entries")
+
+
+@pytest.mark.asyncio
 class TestValidationAndIntegrity:
     """Test validation and data integrity features."""
     
@@ -610,6 +921,54 @@ class TestValidationAndIntegrity:
         response = await client.post(f"/api/v1/trees/{tree_id}/methods", json=invalid_method)
         assert response.status_code == 400
         print("[OK] Method validation working")
+    
+    async def test_relationship_validation(self, client):
+        """Test that relationship validation catches issues."""
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Try to add relationship with invalid weights
+        invalid_relationship = {
+            "methods": ["method1", "method2"],
+            "weights": {
+                "success_probability": 1.5  # Invalid: > 1.0
+            }
+        }
+        
+        response = await client.post(f"/api/v1/trees/{tree_id}/relationships", json=invalid_relationship)
+        assert response.status_code == 400
+        print("[OK] Relationship validation working")
+    
+    async def test_relationship_requires_two_methods(self, client):
+        """Test that relationships require at least 2 methods."""
+        clone_response = await client.post(
+            "/api/v1/trees/clone",
+            json={"architecture": "test", "constraints": {}}
+        )
+        
+        if clone_response.status_code == 401:
+            pytest.skip("API key authentication required")
+        
+        tree_id = clone_response.json()["tree_id"]
+        
+        # Try to add relationship with only one method
+        invalid_relationship = {
+            "methods": ["method1"],  # Only one method
+            "weights": {
+                "success_probability": 0.85
+            }
+        }
+        
+        response = await client.post(f"/api/v1/trees/{tree_id}/relationships", json=invalid_relationship)
+        assert response.status_code == 400
+        print("[OK] Relationship requires at least 2 methods")
 
 
 @pytest.mark.asyncio

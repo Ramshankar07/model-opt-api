@@ -50,16 +50,36 @@ class CalibrationFreeStatus(BaseModel):
     recommended_approach: Optional[str] = None
 
 
+class WeightData(BaseModel):
+    """Weight data for relationships (backward compatibility with graph edges)."""
+    success_probability: Optional[float] = None
+    sample_count: Optional[int] = None
+    confidence: Optional[float] = None
+    # Allow additional weight fields
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class MethodRelationship(BaseModel):
+    """Relationship between optimization methods with weights."""
+    id: str
+    methods: List[str]  # List of method paths (e.g., ["quantization/weight_only/methods[0]", ...])
+    weights: Dict[str, Any] = Field(default_factory=dict)  # Weight data (success_probability, confidence, etc.)
+    relationship_type: Optional[str] = None  # 'compatibility', 'sequence', 'alternative', etc.
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
 class SpecificModel(BaseModel):
     """Represents a specific model with its optimization methods and characteristics."""
     optimization_methods: Dict[str, Any] = Field(default_factory=dict)
     model_characteristics: Dict[str, Any] = Field(default_factory=dict)
     calibration_free_status: Dict[str, Any] = Field(default_factory=dict)
+    relationships: Dict[str, Any] = Field(default_factory=dict)  # For backward compatibility with weights
 
 
 class OptimizationTaxonomy(BaseModel):
     """Main taxonomy structure matching CALIBRATION_FREE_SCHEMA."""
     data: Dict[str, Any] = Field(default_factory=dict)  # model_family -> subcategory -> specific_model
+    relationships: List[Dict[str, Any]] = Field(default_factory=list)  # Top-level relationships (optional, as dicts for flexibility)
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 

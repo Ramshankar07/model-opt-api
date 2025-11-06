@@ -219,3 +219,120 @@ class TreeService:
         self.validation_service.validate_schema_structure(taxonomy)
         tree_repository.upsert(tree_id, taxonomy)
         return True
+
+    def add_relationship(
+        self,
+        tree_id: str,
+        relationship_data: Dict[str, Any]
+    ) -> str:
+        """Add a relationship between methods with weights."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        # Validate relationship data
+        self.validation_service.validate_relationship(relationship_data, taxonomy)
+        
+        # Generate ID if not provided
+        if 'id' not in relationship_data:
+            relationship_data['id'] = tree_repository.new_id()
+        
+        # Store relationships at top level (in taxonomy root)
+        if 'relationships' not in taxonomy:
+            taxonomy['relationships'] = []
+        
+        if not isinstance(taxonomy['relationships'], list):
+            taxonomy['relationships'] = []
+        
+        taxonomy['relationships'].append(relationship_data)
+        
+        # Validate the updated structure
+        self.validation_service.validate_schema_structure(taxonomy)
+        tree_repository.upsert(tree_id, taxonomy)
+        
+        return relationship_data['id']
+
+    def get_relationships(self, tree_id: str, path: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Get all relationships, optionally filtered by path."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        relationships = taxonomy.get('relationships', [])
+        if not isinstance(relationships, list):
+            return []
+        
+        # If path is provided, filter relationships that involve this path
+        if path:
+            filtered = []
+            for rel in relationships:
+                methods = rel.get('methods', [])
+                if any(path in method_path or method_path.startswith(path) for method_path in methods):
+                    filtered.append(rel)
+            return filtered
+        
+        return relationships
+
+    def get_relationship(self, tree_id: str, relationship_id: str) -> Optional[Dict[str, Any]]:
+        """Get a specific relationship by ID."""
+        relationships = self.get_relationships(tree_id)
+        for rel in relationships:
+            if rel.get('id') == relationship_id:
+                return rel
+        return None
+
+    def update_relationship(
+        self,
+        tree_id: str,
+        relationship_id: str,
+        updates: Dict[str, Any]
+    ) -> None:
+        """Update an existing relationship."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        relationships = taxonomy.get('relationships', [])
+        if not isinstance(relationships, list):
+            raise ValueError("No relationships found")
+        
+        # Find and update the relationship
+        found = False
+        for i, rel in enumerate(relationships):
+            if rel.get('id') == relationship_id:
+                # Don't allow updating the ID
+                updates.pop('id', None)
+                relationships[i].update(updates)
+                # Validate the updated relationship
+                self.validation_service.validate_relationship(relationships[i], taxonomy)
+                found = True
+                break
+        
+        if not found:
+            raise ValueError(f"Relationship not found: {relationship_id}")
+        
+        # Validate the entire structure
+        self.validation_service.validate_schema_structure(taxonomy)
+        tree_repository.upsert(tree_id, taxonomy)
+
+    def remove_relationship(self, tree_id: str, relationship_id: str) -> bool:
+        """Remove a relationship."""
+        taxonomy = tree_repository.get(tree_id)
+        if taxonomy is None:
+            raise ValueError(f"Taxonomy not found: {tree_id}")
+        
+        relationships = taxonomy.get('relationships', [])
+        if not isinstance(relationships, list):
+            return False
+        
+        # Find and remove the relationship
+        original_count = len(relationships)
+        taxonomy['relationships'] = [rel for rel in relationships if rel.get('id') != relationship_id]
+        
+        if len(taxonomy['relationships']) < original_count:
+            # Validate the updated structure
+            self.validation_service.validate_schema_structure(taxonomy)
+            tree_repository.upsert(tree_id, taxonomy)
+            return True
+        
+        return False

@@ -18,9 +18,11 @@ def create_app() -> FastAPI:
     from federated_api.routes.trees import router as trees_router
     from federated_api.routes.nodes import router as nodes_router
     from federated_api.routes.merge import router as merge_router
+    from federated_api.routes.relationships import router as relationships_router
     app.include_router(trees_router)
     app.include_router(nodes_router)
     app.include_router(merge_router)
+    app.include_router(relationships_router)
 
     @app.get("/health")
     def health() -> dict:

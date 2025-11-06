@@ -10,8 +10,23 @@ class ValidationService:
         if not isinstance(taxonomy, dict):
             raise ValueError("Taxonomy must be a dictionary")
         
+        # Allow empty taxonomy
+        if not taxonomy:
+            return
+        
+        # Validate relationships if present (optional top-level field)
+        if 'relationships' in taxonomy:
+            relationships = taxonomy.get('relationships')
+            if not isinstance(relationships, list):
+                raise ValueError("'relationships' must be a list")
+            for rel in relationships:
+                self.validate_relationship(rel, taxonomy, skip_path_check=True)  # Skip path check for flexibility
+        
         # Validate top-level structure (model_family -> subcategory -> specific_model)
+        # Skip 'relationships' as it's a top-level optional field
         for model_family, subcategories in taxonomy.items():
+            if model_family == 'relationships':
+                continue  # Skip relationships, already validated above
             if not isinstance(subcategories, dict):
                 raise ValueError(f"Subcategories for '{model_family}' must be a dictionary")
             
@@ -140,3 +155,63 @@ class ValidationService:
     def validate_method_data(self, method_data: Dict[str, Any]) -> None:
         """Validate method data matches standardized structure."""
         self.validate_optimization_method(method_data)
+
+    def validate_relationship(
+        self, 
+        relationship: Dict[str, Any], 
+        taxonomy: Dict[str, Any],
+        skip_path_check: bool = False
+    ) -> None:
+        """Validate relationship structure and that paths exist."""
+        if not isinstance(relationship, dict):
+            raise ValueError("Relationship must be a dictionary")
+        
+        # Required fields
+        if 'methods' not in relationship:
+            raise ValueError("Relationship must have 'methods' field")
+        
+        methods = relationship.get('methods', [])
+        if not isinstance(methods, list):
+            raise ValueError("Relationship 'methods' must be a list")
+        
+        if len(methods) < 2:
+            raise ValueError("Relationship must have at least 2 methods")
+        
+        # Validate each method path exists (if not skipping)
+        if not skip_path_check:
+            for method_path in methods:
+                if not isinstance(method_path, str):
+                    raise ValueError(f"Method path must be a string: {method_path}")
+                # Validate path format (basic check)
+                if not method_path.strip():
+                    raise ValueError("Method path cannot be empty")
+        
+        # Validate weights structure (optional)
+        if 'weights' in relationship:
+            weights = relationship['weights']
+            if not isinstance(weights, dict):
+                raise ValueError("Relationship 'weights' must be a dictionary")
+            # Validate common weight fields
+            if 'success_probability' in weights:
+                prob = weights['success_probability']
+                if not isinstance(prob, (int, float)) or prob < 0 or prob > 1:
+                    raise ValueError("success_probability must be a number between 0 and 1")
+            if 'confidence' in weights:
+                conf = weights['confidence']
+                if not isinstance(conf, (int, float)) or conf < 0 or conf > 1:
+                    raise ValueError("confidence must be a number between 0 and 1")
+            if 'sample_count' in weights:
+                count = weights['sample_count']
+                if not isinstance(count, int) or count < 0:
+                    raise ValueError("sample_count must be a non-negative integer")
+        
+        # Validate relationship_type (optional)
+        if 'relationship_type' in relationship:
+            rel_type = relationship['relationship_type']
+            if rel_type is not None and not isinstance(rel_type, str):
+                raise ValueError("relationship_type must be a string or None")
+        
+        # Validate metadata (optional)
+        if 'metadata' in relationship:
+            if not isinstance(relationship['metadata'], dict):
+                raise ValueError("Relationship 'metadata' must be a dictionary")

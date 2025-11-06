@@ -14,6 +14,7 @@ from federated_api.models import (
 )
 from federated_api.services.tree_service import TreeService
 from federated_api.services.validation_service import ValidationService
+from federated_api.services.conversion_service import ConversionService
 
 # We expose a combined router that includes both public and protected sub-routers
 router = APIRouter()
@@ -22,6 +23,7 @@ public = APIRouter(prefix="/api/v1/trees", tags=["trees"])
 
 service = TreeService()
 validation_service = ValidationService()
+conversion_service = ConversionService()
 
 
 # -------------------------
@@ -50,7 +52,15 @@ async def get_tree(tree_id: str) -> OptimizationTaxonomy:
     taxonomy = tree_repository.get(tree_id)
     if not taxonomy:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tree not found")
-    return OptimizationTaxonomy(data=taxonomy)
+    
+    # Extract relationships if present (don't modify original)
+    relationships = taxonomy.get("relationships", [])
+    taxonomy_data = {k: v for k, v in taxonomy.items() if k != "relationships"}
+    
+    return OptimizationTaxonomy(
+        data=taxonomy_data,
+        relationships=relationships
+    )
 
 
 @authed.get("/{tree_id}/taxonomy")
@@ -105,19 +115,63 @@ async def sync_tree(tree_id: str, payload: Dict[str, Any]) -> Dict[str, str]:
     return {"status": "synced"}
 
 
+def _convert_legacy_to_schema(legacy: Dict[str, Any]) -> Dict[str, Any]:
+    """Convert legacy graph format (nodes/edges) to schema format with relationships."""
+    return conversion_service.legacy_to_schema(legacy)
+
+
 @authed.post("/import")
 async def import_taxonomy(payload: Dict[str, Any]) -> Dict[str, str]:
-    """Import a taxonomy structure."""
+    """Import a taxonomy structure. Supports both new schema format and legacy graph format with edge weights."""
     try:
-        taxonomy = payload.get("taxonomy", payload)  # Allow direct taxonomy or wrapped
-        # Validate the taxonomy structure
+        # Check if it's legacy format and convert
+        if "nodes" in payload and "edges" in payload:
+            # Legacy format - convert edges with weights to relationships
+            taxonomy = _convert_legacy_to_schema(payload)
+            # Note: This creates a minimal taxonomy with just relationships
+            # In production, you'd want a more sophisticated conversion
+        else:
+            taxonomy = payload.get("taxonomy", payload)  # Allow direct taxonomy or wrapped
+        
+        # Validate the taxonomy structure (relationships are optional)
         validation_service.validate_schema_structure(taxonomy)
         tree_id = tree_repository.create(taxonomy)
-        return {"tree_id": tree_id}
+        return {"tree_id": tree_id, "converted_from_legacy": "nodes" in payload and "edges" in payload}
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@authed.get("/{tree_id}/export")
+async def export_taxonomy(
+    tree_id: str,
+    format: str = "schema"  # "schema" or "legacy"
+) -> Dict[str, Any]:
+    """Export taxonomy structure. Can export as schema format or legacy graph format (preserving weights)."""
+    try:
+        taxonomy = service.get_taxonomy(tree_id)
+        
+        if format == "legacy":
+            # Convert to legacy format, preserving relationships as edges with weights
+            legacy = conversion_service.schema_to_legacy(taxonomy)
+            return legacy
+        else:
+            # Return schema format
+            return taxonomy
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+
+@authed.get("/{tree_id}/weights")
+async def get_all_weights(tree_id: str) -> Dict[str, Any]:
+    """Get all weight data from a taxonomy structure."""
+    try:
+        taxonomy = service.get_taxonomy(tree_id)
+        weights_list = conversion_service.extract_weights_from_taxonomy(taxonomy)
+        return {"weights": weights_list, "count": len(weights_list)}
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
 
 # -------------------------

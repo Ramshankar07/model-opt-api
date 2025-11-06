@@ -197,6 +197,24 @@ CALIBRATION_FREE_SCHEMA = {
                     'available_methods': 'abundant/moderate/minimal',
                     'research_gap': True,  # or False
                     'recommended_approach': 'description'
+                },
+                'relationships': {  # Optional: For backward compatibility with graph-based weights
+                    'method_combinations': [
+                        {
+                            'id': 'rel_123',
+                            'methods': [
+                                'quantization/weight_only/methods[0]',
+                                'pruning/structured_pruning/methods[0]'
+                            ],
+                            'weights': {
+                                'success_probability': 0.82,
+                                'sample_count': 12,
+                                'confidence': 0.78
+                            },
+                            'relationship_type': 'compatibility',  # or 'sequence', 'alternative', etc.
+                            'metadata': {}
+                        }
+                    ]
                 }
             }
         }

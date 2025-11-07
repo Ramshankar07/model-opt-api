@@ -28,6 +28,51 @@ def create_app() -> FastAPI:
     def health() -> dict:
         return {"status": "ok"}
 
+    @app.on_event("startup")
+    async def load_default_tree():
+        """Load the default tree from base_tree.json on startup."""
+        try:
+            from federated_api.services.tree_service import TreeService
+            import os
+            
+            service = TreeService()
+            tree_id = "default"
+            
+            # Try multiple possible paths for the file
+            possible_paths = [
+                "backups/base_tree.json",  # Relative to project root
+                os.path.join(os.path.dirname(__file__), "..", "..", "backups", "base_tree.json"),  # From src/federated_api
+                "/app/backups/base_tree.json",  # Docker container path
+            ]
+            
+            file_path = None
+            for path in possible_paths:
+                # Resolve relative paths
+                if not os.path.isabs(path):
+                    # Try relative to current file location
+                    current_dir = os.path.dirname(os.path.abspath(__file__))
+                    resolved = os.path.join(current_dir, "..", "..", path)
+                    resolved = os.path.normpath(resolved)
+                else:
+                    resolved = path
+                
+                if os.path.exists(resolved):
+                    file_path = path
+                    break
+            
+            if file_path:
+                try:
+                    service.load_from_file(tree_id, file_path)
+                    print(f"[STARTUP] ✅ Loaded default tree from {file_path}")
+                except Exception as e:
+                    print(f"[STARTUP] ⚠️  Failed to load default tree: {e}")
+            else:
+                print(f"[STARTUP] ⚠️  base_tree.json not found in any expected location")
+                print(f"[STARTUP]    Tried paths: {possible_paths}")
+        except Exception as e:
+            # Don't fail startup if tree loading fails
+            print(f"[STARTUP] ⚠️  Error during default tree loading: {e}")
+
     return app
 
 

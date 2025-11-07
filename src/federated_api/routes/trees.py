@@ -38,8 +38,9 @@ async def expand_tree(tree_id: str, payload: ExpandRequest) -> ExpandResponse:
     return ExpandResponse(**result)
 
 
-@authed.get("/{tree_id}", response_model=OptimizationTaxonomy)
+@public.get("/{tree_id}", response_model=OptimizationTaxonomy)
 async def get_tree(tree_id: str) -> OptimizationTaxonomy:
+    """Get a tree by ID. No API key required."""
     taxonomy = tree_repository.get(tree_id)
     if not taxonomy:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tree not found")

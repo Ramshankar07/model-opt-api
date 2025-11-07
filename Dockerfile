@@ -10,6 +10,7 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn
 
 COPY src /app/src
+COPY backups /app/backups
 
 # Add src to Python path so federated_api can be found
 ENV PYTHONPATH=/app/src:$PYTHONPATH

@@ -30,15 +30,6 @@ conversion_service = ConversionService()
 # Protected (API-key required)
 # -------------------------
 
-@authed.post("/clone", response_model=CloneResponse)
-async def clone_tree(payload: CloneRequest) -> CloneResponse:
-    result = service.clone(payload.architecture, payload.constraints)
-    return CloneResponse(
-        tree_id=result["tree_id"],
-        taxonomy=OptimizationTaxonomy(data=result["taxonomy"])
-    )
-
-
 @authed.post("/{tree_id}/expand", response_model=ExpandResponse)
 async def expand_tree(tree_id: str, payload: ExpandRequest) -> ExpandResponse:
     if not tree_id:
@@ -61,6 +52,37 @@ async def get_tree(tree_id: str) -> OptimizationTaxonomy:
         data=taxonomy_data,
         relationships=relationships
     )
+
+
+@authed.put("/{tree_id}")
+async def update_tree_from_file(tree_id: str) -> Dict[str, Any]:
+    """Update a tree by loading data from backups/base_tree.json.
+    
+    This endpoint replaces the entire tree data for the specified tree_id
+    with the contents of backups/base_tree.json. The file is validated
+    before updating.
+    """
+    try:
+        # Load from base_tree.json (relative to project root)
+        file_path = "backups/base_tree.json"
+        result = service.load_from_file(tree_id, file_path)
+        return result
+    except FileNotFoundError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"File not found: {str(e)}"
+        )
+    except ValueError as e:
+        # Catches both JSON decode errors (converted to ValueError) and validation errors
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Error: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Internal server error: {str(e)}"
+        )
 
 
 @authed.get("/{tree_id}/taxonomy")
@@ -177,6 +199,16 @@ async def get_all_weights(tree_id: str) -> Dict[str, Any]:
 # -------------------------
 # Public (no auth required)
 # -------------------------
+
+@public.post("/clone", response_model=CloneResponse)
+async def clone_tree(payload: CloneRequest) -> CloneResponse:
+    """Create a new empty taxonomy structure. No API key required."""
+    result = service.clone(payload.architecture, payload.constraints)
+    return CloneResponse(
+        tree_id=result["tree_id"],
+        taxonomy=OptimizationTaxonomy(data=result["taxonomy"])
+    )
+
 
 @public.get("/sample", response_model=OptimizationTaxonomy)
 async def sample_tree() -> OptimizationTaxonomy:

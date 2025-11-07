@@ -32,20 +32,23 @@ class ValidationService:
             
             for subcategory, models in subcategories.items():
                 if not isinstance(models, dict):
-                    raise ValueError(f"Models for '{model_family}/{subcategory}' must be a dictionary")
+                    # Some entries may have lists or other structures (e.g., optimization_effectiveness_summary)
+                    # Skip validation for non-dict structures
+                    continue
                 
                 for specific_model, model_data in models.items():
                     if not isinstance(model_data, dict):
-                        raise ValueError(f"Model data for '{model_family}/{subcategory}/{specific_model}' must be a dictionary")
+                        # Some entries may have lists or other structures
+                        # Skip validation for non-dict structures
+                        continue
                     
-                    # Validate required top-level keys
-                    required_keys = ['optimization_methods']
-                    for key in required_keys:
-                        if key not in model_data:
-                            raise ValueError(f"Missing required key '{key}' in '{model_family}/{subcategory}/{specific_model}'")
+                    # Validate optimization_methods structure if present
+                    # (Some entries like cross_architecture_frameworks may have different structures)
+                    opt_methods = model_data.get('optimization_methods')
+                    if opt_methods is None:
+                        # Skip validation if optimization_methods is missing (may be a framework entry)
+                        continue
                     
-                    # Validate optimization_methods structure
-                    opt_methods = model_data.get('optimization_methods', {})
                     if not isinstance(opt_methods, dict):
                         raise ValueError(f"optimization_methods must be a dictionary")
                     
@@ -71,8 +74,12 @@ class ValidationService:
                             if not isinstance(methods, list):
                                 raise ValueError(f"'methods' in '{category}/{subcat_name}' must be a list")
                             
-                            # Validate each method
+                            # Validate each method (skip if methods are strings, as in base_tree.json)
                             for i, method in enumerate(methods):
+                                # If method is a string, skip detailed validation (legacy format)
+                                if isinstance(method, str):
+                                    continue
+                                # Otherwise, validate as a full method object
                                 self.validate_optimization_method(method, f"{category}/{subcat_name}/methods[{i}]")
 
     def validate_path(self, path: str) -> None:

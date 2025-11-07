@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import os
 from typing import Any, Dict, List, Optional
 
 from federated_api.database import tree_repository
@@ -336,3 +338,132 @@ class TreeService:
             return True
         
         return False
+
+    def load_from_file(self, tree_id: str, file_path: str) -> Dict[str, Any]:
+        """Load taxonomy from a JSON file and update the tree.
+        
+        Args:
+            tree_id: The ID of the tree to update
+            file_path: Path to the JSON file (relative to project root or absolute)
+            
+        Returns:
+            Dictionary with success status and tree_id
+            
+        Raises:
+            FileNotFoundError: If the file doesn't exist
+            ValueError: If the file contains invalid JSON or validation fails
+        """
+        # Resolve file path (handle both relative and absolute paths)
+        if not os.path.isabs(file_path):
+            # If relative, assume it's relative to project root (where run_local.py is)
+            # Get the project root by going up from src/federated_api/services
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
+            file_path = os.path.join(project_root, file_path)
+        
+        # Check if file exists
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"File not found: {file_path}")
+        
+        # Load JSON file
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                taxonomy = json.load(f)
+        except json.JSONDecodeError as e:
+            # Re-raise with more context
+            raise ValueError(f"Invalid JSON in file {file_path}: {e.msg} at line {e.lineno}, column {e.colno}")
+        
+        # Normalize category names: "weight_quantization" -> "quantization"
+        # This handles legacy naming in base_tree.json
+        taxonomy = self._normalize_category_names(taxonomy)
+        
+        # Validate the taxonomy structure
+        self.validation_service.validate_schema_structure(taxonomy)
+        
+        # Replace the entire tree (upsert will overwrite if tree_id exists)
+        tree_repository.upsert(tree_id, taxonomy)
+        
+        return {"status": "success", "tree_id": tree_id}
+
+    def _normalize_category_names(self, taxonomy: Dict[str, Any]) -> Dict[str, Any]:
+        """Normalize category names and structure in optimization_methods.
+        
+        Converts:
+        1. "weight_quantization" -> "quantization" to match the expected schema
+        2. Flat category structure (category -> methods) to nested structure (category -> subcategory -> methods)
+        
+        This handles legacy naming conventions in base_tree.json.
+        """
+        if not isinstance(taxonomy, dict):
+            return taxonomy
+        
+        # Recursively process the taxonomy structure
+        normalized = {}
+        for key, value in taxonomy.items():
+            if key == "relationships":
+                # Preserve relationships as-is
+                normalized[key] = value
+            elif isinstance(value, dict):
+                # Check if this is a model with optimization_methods
+                if "optimization_methods" in value:
+                    # Normalize the optimization_methods structure
+                    opt_methods = value["optimization_methods"]
+                    if isinstance(opt_methods, dict):
+                        normalized_opt_methods = {}
+                        for category_name, category_data in opt_methods.items():
+                            # Rename weight_quantization to quantization
+                            if category_name == "weight_quantization":
+                                category_name = "quantization"
+                            
+                            # Check if category_data has "methods" directly (flat structure)
+                            if isinstance(category_data, dict) and "methods" in category_data:
+                                # Check if methods is a list (could be strings or objects)
+                                methods = category_data.get("methods", [])
+                                if isinstance(methods, list) and len(methods) > 0:
+                                    # If first method is a string, this is the flat structure
+                                    # Wrap it in a default subcategory
+                                    if isinstance(methods[0], str):
+                                        # Create a default subcategory name based on category
+                                        subcategory_name = "default"
+                                        if category_name == "quantization":
+                                            subcategory_name = "weight_only"
+                                        elif category_name == "fusion":
+                                            subcategory_name = "layer_fusion"
+                                        elif category_name == "pruning":
+                                            subcategory_name = "structured"
+                                        elif category_name == "structural":
+                                            subcategory_name = "topology"
+                                        
+                                        # Wrap the category data in a subcategory
+                                        normalized_opt_methods[category_name] = {
+                                            subcategory_name: category_data
+                                        }
+                                    else:
+                                        # Methods are already objects, but structure might still be flat
+                                        # Wrap in default subcategory
+                                        subcategory_name = "default"
+                                        normalized_opt_methods[category_name] = {
+                                            subcategory_name: category_data
+                                        }
+                                else:
+                                    # Empty methods or not a list, wrap in default subcategory
+                                    normalized_opt_methods[category_name] = {
+                                        "default": category_data
+                                    }
+                            else:
+                                # Already has subcategories, just rename if needed
+                                normalized_opt_methods[category_name] = category_data
+                        
+                        # Update the optimization_methods with normalized structure
+                        value["optimization_methods"] = normalized_opt_methods
+                    
+                    # Recursively process the rest of the model data
+                    normalized[key] = {k: self._normalize_category_names(v) if isinstance(v, dict) else v 
+                                      for k, v in value.items()}
+                else:
+                    # Recursively process nested dictionaries
+                    normalized[key] = self._normalize_category_names(value)
+            else:
+                normalized[key] = value
+        
+        return normalized

@@ -48,6 +48,132 @@ The `Tree` model provides convenient helper methods:
 - `get_children(node_id)`: Get child node IDs (nodes this node points to)
 - `get_parents(node_id)`: Get parent node IDs (nodes that point to this node)
 
+## Schema Migration
+
+The API automatically migrates optimization method nodes to an ideal schema structure that addresses inconsistencies in the original format. Migration happens automatically when loading taxonomy files, and a manual migration script is also available.
+
+### Ideal Schema Structure
+
+Every optimization method node follows this standardized structure:
+
+```json
+{
+  "name": "Conv-BN Fusion",
+  "method_name": "Conv-BN Fusion",
+  "techniques": ["fuse_layers"],
+  
+  "performance": {
+    "latency_speedup": 2.0,
+    "compression_ratio": 2.0,
+    "accuracy_retention": 0.98,
+    "memory_reduction": 1.0
+  },
+  
+  "validation": {
+    "confidence": 0.7,
+    "sample_count": 50,
+    "validators": 5,
+    "last_validated": "2024-01-15T10:30:00Z",
+    "validation_method": "experimental"
+  },
+  
+  "architecture": {
+    "family": "CNN",
+    "variant": "ResNet"
+  },
+  "architecture_family": "CNN",
+  
+  "paper": {
+    "title": "Layer Fusion for CNN Optimization",
+    "authors": ["Author1", "Author2"],
+    "venue": "ICML",
+    "year": 2024,
+    "arxiv_id": "2401.12345",
+    "url": "https://arxiv.org/abs/2401.12345"
+  },
+  
+  "effectiveness": "high",
+  "accuracy_impact": "minimal"
+}
+```
+
+### Automatic Migration
+
+Migration happens automatically when:
+- Loading `base_tree.json` on API startup
+- Importing taxonomy files via the API
+- Converting legacy graph format to schema format
+
+The migration is:
+- **Non-destructive**: Preserves all original fields
+- **Idempotent**: Running multiple times produces the same result
+- **Backward compatible**: Old format is still accepted during transition period
+- **Warning-based**: Logs warnings for old format but doesn't reject data
+
+### Manual Migration Script
+
+For one-time migration with validation and backup:
+
+```bash
+# Basic migration (creates backup automatically)
+python3 scripts/migrate_base_tree.py backups/base_tree.json
+
+# Dry run (validate without writing)
+python3 scripts/migrate_base_tree.py backups/base_tree.json --dry-run
+
+# Validate only (check if already migrated)
+python3 scripts/migrate_base_tree.py backups/base_tree.json --validate-only
+
+# Custom output location
+python3 scripts/migrate_base_tree.py backups/base_tree.json -o backups/base_tree_migrated.json
+
+# Skip backup
+python3 scripts/migrate_base_tree.py backups/base_tree.json --no-backup
+```
+
+### Migration Features
+
+The migration system addresses 6 key schema inconsistencies:
+
+1. **Explicit techniques field**: Extracts techniques from method names using mapping table + fallback inference
+2. **Consistent performance structure**: Normalizes top-level fields to `performance` dict
+3. **Structured validation**: Converts top-level `confidence` to `validation` dict with sample counts
+4. **Consistent architecture field**: Converts string architecture to `{family, variant}` dict
+5. **Paper metadata**: Creates structured paper dict from available sources
+6. **Enhanced relationship metadata**: Adds compatibility constraints and tested models/datasets
+
+### Technique Extraction
+
+Techniques are extracted from method names using:
+- **Explicit mappings**: 100+ predefined method name → techniques mappings
+- **Pattern matching**: Regex-based fallback for similar method names
+- **Keyword inference**: Final fallback using keyword detection (fuse, quant, prune, etc.)
+
+Example mappings:
+- `"Conv-BN Fusion"` → `["fuse_layers"]`
+- `"AdpQ (Adaptive LASSO)"` → `["quantize_int8", "weight_only"]`
+- `"Channel Pruning (L1-norm)"` → `["prune_magnitude", "structured"]`
+
+### Migration Report
+
+The migration script generates a detailed report:
+
+```
+============================================================
+MIGRATION REPORT
+============================================================
+
+Nodes Migrated: 172
+  - With techniques: 172
+  - With performance dict: 172
+  - With validation dict: 172
+  - With architecture dict: 172
+  - With paper dict: 172
+
+Validation Status: PASSED
+============================================================
+```
+
 ## Production Deployment
 
 **Live API:** https://model-opt-api-production-06d6.up.railway.app

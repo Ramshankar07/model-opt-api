@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import Any, Dict, List, Optional
 from federated_api.schema import CALIBRATION_FREE_SCHEMA
 
@@ -97,48 +98,92 @@ class ValidationService:
                 raise ValueError("Path parts cannot be empty")
 
     def validate_optimization_method(self, method: Dict[str, Any], context: str = "") -> None:
-        """Validate that a method follows the standardized structure."""
+        """Validate that a method follows the standardized structure.
+        
+        Supports both old format (for backward compatibility) and new ideal format.
+        Logs warnings for old format during transition period.
+        """
         if not isinstance(method, dict):
             raise ValueError(f"Method must be a dictionary{(' at ' + context) if context else ''}")
         
-        # Required fields
-        required_fields = [
-            'name', 'paper_title', 'paper_link', 'venue', 
-            'year', 'authors', 'effectiveness', 'accuracy_impact'
-        ]
+        # Detect old format
+        is_old_format = (
+            'techniques' not in method or
+            not method.get('techniques') or
+            'performance' not in method or
+            not isinstance(method.get('performance'), dict) or
+            'validation' not in method or
+            not isinstance(method.get('validation'), dict) or
+            isinstance(method.get('architecture'), str) or
+            'paper' not in method or
+            not isinstance(method.get('paper'), dict)
+        )
         
-        for field in required_fields:
-            if field not in method:
-                raise ValueError(f"Method missing required field '{field}'{(' at ' + context) if context else ''}")
+        if is_old_format:
+            warnings.warn(
+                f"Method uses old schema format{(' at ' + context) if context else ''}. "
+                "Consider migrating to ideal structure with techniques, performance, validation, architecture, and paper fields.",
+                UserWarning,
+                stacklevel=2
+            )
         
-        # Validate field types
+        # Required fields (name is always required, others optional during transition)
+        if 'name' not in method:
+            raise ValueError(f"Method missing required field 'name'{(' at ' + context) if context else ''}")
+        
         if not isinstance(method['name'], str) or not method['name'].strip():
             raise ValueError(f"Method 'name' must be a non-empty string{(' at ' + context) if context else ''}")
         
-        if not isinstance(method['paper_title'], str) or not method['paper_title'].strip():
-            raise ValueError(f"Method 'paper_title' must be a non-empty string{(' at ' + context) if context else ''}")
+        # Validate effectiveness if present
+        if 'effectiveness' in method:
+            valid_effectiveness = ['high', 'medium', 'low']
+            if method['effectiveness'] not in valid_effectiveness:
+                raise ValueError(f"Method 'effectiveness' must be one of {valid_effectiveness}{(' at ' + context) if context else ''}")
         
-        if not isinstance(method['paper_link'], str) or not method['paper_link'].strip():
-            raise ValueError(f"Method 'paper_link' must be a non-empty string{(' at ' + context) if context else ''}")
+        # Validate accuracy_impact if present
+        if 'accuracy_impact' in method:
+            valid_accuracy_impact = ['zero', 'minimal', 'moderate']
+            if method['accuracy_impact'] not in valid_accuracy_impact:
+                raise ValueError(f"Method 'accuracy_impact' must be one of {valid_accuracy_impact}{(' at ' + context) if context else ''}")
         
-        if not isinstance(method['venue'], str) or not method['venue'].strip():
-            raise ValueError(f"Method 'venue' must be a non-empty string{(' at ' + context) if context else ''}")
+        # Validate new ideal structure fields if present
+        if 'techniques' in method:
+            if not isinstance(method['techniques'], list):
+                raise ValueError(f"Method 'techniques' must be a list{(' at ' + context) if context else ''}")
         
-        if not isinstance(method['year'], int) or method['year'] < 1900 or method['year'] > 2100:
-            raise ValueError(f"Method 'year' must be an integer between 1900 and 2100{(' at ' + context) if context else ''}")
+        if 'performance' in method:
+            if not isinstance(method['performance'], dict):
+                raise ValueError(f"Method 'performance' must be a dictionary{(' at ' + context) if context else ''}")
+            # Validate performance fields
+            perf = method['performance']
+            for key in ['latency_speedup', 'compression_ratio', 'accuracy_retention']:
+                if key in perf and not isinstance(perf[key], (int, float)):
+                    raise ValueError(f"Method 'performance.{key}' must be a number{(' at ' + context) if context else ''}")
         
-        if not isinstance(method['authors'], str) or not method['authors'].strip():
-            raise ValueError(f"Method 'authors' must be a non-empty string{(' at ' + context) if context else ''}")
+        if 'validation' in method:
+            if not isinstance(method['validation'], dict):
+                raise ValueError(f"Method 'validation' must be a dictionary{(' at ' + context) if context else ''}")
+            # Validate validation fields
+            val = method['validation']
+            if 'confidence' in val and not isinstance(val['confidence'], (int, float)):
+                raise ValueError(f"Method 'validation.confidence' must be a number{(' at ' + context) if context else ''}")
+            if 'sample_count' in val and not isinstance(val['sample_count'], int):
+                raise ValueError(f"Method 'validation.sample_count' must be an integer{(' at ' + context) if context else ''}")
         
-        valid_effectiveness = ['high', 'medium', 'low']
-        if method['effectiveness'] not in valid_effectiveness:
-            raise ValueError(f"Method 'effectiveness' must be one of {valid_effectiveness}{(' at ' + context) if context else ''}")
+        if 'architecture' in method:
+            # Architecture can be string (legacy) or dict (new)
+            arch = method['architecture']
+            if not isinstance(arch, (str, dict)):
+                raise ValueError(f"Method 'architecture' must be a string or dictionary{(' at ' + context) if context else ''}")
+            if isinstance(arch, dict):
+                if 'family' not in arch or 'variant' not in arch:
+                    raise ValueError(f"Method 'architecture' dict must have 'family' and 'variant' keys{(' at ' + context) if context else ''}")
         
-        valid_accuracy_impact = ['zero', 'minimal', 'moderate']
-        if method['accuracy_impact'] not in valid_accuracy_impact:
-            raise ValueError(f"Method 'accuracy_impact' must be one of {valid_accuracy_impact}{(' at ' + context) if context else ''}")
+        if 'paper' in method:
+            if not isinstance(method['paper'], dict):
+                raise ValueError(f"Method 'paper' must be a dictionary{(' at ' + context) if context else ''}")
         
-        # Optional fields validation
+        # Validate legacy optional fields
         if 'bit_widths' in method:
             if not isinstance(method['bit_widths'], list):
                 raise ValueError(f"Method 'bit_widths' must be a list{(' at ' + context) if context else ''}")
@@ -148,16 +193,37 @@ class ValidationService:
                 raise ValueError(f"Method 'granularity' must be a string or None{(' at ' + context) if context else ''}")
         
         if 'compression_ratio' in method and method['compression_ratio'] is not None:
-            if not isinstance(method['compression_ratio'], str):
-                raise ValueError(f"Method 'compression_ratio' must be a string or None{(' at ' + context) if context else ''}")
+            if not isinstance(method['compression_ratio'], (str, int, float)):
+                raise ValueError(f"Method 'compression_ratio' must be a string or number{(' at ' + context) if context else ''}")
         
         if 'speedup' in method and method['speedup'] is not None:
-            if not isinstance(method['speedup'], str):
-                raise ValueError(f"Method 'speedup' must be a string or None{(' at ' + context) if context else ''}")
+            if not isinstance(method['speedup'], (str, int, float)):
+                raise ValueError(f"Method 'speedup' must be a string or number{(' at ' + context) if context else ''}")
         
         if 'notes' in method:
             if not isinstance(method['notes'], str):
                 raise ValueError(f"Method 'notes' must be a string{(' at ' + context) if context else ''}")
+        
+        # Validate paper fields if present (legacy format)
+        if 'paper_title' in method and method['paper_title'] is not None:
+            if not isinstance(method['paper_title'], str):
+                raise ValueError(f"Method 'paper_title' must be a string{(' at ' + context) if context else ''}")
+        
+        if 'paper_link' in method and method['paper_link'] is not None:
+            if not isinstance(method['paper_link'], str):
+                raise ValueError(f"Method 'paper_link' must be a string{(' at ' + context) if context else ''}")
+        
+        if 'venue' in method and method['venue'] is not None:
+            if not isinstance(method['venue'], str):
+                raise ValueError(f"Method 'venue' must be a string{(' at ' + context) if context else ''}")
+        
+        if 'year' in method and method['year'] is not None:
+            if not isinstance(method['year'], int) or method['year'] < 1900 or method['year'] > 2100:
+                raise ValueError(f"Method 'year' must be an integer between 1900 and 2100{(' at ' + context) if context else ''}")
+        
+        if 'authors' in method and method['authors'] is not None:
+            if not isinstance(method['authors'], (str, list)):
+                raise ValueError(f"Method 'authors' must be a string or list{(' at ' + context) if context else ''}")
 
     def validate_method_data(self, method_data: Dict[str, Any]) -> None:
         """Validate method data matches standardized structure."""
@@ -222,3 +288,24 @@ class ValidationService:
         if 'metadata' in relationship:
             if not isinstance(relationship['metadata'], dict):
                 raise ValueError("Relationship 'metadata' must be a dictionary")
+            
+            # Validate enhanced metadata structure if present
+            metadata = relationship['metadata']
+            if 'constraints' in metadata:
+                if not isinstance(metadata['constraints'], dict):
+                    raise ValueError("Relationship 'metadata.constraints' must be a dictionary")
+                constraints = metadata['constraints']
+                if 'order' in constraints and constraints['order'] is not None:
+                    if not isinstance(constraints['order'], list):
+                        raise ValueError("Relationship 'metadata.constraints.order' must be a list or None")
+                if 'min_accuracy_retention' in constraints and constraints['min_accuracy_retention'] is not None:
+                    if not isinstance(constraints['min_accuracy_retention'], (int, float)):
+                        raise ValueError("Relationship 'metadata.constraints.min_accuracy_retention' must be a number or None")
+            
+            if 'tested_models' in metadata:
+                if not isinstance(metadata['tested_models'], list):
+                    raise ValueError("Relationship 'metadata.tested_models' must be a list")
+            
+            if 'tested_datasets' in metadata:
+                if not isinstance(metadata['tested_datasets'], list):
+                    raise ValueError("Relationship 'metadata.tested_datasets' must be a list")

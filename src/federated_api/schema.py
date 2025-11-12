@@ -11,6 +11,95 @@ The schema supports multiple optimization categories:
 - Structural optimizations (topology, algorithm, parameter adjustment)
 
 Each method includes full paper metadata: title, link, venue, year, authors, etc.
+
+IDEAL NODE STRUCTURE:
+====================
+
+Every optimization method node should follow this ideal structure:
+
+{
+    'name': 'method_name',
+    'method_name': 'method_name',  # Alias for backward compatibility
+    'techniques': ['fuse_layers', 'quantize_int8'],  # Explicit techniques array
+    
+    'performance': {  # Consistent performance dict structure
+        'latency_speedup': 2.0,
+        'compression_ratio': 2.0,
+        'accuracy_retention': 0.98,
+        'memory_reduction': 1.0  # Optional
+    },
+    
+    'validation': {  # Statistical confidence structure
+        'confidence': 0.7,
+        'sample_count': 50,
+        'validators': 5,
+        'last_validated': '2024-01-15T10:30:00Z',
+        'validation_method': 'experimental'
+    },
+    
+    'architecture': {  # Consistent architecture dict structure
+        'family': 'CNN',
+        'variant': 'ResNet'
+    },
+    'architecture_family': 'CNN',  # Kept for quick lookup/backward compatibility
+    
+    'paper': {  # Provenance metadata
+        'title': 'Layer Fusion for CNN Optimization',
+        'authors': ['Author1', 'Author2'],
+        'venue': 'ICML',
+        'year': 2024,
+        'arxiv_id': '2401.12345',
+        'url': 'https://arxiv.org/abs/2401.12345'
+    },
+    
+    'effectiveness': 'high',
+    'accuracy_impact': 'minimal',
+    
+    # Legacy fields (kept for backward compatibility)
+    'compression_ratio': '2.0×',  # Legacy, prefer performance.compression_ratio
+    'speedup': '2.0×',  # Legacy, prefer performance.latency_speedup
+    'confidence': 0.7,  # Legacy, prefer validation.confidence
+    'bit_widths': ['W8', 'W4'],
+    'granularity': 'per_layer',
+    'notes': 'additional context'
+}
+
+RELATIONSHIP/EDGE STRUCTURE:
+============================
+
+Relationships should include enhanced compatibility metadata:
+
+{
+    'id': 'rel_123',
+    'methods': ['method_path_1', 'method_path_2'],
+    'weights': {
+        'success_probability': 0.82,
+        'sample_count': 12,
+        'confidence': 0.78
+    },
+    'relationship_type': 'compatibility',
+    'metadata': {
+        'constraints': {
+            'order': ['method_path_1', 'method_path_2'],  # Optional ordering
+            'min_accuracy_retention': 0.95  # Optional minimum requirement
+        },
+        'tested_models': ['ResNet-50', 'MobileNet-V2'],
+        'tested_datasets': ['ImageNet', 'COCO']
+    }
+}
+
+MIGRATION:
+==========
+
+The system automatically migrates old format nodes to ideal structure on load.
+Old format is still accepted during transition period with warnings.
+
+Old format detection:
+- Missing 'techniques' field
+- Missing or non-dict 'performance' field
+- Missing or non-dict 'validation' field
+- String 'architecture' instead of dict
+- Missing or non-dict 'paper' field
 """
 
 CALIBRATION_FREE_SCHEMA = {

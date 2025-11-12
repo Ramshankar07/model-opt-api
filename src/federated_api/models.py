@@ -6,21 +6,59 @@ from pydantic import BaseModel, Field
 
 
 class OptimizationMethod(BaseModel):
-    """Standardized structure for all optimization methods."""
-    name: str
-    paper_title: str
-    paper_link: str
-    venue: str
-    year: int
-    authors: str
-    effectiveness: str  # 'high' | 'medium' | 'low'
-    accuracy_impact: str  # 'zero' | 'minimal' | 'moderate'
+    """Standardized structure for all optimization methods.
     
-    # Optional fields
+    Supports both legacy format (for backward compatibility) and ideal format.
+    """
+    name: str
+    paper_title: Optional[str] = None  # Optional for transition period
+    paper_link: Optional[str] = None
+    venue: Optional[str] = None
+    year: Optional[int] = None
+    authors: Optional[str] = None
+    effectiveness: str = "medium"  # 'high' | 'medium' | 'low'
+    accuracy_impact: str = "minimal"  # 'zero' | 'minimal' | 'moderate'
+    
+    # New ideal schema fields
+    techniques: List[str] = Field(default_factory=list)  # Explicit techniques array
+    method_name: Optional[str] = None  # Alias for name, for backward compatibility
+    
+    # Performance structure (consistent dict format)
+    performance: Dict[str, Any] = Field(default_factory=lambda: {
+        'latency_speedup': 1.0,
+        'compression_ratio': 1.0,
+        'accuracy_retention': 1.0
+    })
+    
+    # Validation structure (consistent dict format)
+    validation: Dict[str, Any] = Field(default_factory=lambda: {
+        'confidence': 0.5,
+        'sample_count': 0,
+        'validators': 0,
+        'last_validated': None,
+        'validation_method': 'unknown'
+    })
+    
+    # Architecture structure (supports both string and dict for transition)
+    architecture: Any = Field(default=None)  # Can be str (legacy) or Dict[str, str] (new)
+    architecture_family: Optional[str] = None  # Kept for backward compatibility
+    
+    # Paper metadata structure
+    paper: Dict[str, Any] = Field(default_factory=lambda: {
+        'title': '',
+        'authors': [],
+        'venue': '',
+        'year': 0,
+        'arxiv_id': '',
+        'url': ''
+    })
+    
+    # Legacy optional fields (kept for backward compatibility)
     bit_widths: List[str] = Field(default_factory=list)
     granularity: Optional[str] = None
-    compression_ratio: Optional[str] = None
-    speedup: Optional[str] = None
+    compression_ratio: Optional[str] = None  # Legacy, prefer performance.compression_ratio
+    speedup: Optional[str] = None  # Legacy, prefer performance.latency_speedup
+    confidence: Optional[float] = None  # Legacy, prefer validation.confidence
     notes: str = Field(default="")
 
 
@@ -60,12 +98,19 @@ class WeightData(BaseModel):
 
 
 class MethodRelationship(BaseModel):
-    """Relationship between optimization methods with weights."""
+    """Relationship between optimization methods with weights and compatibility metadata."""
     id: str
     methods: List[str]  # List of method paths (e.g., ["quantization/weight_only/methods[0]", ...])
     weights: Dict[str, Any] = Field(default_factory=dict)  # Weight data (success_probability, confidence, etc.)
     relationship_type: Optional[str] = None  # 'compatibility', 'sequence', 'alternative', etc.
-    metadata: Dict[str, Any] = Field(default_factory=dict)
+    metadata: Dict[str, Any] = Field(default_factory=lambda: {
+        'constraints': {
+            'order': None,  # Optional ordering constraint
+            'min_accuracy_retention': None  # Optional minimum accuracy requirement
+        },
+        'tested_models': [],  # List of models this relationship was tested on
+        'tested_datasets': []  # List of datasets this relationship was tested on
+    })
 
 
 class SpecificModel(BaseModel):

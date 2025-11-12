@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 
 from federated_api.database import tree_repository
 from federated_api.services.validation_service import ValidationService
+from federated_api.services.migration_service import migrate_taxonomy_to_ideal_schema
 
 
 class TreeService:
@@ -376,6 +377,10 @@ class TreeService:
         # Normalize category names: "weight_quantization" -> "quantization"
         # This handles legacy naming in base_tree.json
         taxonomy = self._normalize_category_names(taxonomy)
+        
+        # Auto-migrate taxonomy to ideal schema structure
+        # This ensures all nodes have techniques, performance, validation, architecture, and paper fields
+        taxonomy = migrate_taxonomy_to_ideal_schema(taxonomy)
         
         # Validate the taxonomy structure
         self.validation_service.validate_schema_structure(taxonomy)

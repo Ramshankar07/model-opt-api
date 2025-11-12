@@ -1,0 +1,1043 @@
+{
+    "cnn_based_models": {
+      "classification": {
+        "resnet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Conv-ReLU Fusion", "Graph Fusion (Conv+BN+ReLU)", "Residual Connection Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.25×",
+              "accuracy_impact": "zero",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["AdpQ (Adaptive LASSO)", "VLCQ (Variable-Length Coding)", "Hardware-Friendly PTQ", "Per-Channel Weight Quantization"],
+              "bit_widths": ["W8", "W4", "W3", "W2"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": false
+            },
+            "pruning": {
+              "methods": ["Channel Pruning (L1-norm)", "Channel Pruning (BN Scale)", "Filter Pruning (Weight Magnitude)", "Structured Pruning (Layer-wise)"],
+              "pruning_type": "channel",
+              "effectiveness": "high",
+              "validation_needed": true
+            },
+            "structural": {
+              "methods": ["Tailor (Skip Connection Optimization)", "Bottleneck Restructuring"],
+              "optimization_type": "skip_connection",
+              "effectiveness": "high"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["residual_blocks", "skip_connections", "batch_norm"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["skip_connection_memory", "channel_redundancy"]
+          },
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "AdpQ for calibration-free W3/W4 quantization with 10× faster processing"
+          }
+        },
+        "vgg": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Conv-ReLU Fusion", "Sequential Layer Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.25×",
+              "accuracy_impact": "zero",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight Clustering (K-means)", "Codebook Quantization", "Per-Layer Weight Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": false
+            },
+            "pruning": {
+              "methods": ["Filter Pruning (Weight Magnitude)", "Structured Layer Pruning"],
+              "pruning_type": "weight_magnitude",
+              "effectiveness": "high",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["sequential_conv_layers", "fc_layers", "batch_norm"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["large_fc_layers", "parameter_redundancy"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Deep Compression with K-means clustering and Huffman coding"
+          }
+        },
+        "mobilenet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Depthwise-Pointwise Fusion", "Inverted Residual Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Depthwise Conv Quantization", "Pointwise Conv Quantization", "Inverted Residual Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Channel Pruning (Depthwise)", "Width Multiplier Adjustment"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            },
+            "structural": {
+              "methods": ["Bottleneck Optimization"],
+              "optimization_type": "topology",
+              "effectiveness": "medium"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["depthwise_separable_conv", "inverted_residuals", "batch_norm"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["depthwise_conv_efficiency", "small_model_quantization"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Standard PTQ with depthwise-specific calibration"
+          }
+        }
+      },
+      "detection": {
+        "yolo": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion (Backbone)", "Conv-BN Fusion (Neck)", "Feature Fusion Layer Optimization", "Path Aggregation Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.25×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Backbone/Neck/Head)", "Anchor-Free Head Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Channel Pruning (L1-norm)", "Channel Pruning (Group-wise)", "Backbone Layer Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "high",
+              "validation_needed": true
+            },
+            "structural": {
+              "methods": ["QSI-NMS", "eQSI-NMS", "Detection Head Optimization"],
+              "optimization_type": "nms_acceleration",
+              "effectiveness": "high"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["backbone", "neck", "detection_head", "nms"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["nms_bottleneck", "multi_scale_features", "real_time_inference"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "QSI-NMS provides 6.2× speedup with 0.1% mAP drop; standard PTQ for backbone"
+          }
+        },
+        "ssd": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Multi-scale Feature Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Backbone)", "Multi-scale Feature Quantization", "Default Box Prediction Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "structural": {
+              "methods": ["NMS Acceleration"],
+              "optimization_type": "nms_acceleration",
+              "effectiveness": "medium"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["vgg_backbone", "multi_scale_feature_maps", "default_boxes"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["multi_scale_quantization", "default_box_precision"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "Standard PTQ with multi-scale calibration"
+          }
+        },
+        "retinanet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "FPN Layer Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Backbone)", "FPN Weight Quantization", "Classification Subnet Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "structural": {
+              "methods": ["NMS Acceleration"],
+              "optimization_type": "nms_acceleration",
+              "effectiveness": "medium"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["resnet_backbone", "fpn", "classification_subnet", "box_regression_subnet"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["fpn_quantization", "focal_loss_sensitivity"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "FPN-aware PTQ methods"
+          }
+        }
+      },
+      "segmentation": {
+        "unet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion (Encoder/Decoder)", "Skip Connection Fusion", "Upsampling Layer Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Encoder/Decoder)", "Skip Connection Quantization", "Mixed-Precision Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "structural": {
+              "methods": ["Skip Connection Optimization (Tailor)", "UNet++ Redesigned Skip Connections"],
+              "optimization_type": "skip_connection",
+              "effectiveness": "high"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["encoder", "decoder", "skip_connections", "upsampling"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["skip_connection_quantization", "encoder_decoder_gap", "medical_image_precision"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "Mixed-precision quantization with skip-supervised QAT for medical imaging"
+          }
+        },
+        "deeplab": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion (Backbone)", "ASPP Module Fusion", "Decoder Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Backbone)", "ASPP Module Quantization", "Atrous Convolution Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["ASPP Branch Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["resnet_backbone", "aspp_module", "atrous_convolution", "decoder"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["aspp_multi_scale", "atrous_conv_quantization", "large_receptive_field"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "ASPP-aware quantization with multi-rate calibration"
+          }
+        },
+        "fcn": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Skip Layer Fusion", "Upsampling Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.15×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Backbone)", "Transposed Conv Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Skip Layer Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["vgg_backbone", "skip_layers", "transposed_conv"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["transposed_conv_quantization", "skip_layer_fusion"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "Standard PTQ methods"
+          }
+        }
+      }
+    },
+    "transformer_based_models": {
+      "vision_transformers": {
+        "vanilla_vit": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["LayerNorm Fusion", "QKV Projection Fusion", "MLP Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.1×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["BoA (Attention-aware Hessian)", "aespa (Attention-wise Reconstruction)", "PTQ4ViT", "APHQ-ViT"],
+              "bit_widths": ["W8", "W4", "W3", "W2"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Attention Head Pruning", "MLP Dimension Pruning", "Layer Pruning (Depth Reduction)"],
+              "pruning_type": "head",
+              "effectiveness": "high",
+              "validation_needed": true
+            },
+            "structural": {
+              "methods": ["Patch Merging", "Token Dimension Reduction"],
+              "optimization_type": "topology",
+              "effectiveness": "medium"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["patch_embedding", "multi_head_attention", "mlp", "layer_norm"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["attention_quantization", "post_layernorm_activation", "post_gelu_activation"]
+          },
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "BoA for backpropagation-free quantization or aespa for 10× faster than block-wise methods"
+          }
+        },
+        "swin_transformer": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["LayerNorm Fusion", "Window Partition Fusion", "Patch Merging Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.15×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["BoA (Attention-aware Hessian)", "aespa (Attention-wise Reconstruction)", "Window Attention Quantization"],
+              "bit_widths": ["W8", "W4", "W3", "W2"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Window Attention Head Pruning", "Stage Pruning"],
+              "pruning_type": "head",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["shifted_window_attention", "patch_merging", "hierarchical_stages", "layer_norm"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["window_based_attention", "hierarchical_quantization", "shifted_window_mechanism"]
+          },
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "BoA or aespa with hierarchical stage consideration"
+          }
+        },
+        "deit": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["LayerNorm Fusion"],
+              "effectiveness": "low",
+              "compression_ratio": "1.05×",
+              "accuracy_impact": "zero",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["BoA (Attention-aware Hessian)", "Weight-Only Quantization", "Distillation Token Quantization"],
+              "bit_widths": ["W8", "W4", "W3", "W2"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "structural": {
+              "methods": ["Distillation Token Removal"],
+              "optimization_type": "topology",
+              "effectiveness": "low"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["patch_embedding", "distillation_token", "multi_head_attention", "layer_norm"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["distillation_token_handling", "knowledge_distillation_preservation"]
+          },
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "BoA with distillation token awareness"
+          }
+        },
+        "beit_mae": {
+          "optimization_methods": {
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Encoder)", "Masked Token Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "structural": {
+              "methods": ["Reconstruction Head Removal"],
+              "optimization_type": "topology",
+              "effectiveness": "high"
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["masked_autoencoder", "reconstruction_head", "patch_embedding"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["masked_token_quantization", "reconstruction_head_removal"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "Standard ViT quantization after reconstruction head removal"
+          }
+        }
+      },
+      "detection_transformers": {
+        "detr": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Encoder-Decoder Fusion"],
+              "effectiveness": "low",
+              "compression_ratio": "1.05×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Encoder/Decoder)", "Object Query Quantization", "Cross-Attention Quantization", "Self-Attention Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["cnn_backbone", "transformer_encoder", "transformer_decoder", "object_queries"],
+            "has_batch_norm": true,
+            "has_layer_norm": true,
+            "optimization_challenges": ["object_query_quantization", "cross_attention_complexity", "bipartite_matching"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "BoA/aespa methods adaptable to DETR architecture"
+          }
+        }
+      },
+      "segmentation_transformers": {
+        "mask2former": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Multi-scale Feature Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.1×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Swin Backbone)", "Pixel Decoder Quantization", "Transformer Decoder Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["swin_backbone", "pixel_decoder", "transformer_decoder", "masked_attention"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["multi_scale_quantization", "masked_attention_quantization"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "Swin quantization methods + transformer decoder PTQ"
+          }
+        }
+      }
+    },
+    "hybrid_architectures": {
+      "cnn_transformer_hybrids": {
+        "coatnet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion (CNN Blocks)", "MBConv Fusion", "Stage Transition Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (CNN Blocks)", "Weight-Only Quantization (Transformer Blocks)", "MBConv Quantization", "Relative Attention Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Channel Pruning (CNN Blocks)", "Attention Head Pruning (Transformer Blocks)"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "hybrid",
+            "key_components": ["mbconv_blocks", "relative_attention", "multi_stage_design"],
+            "has_batch_norm": true,
+            "has_layer_norm": true,
+            "optimization_challenges": ["cnn_transformer_transition", "relative_attention_quantization"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Apply CNN methods to conv stages, transformer methods (BoA/aespa) to attention stages"
+          }
+        },
+        "mobilevit": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion (MobileNet Blocks)", "Depthwise-Pointwise Fusion", "Transformer-Conv Transition Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["QADS (Per-channel Scaling)", "Q-HyViT", "HyQ", "EfficientQuant", "M2-ViT", "Mix-QViT"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Channel Pruning (MobileNet Blocks)", "Attention Head Pruning (ViT Blocks)"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "hybrid",
+            "key_components": ["mobilenet_blocks", "transformer_blocks", "bridge_blocks"],
+            "has_batch_norm": true,
+            "has_layer_norm": true,
+            "optimization_challenges": ["bridge_block_quantization", "zero_point_overflow", "dynamic_activation_ranges", "small_model_size"]
+          },
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "EfficientQuant achieves 8.7× latency reduction over Q-HyViT; HyQ provides hardware-friendly QADS"
+          }
+        }
+      },
+      "convolution_enhanced_transformers": {
+        "cvt": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Convolutional Projection Fusion", "Hierarchical Stage Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.1×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization", "Convolutional Token Embedding Quantization", "Convolutional Projection Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Stage Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "hybrid",
+            "key_components": ["convolutional_token_embedding", "convolutional_projection", "hierarchical_stages"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["convolutional_projection_quantization", "hierarchical_quantization"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Apply ViT quantization methods (PTQ4ViT, BoA, aespa) with conv-aware calibration"
+          }
+        }
+      }
+    },
+    "multimodal_models": {
+      "vision_language": {
+        "clip": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion (Vision Encoder)", "Projection Layer Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.15×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["P4Q (Prompt for Quantization)", "Q-VLM", "Quantized Prompt"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Vision Encoder Pruning", "Text Encoder Pruning"],
+              "pruning_type": "head",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "multimodal",
+            "key_components": ["vision_encoder", "text_encoder", "projection_layer", "contrastive_head"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["cross_modal_alignment", "contrastive_loss_preservation", "vision_text_gap"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "P4Q with learnable prompts achieves 4× compression with 2.24% accuracy improvement over full-precision"
+          }
+        },
+        "blip": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Multi-Modal Feature Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.1×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization (Vision Encoder)", "Weight-Only Quantization (Q-Former)", "Weight-Only Quantization (Text Decoder)", "Cross-Attention Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "multimodal",
+            "key_components": ["vision_encoder", "q_former", "llm_decoder", "learnable_queries"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["q_former_quantization", "frozen_encoder_alignment", "query_embedding_precision"]
+          },
+          "calibration_free_status": {
+            "available_methods": "limited",
+            "research_gap": true,
+            "recommended_approach": "8/4-bit quantization with Q-Former frozen; mBLIP demonstrates multilingual quantization feasibility"
+          }
+        }
+      }
+    },
+    "specialized_architectures": {
+      "efficient_architectures": {
+        "regnet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Stem Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization", "AnyNet Block Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Block Pruning (Weight-Based)", "Stage Pruning"],
+              "pruning_type": "weight_magnitude",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["quantized_linear_design", "group_convolution", "squeeze_excitation"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["design_space_quantization", "group_conv_quantization"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Standard PTQ with group convolution awareness"
+          }
+        },
+        "convnext": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Layer Scale Fusion", "Inverted Bottleneck Fusion"],
+              "effectiveness": "medium",
+              "compression_ratio": "1.15×",
+              "accuracy_impact": "minimal",
+              "universal": false
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization", "Depthwise Conv Quantization", "Large Kernel Quantization"],
+              "bit_widths": ["W8", "W4"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Block Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["large_kernel_depthwise_conv", "inverted_bottleneck", "layer_norm", "gelu"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["large_kernel_efficiency", "7x7_depthwise_conv", "layer_norm_instead_bn"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Dynamic quantization achieves 71% size reduction; InceptionNeXt addresses large kernel bottleneck"
+          }
+        }
+      },
+      "nas_models": {
+        "mnasnet": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion", "Depthwise-Pointwise Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Weight-Only Quantization", "Separable Conv Quantization"],
+              "bit_widths": ["W8"],
+              "effectiveness": "medium",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Channel Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "medium",
+              "validation_needed": true
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["mobilenet_blocks", "nas_searched_architecture"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["platform_aware_quantization", "mobile_deployment"]
+          },
+          "calibration_free_status": {
+            "available_methods": "moderate",
+            "research_gap": false,
+            "recommended_approach": "Platform-aware quantization integrated with NAS search"
+          }
+        },
+        "proxylessnas": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": ["Conv-BN Fusion"],
+              "effectiveness": "high",
+              "compression_ratio": "1.2×",
+              "accuracy_impact": "minimal",
+              "universal": true
+            },
+            "weight_quantization": {
+              "methods": ["Hardware-Aware Quantization (HAQ)", "Weight-Only Quantization"],
+              "bit_widths": ["W8", "W4", "W2", "W1"],
+              "effectiveness": "high",
+              "compression_ratio": "4×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": ["Path Pruning"],
+              "pruning_type": "channel",
+              "effectiveness": "high",
+              "validation_needed": false
+            }
+          },
+          "model_characteristics": {
+            "architecture_type": "cnn",
+            "key_components": ["hardware_aware_blocks", "direct_nas_search"],
+            "has_batch_norm": true,
+            "has_layer_norm": false,
+            "optimization_challenges": ["hardware_specific_optimization", "differentiable_latency"]
+          },
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "HAQ uses RL for automated mixed-precision: 1.4-1.95× latency reduction, 1.9× energy savings"
+          }
+        }
+      }
+    },
+    "cross_architecture_frameworks": {
+      "hardware_aware_quantization": {
+        "haq": {
+          "applicable_architectures": ["ResNet", "MobileNet", "ProxylessNAS", "All CNNs"],
+          "method_details": {
+            "approach": "RL-based hardware-aware mixed-precision",
+            "bit_widths": ["W8", "W4", "W2", "W1"],
+            "effectiveness": "high",
+            "latency_reduction": "1.4-1.95×",
+            "energy_reduction": "1.9×",
+            "accuracy_impact": "minimal"
+          },
+          "key_features": ["reinforcement_learning", "hardware_simulator_feedback", "mixed_precision_search"],
+          "paper_reference": "arXiv:1811.08886, CVPR 2019 Oral"
+        }
+      },
+      "calibration_free_quantization": {
+        "adpq": {
+          "applicable_architectures": ["ResNet", "VGG", "All CNNs with weights"],
+          "method_details": {
+            "approach": "Adaptive LASSO based zero-shot PTQ",
+            "bit_widths": ["W4", "W3"],
+            "effectiveness": "high",
+            "speedup": "10×",
+            "accuracy_impact": "minimal"
+          },
+          "key_features": ["zero_shot", "no_calibration_data", "adaptive_lasso", "information_theoretic"],
+          "paper_reference": "arXiv:2405.13358, May 2024"
+        }
+      },
+      "nms_acceleration": {
+        "qsi_nms_eqsi_nms": {
+          "applicable_architectures": ["YOLO", "SSD", "RetinaNet", "Faster-RCNN", "All detectors"],
+          "method_details": {
+            "approach": "Graph theory based divide-and-conquer",
+            "effectiveness": "high",
+            "speedup": "6.2×",
+            "complexity": "O(n log n)",
+            "accuracy_impact": "zero"
+          },
+          "key_features": ["graph_theory", "divide_and_conquer", "optimal_complexity"],
+          "paper_reference": "arXiv:2409.20520, NeurIPS 2024"
+        }
+      },
+      "skip_connection_optimization": {
+        "tailor": {
+          "applicable_architectures": ["ResNet", "U-Net", "All models with skip connections"],
+          "method_details": {
+            "approach": "Hardware-software codesign for skip connection removal/shortening",
+            "effectiveness": "high",
+            "bram_reduction": "34%",
+            "ff_reduction": "13%",
+            "lut_reduction": "16%"
+          },
+          "key_features": ["hardware_aware_training", "skip_removal", "skip_shortening", "fpga_optimization"],
+          "paper_reference": "arXiv:2301.07247, ACM TRETS 2024"
+        }
+      },
+      "vision_transformer_quantization": {
+        "boa": {
+          "applicable_architectures": ["ViT", "Swin", "DeiT", "All attention-based models"],
+          "method_details": {
+            "approach": "Attention-aware Hessian without backpropagation",
+            "bit_widths": ["W4", "W3", "W2"],
+            "effectiveness": "high",
+            "accuracy_improvement": "8-13%",
+            "accuracy_impact": "minimal"
+          },
+          "key_features": ["backpropagation_free", "attention_aware_hessian", "inter_layer_dependency"],
+          "paper_reference": "arXiv:2406.13474, ICML 2025"
+        },
+        "aespa": {
+          "applicable_architectures": ["ViT", "Swin", "DeiT", "All transformers"],
+          "method_details": {
+            "approach": "Attention-wise reconstruction with layer-wise quantization",
+            "bit_widths": ["W4", "W3", "W2"],
+            "effectiveness": "high",
+            "speedup": "10×",
+            "accuracy_impact": "minimal"
+          },
+          "key_features": ["attention_wise_reconstruction", "efficient_quantization", "cross_layer_dependency"],
+          "paper_reference": "arXiv:2402.08958, NeurIPS 2024"
+        },
+        "ptq4vit": {
+          "applicable_architectures": ["ViT", "DeiT", "Swin"],
+          "method_details": {
+            "approach": "Twin uniform quantization with Hessian guidance",
+            "bit_widths": ["W8", "W6", "W4"],
+            "effectiveness": "high",
+            "accuracy_drop": "<0.5%",
+            "accuracy_impact": "zero"
+          },
+          "key_features": ["twin_uniform_quantization", "hessian_guided_metric", "near_lossless"],
+          "paper_reference": "arXiv:2111.12293, ECCV 2022"
+        },
+        "aphq_vit": {
+          "applicable_architectures": ["ViT", "DeiT", "Swin"],
+          "method_details": {
+            "approach": "Average Perturbation Hessian with MLP reconstruction",
+            "bit_widths": ["W6", "W4", "W3"],
+            "effectiveness": "high",
+            "accuracy_impact": "minimal"
+          },
+          "key_features": ["average_perturbation_hessian", "mlp_reconstruction", "post_gelu_handling"],
+          "paper_reference": "arXiv:2504.02508, April 2025"
+        }
+      }
+    },
+    "optimization_effectiveness_summary": {
+      "highest_impact_methods": {
+        "fusion": {
+          "technique": "Conv-BN Fusion",
+          "speedup": "1.25×",
+          "applicability": "Universal for all CNNs",
+          "implementation_difficulty": "Low"
+        },
+        "quantization": {
+          "technique": "BoA or aespa for Transformers",
+          "compression": "4×",
+          "applicability": "All attention-based models",
+          "implementation_difficulty": "Medium"
+        },
+        "structural": {
+          "technique": "QSI-NMS/eQSI-NMS",
+          "speedup": "6.2×",
+          "applicability": "All detection models",
+          "implementation_difficulty": "Low"
+        },
+        "hardware_aware": {
+          "technique": "HAQ or EfficientQuant",
+          "latency_reduction": "1.95× to 8.7×",
+          "applicability": "Platform-specific",
+          "implementation_difficulty": "High"
+        }
+      },
+      "calibration_free_leaders": {
+        "adpq": {
+          "models": "CNNs",
+          "bit_width": "W3/W4",
+          "speedup": "10×",
+          "accuracy": "State-of-the-art"
+        },
+        "boa_aespa": {
+          "models": "Transformers",
+          "bit_width": "W2/W3/W4",
+          "speedup": "10× (aespa)",
+          "accuracy": "State-of-the-art"
+        }
+      },
+      "research_gaps": {
+        "limited_methods": ["U-Net skip connection quantization", "DETR object query quantization", "Mask2Former masked attention", "SSD multi-scale quantization"],
+        "emerging_areas": ["Vision-language calibration-free quantization", "Large kernel quantization", "Q-Former specific optimization"],
+        "high_priority_research": ["Medical imaging U-Net quantization", "ASPP module quantization", "Hybrid architecture bridge blocks"]
+      }
+    }
+  }

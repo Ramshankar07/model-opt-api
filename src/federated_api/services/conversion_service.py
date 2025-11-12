@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
+from federated_api.services.migration_service import migrate_taxonomy_to_ideal_schema
 
 
 class ConversionService:
@@ -62,7 +63,10 @@ class ConversionService:
     
     @staticmethod
     def legacy_to_schema(legacy: Dict[str, Any]) -> Dict[str, Any]:
-        """Convert legacy graph format to schema format, preserving edge weights as relationships."""
+        """Convert legacy graph format to schema format, preserving edge weights as relationships.
+        
+        Also applies migration to ensure all nodes follow ideal schema structure.
+        """
         taxonomy = {}
         relationships = []
         
@@ -86,6 +90,22 @@ class ConversionService:
         # Add relationships to taxonomy
         if relationships:
             taxonomy["relationships"] = relationships
+        
+        # If legacy format includes nodes with data, extract and migrate them
+        nodes = legacy.get("nodes", {})
+        if nodes and isinstance(nodes, dict):
+            # Try to extract taxonomy structure from nodes if present
+            # This is a best-effort extraction
+            for node_id, node_data in nodes.items():
+                if isinstance(node_data, dict) and "data" in node_data:
+                    # Node has data that might be a method
+                    node_method_data = node_data.get("data", {})
+                    # Migration will be applied if this gets integrated into taxonomy structure
+                    pass
+        
+        # Apply migration to ensure ideal schema structure
+        # This will migrate any method nodes that are part of the taxonomy
+        taxonomy = migrate_taxonomy_to_ideal_schema(taxonomy)
         
         return taxonomy
     

@@ -2071,1988 +2071,1914 @@
       "recommended_approach": "NVIDIA TensorRT INT8 PTQ with entropy calibration achieves <1% relative error for SSD-VGG; Multi-layer pruning enables 4.9-6.7× compression on Pascal VOC"
     }
   },
-      "retinanet": {
-        "optimization_methods": {
-          "fusion": {
-            "methods": [
-              {
-                "name": "Conv-BN Fusion",
-                "method_name": "Conv-BN Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Retinanet"
-                },
-                "architecture_family": "CNN"
+  
+    "retinanet": {
+      "optimization_methods": {
+        "fusion": {
+          "methods": [
+            {
+              "name": "Conv-BN Fusion",
+              "method_name": "Conv-BN Fusion",
+              "techniques": ["fuse_layers"],
+              "performance": {
+                "latency_speedup": 1.15,
+                "compression_ratio": 1.0,
+                "accuracy_retention": 1.0,
+                "memory_reduction": 0.0
               },
-              {
-                "name": "FPN Layer Fusion",
-                "method_name": "FPN Layer Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Retinanet"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "effectiveness": "high",
-            "compression_ratio": "1.2×",
-            "accuracy_impact": "minimal",
-            "universal": true
-          },
-          "quantization": {
-            "methods": [
-              {
-                "name": "Weight-Only Quantization (Backbone)",
-                "method_name": "Weight-Only Quantization (Backbone)",
-                "techniques": [
-                  "quantize_int8",
-                  "weight_only"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Retinanet"
-                },
-                "architecture_family": "CNN"
+              "validation": {
+                "confidence": 0.7,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2024-11",
+                "validation_method": "literature_review"
               },
-              {
-                "name": "FPN Weight Quantization",
-                "method_name": "FPN Weight Quantization",
-                "techniques": [
-                  "quantize_int8",
-                  "weight_only"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Retinanet"
-                },
-                "architecture_family": "CNN"
+              "paper": {
+                "title": "Standard optimization technique for RetinaNet",
+                "authors": ["Various"],
+                "venue": "Industry Standard Practice",
+                "year": 2020,
+                "arxiv_id": "",
+                "url": "https://github.com/NVIDIA/retinanet-examples"
               },
-              {
-                "name": "Classification Subnet Quantization",
-                "method_name": "Classification Subnet Quantization",
-                "techniques": [
-                  "quantize_int8"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Retinanet"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "bit_widths": [
-              "W8",
-              "W4"
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "4×",
-            "requires_activation_quant": true
-          },
-          "structural": {
-            "methods": [
-              {
-                "name": "NMS Acceleration",
-                "method_name": "NMS Acceleration",
-                "techniques": [
-                  "nms_acceleration"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Retinanet"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "optimization_type": "nms_acceleration",
-            "effectiveness": "medium"
-          }
-        },
-        "model_characteristics": {
-          "architecture_type": "cnn",
-          "key_components": [
-            "resnet_backbone",
-            "fpn",
-            "classification_subnet",
-            "box_regression_subnet"
+              "effectiveness": "high",
+              "accuracy_impact": "zero",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN"
+            }
           ],
-          "has_batch_norm": true,
-          "has_layer_norm": false,
-          "optimization_challenges": [
-            "fpn_quantization",
-            "focal_loss_sensitivity"
-          ]
+          "effectiveness": "high",
+          "compression_ratio": "1.15×",
+          "accuracy_impact": "zero",
+          "universal": true
         },
-        "calibration_free_status": {
-          "available_methods": "limited",
-          "research_gap": true,
-          "recommended_approach": "FPN-aware PTQ methods"
+        "quantization": {
+          "methods": [
+            {
+              "name": "RetinaNet-ResNet18 FQN 4-bit",
+              "method_name": "RetinaNet-ResNet18 FQN 4-bit",
+              "techniques": ["quantize_int4", "quantization_aware_training"],
+              "performance": {
+                "latency_speedup": 2.5,
+                "compression_ratio": 8.0,
+                "accuracy_retention": 0.945,
+                "memory_reduction": 7.0
+              },
+              "validation": {
+                "confidence": 0.95,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2019-06",
+                "validation_method": "direct_paper_extraction"
+              },
+              "paper": {
+                "title": "Fully Quantized Network for Object Detection",
+                "authors": ["Rundong Li", "Yan Wang", "Feng Liang", "Hongwei Qin", "Junjie Yan", "Rui Fan"],
+                "venue": "IEEE CVPR",
+                "year": 2019,
+                "arxiv_id": "",
+                "url": "https://openaccess.thecvf.com/content_CVPR_2019/html/Li_Fully_Quantized_Network_for_Object_Detection_CVPR_2019_paper.html"
+              },
+              "effectiveness": "high",
+              "accuracy_impact": "moderate",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "RetinaNet-ResNet18 4-bit on COCO 2017: 29.3 mAP (FP32: 31.0 mAP, 5.5% loss); state-of-the-art for 4-bit quantized detectors"
+            },
+            {
+              "name": "RetinaNet-ResNet50 INT8 TensorRT",
+              "method_name": "RetinaNet-ResNet50 INT8 TensorRT",
+              "techniques": ["quantize_int8", "post_training"],
+              "performance": {
+                "latency_speedup": 1.22,
+                "compression_ratio": 4.0,
+                "accuracy_retention": 0.997,
+                "memory_reduction": 3.0
+              },
+              "validation": {
+                "confidence": 0.9,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2024-11",
+                "validation_method": "direct_benchmark_extraction"
+              },
+              "paper": {
+                "title": "NVIDIA ODTK RetinaNet Implementation",
+                "authors": ["NVIDIA"],
+                "venue": "NVIDIA GitHub",
+                "year": 2024,
+                "arxiv_id": "",
+                "url": "https://github.com/NVIDIA/retinanet-examples"
+              },
+              "effectiveness": "high",
+              "accuracy_impact": "minimal",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "RetinaNet-ResNet50FPN on COCO 2017: FP16 18ms/56FPS on V100 → INT8 22ms/45FPS on T4 (1.22× speedup); 35.8% mAP maintained"
+            },
+            {
+              "name": "AQD 2-bit RetinaNet-ResNet18",
+              "method_name": "AQD 2-bit RetinaNet-ResNet18",
+              "techniques": ["quantize_int2", "multi_level_bn", "quantization_aware_training"],
+              "performance": {
+                "latency_speedup": 4.0,
+                "compression_ratio": 16.0,
+                "accuracy_retention": 0.944,
+                "memory_reduction": 15.0
+              },
+              "validation": {
+                "confidence": 0.95,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2021-06",
+                "validation_method": "direct_paper_extraction"
+              },
+              "paper": {
+                "title": "AQD: Towards Accurate Quantized Object Detection",
+                "authors": ["Peng Chen", "Jing Liu", "et al."],
+                "venue": "IEEE CVPR",
+                "year": 2021,
+                "arxiv_id": "",
+                "url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_AQD_Towards_Accurate_Quantized_Object_Detection_CVPR_2021_paper.pdf"
+              },
+              "effectiveness": "high",
+              "accuracy_impact": "moderate",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "RetinaNet-ResNet18 2-bit on COCO: 29.9 mAP (FP32: 31.7 mAP, 5.6% loss); uses multi-level BN for accurate batch statistics"
+            },
+            {
+              "name": "HQOD 4-bit RetinaNet-ResNet18",
+              "method_name": "HQOD 4-bit RetinaNet-ResNet18",
+              "techniques": ["quantize_int4", "harmonious_quantization", "quantization_aware_training"],
+              "performance": {
+                "latency_speedup": 3.0,
+                "compression_ratio": 8.0,
+                "accuracy_retention": 1.025,
+                "memory_reduction": 7.0
+              },
+              "validation": {
+                "confidence": 0.95,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2024-08",
+                "validation_method": "direct_paper_extraction"
+              },
+              "paper": {
+                "title": "HQOD: Harmonious Quantization for Object Detection",
+                "authors": ["Multiple Authors"],
+                "venue": "arXiv",
+                "year": 2024,
+                "arxiv_id": "2408.02561",
+                "url": "https://arxiv.org/abs/2408.02561"
+              },
+              "effectiveness": "high",
+              "accuracy_impact": "positive",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "RetinaNet-ResNet18 4-bit on COCO: 33.1% mAP (FP32: 31.7 mAP, +4.4% improvement); surpasses FP32 baseline using task-correlated loss"
+            }
+          ],
+          "bit_widths": ["W8", "W4", "W2"],
+          "effectiveness": "high",
+          "compression_ratio": "4-16×",
+          "requires_activation_quant": true
+        },
+        "pruning": {
+          "methods": [
+            {
+              "name": "Feature Maps Clustering Pruning",
+              "method_name": "Feature Maps Clustering Pruning",
+              "techniques": ["prune_magnitude", "structured", "clustering_based"],
+              "performance": {
+                "latency_speedup": 2.0,
+                "compression_ratio": 4.0,
+                "accuracy_retention": 0.96,
+                "memory_reduction": 3.0
+              },
+              "validation": {
+                "confidence": 0.85,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2022-04",
+                "validation_method": "direct_paper_extraction"
+              },
+              "paper": {
+                "title": "A Filter Pruning Method of CNN Models Based on Feature Maps Clustering",
+                "authors": ["Multiple Authors"],
+                "venue": "Applied Sciences (MDPI)",
+                "year": 2022,
+                "arxiv_id": "",
+                "url": "https://www.mdpi.com/2076-3417/12/9/4541"
+              },
+              "effectiveness": "high",
+              "accuracy_impact": "moderate",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "RetinaNet on WIDER FACE: FPN filters pruned from 256 to 64; hierarchical clustering algorithm with silhouette coefficient; better speed and precision than SSD after pruning"
+            }
+          ],
+          "pruning_type": "filter",
+          "effectiveness": "medium",
+          "validation_needed": false
+        },
+        "structural": {
+          "methods": [
+            {
+              "name": "Soft-NMS",
+              "method_name": "Soft-NMS",
+              "techniques": ["nms_acceleration", "score_decay"],
+              "performance": {
+                "latency_speedup": 1.0,
+                "compression_ratio": 1.0,
+                "accuracy_retention": 1.017,
+                "memory_reduction": 0.0
+              },
+              "validation": {
+                "confidence": 0.95,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2017",
+                "validation_method": "direct_paper_extraction"
+              },
+              "paper": {
+                "title": "Soft-NMS -- Improving Object Detection With One Line of Code",
+                "authors": ["Navaneeth Bodla", "et al."],
+                "venue": "IEEE ICCV",
+                "year": 2017,
+                "arxiv_id": "1704.04503",
+                "url": "https://arxiv.org/abs/1704.04503"
+              },
+              "effectiveness": "medium",
+              "accuracy_impact": "positive",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "+1.7% mAP on Pascal VOC 2007 for R-FCN/Faster-RCNN; +1.3% for R-FCN and +1.1% for Faster-RCNN on MS-COCO"
+            },
+            {
+              "name": "QSI-NMS",
+              "method_name": "QSI-NMS",
+              "techniques": ["nms_acceleration", "divide_and_conquer"],
+              "performance": {
+                "latency_speedup": 6.2,
+                "compression_ratio": 1.0,
+                "accuracy_retention": 0.999,
+                "memory_reduction": 0.0
+              },
+              "validation": {
+                "confidence": 0.95,
+                "sample_count": 1,
+                "validators": 1,
+                "last_validated": "2024-11",
+                "validation_method": "direct_paper_extraction"
+              },
+              "paper": {
+                "title": "Accelerating Non-Maximum Suppression: A Graph Theory Perspective",
+                "authors": ["King-Siong Si", "et al."],
+                "venue": "NeurIPS",
+                "year": 2024,
+                "arxiv_id": "2409.20520",
+                "url": "https://arxiv.org/abs/2409.20520"
+              },
+              "effectiveness": "high",
+              "accuracy_impact": "minimal",
+              "architecture": {
+                "family": "CNN",
+                "variant": "Retinanet"
+              },
+              "architecture_family": "CNN",
+              "notes": "Universal NMS acceleration applicable to all detectors including RetinaNet; 6.2× speedup with 0.1% mAP decrease"
+            }
+          ],
+          "optimization_type": "nms_acceleration",
+          "effectiveness": "high"
         }
+      },
+      "model_characteristics": {
+        "architecture_type": "cnn",
+        "key_components": ["resnet_backbone", "fpn", "classification_subnet", "box_regression_subnet"],
+        "has_batch_norm": true,
+        "has_layer_norm": false,
+        "optimization_challenges": ["fpn_quantization", "focal_loss_sensitivity"]
+      },
+      "calibration_free_status": {
+        "available_methods": "moderate",
+        "research_gap": false,
+        "recommended_approach": "HQOD 4-bit QAT achieves 33.1% mAP (surpasses FP32 baseline) with task-correlated loss; NVIDIA TensorRT INT8 provides 1.22× speedup with <1% accuracy loss; FQN enables 4-bit deployment with state-of-the-art quantized detector performance"
       }
     },
     "segmentation": {
       "unet": {
         "optimization_methods": {
-          "fusion": {
-            "methods": [
-              {
-                "name": "Conv-BN Fusion (Encoder/Decoder)",
-                "method_name": "Conv-BN Fusion (Encoder/Decoder)",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
+          
+            "fusion": {
+              "methods": [
+                {
+                  "name": "Conv-BN Fusion (Encoder/Decoder)",
+                  "method_name": "Conv-BN Fusion (Encoder/Decoder)",
+                  "techniques": ["fuse_layers"],
+                  "performance": {
+                    "latency_speedup": 1.15,
+                    "compression_ratio": 1.0,
+                    "accuracy_retention": 1.0,
+                    "memory_reduction": 0.0
+                  },
+                  "validation": {
+                    "confidence": 0.7,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2024-11",
+                    "validation_method": "literature_review"
+                  },
+                  "paper": {
+                    "title": "Standard optimization technique for U-Net",
+                    "authors": ["Various"],
+                    "venue": "Industry Standard Practice",
+                    "year": 2020,
+                    "arxiv_id": "",
+                    "url": "https://github.com/milesial/Pytorch-UNet"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "zero",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN"
+                }
+              ],
+              "effectiveness": "high",
+              "compression_ratio": "1.15×",
+              "accuracy_impact": "zero",
+              "universal": true
+            },
+            "quantization": {
+              "methods": [
+                {
+                  "name": "U-Net Fixed-Point W4A6",
+                  "method_name": "U-Net Fixed-Point W4A6",
+                  "techniques": ["quantize_int4", "quantize_int6", "quantization_aware_training"],
+                  "performance": {
+                    "latency_speedup": 2.0,
+                    "compression_ratio": 8.0,
+                    "accuracy_retention": 0.978,
+                    "memory_reduction": 7.0
+                  },
+                  "validation": {
+                    "confidence": 0.95,
+                    "sample_count": 3,
+                    "validators": 1,
+                    "last_validated": "2019-09",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "U-Net Fixed-Point Quantization for Medical Image Segmentation",
+                    "authors": ["MohammadHossein AskariHemmat", "Sina Honari", "Lucas Rouhier", "Christian S. Perone", "Julien Cohen-Adad", "Yvon Savaria", "Jean-Pierre David"],
+                    "venue": "MICCAI HAL Workshop",
+                    "year": 2019,
+                    "arxiv_id": "1908.01073",
+                    "url": "https://arxiv.org/abs/1908.01073"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "U-Net W4A6: 8× memory reduction; Dice loss: EM -2.21%, GM -0.57%, NIH pancreas -2.09%; tested on 3 medical datasets"
                 },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
+                {
+                  "name": "U-Net PTQ INT8 (TensorRT)",
+                  "method_name": "U-Net PTQ INT8 (TensorRT)",
+                  "techniques": ["quantize_int8", "post_training"],
+                  "performance": {
+                    "latency_speedup": 2.49,
+                    "compression_ratio": 3.5,
+                    "accuracy_retention": 1.0,
+                    "memory_reduction": 2.5
+                  },
+                  "validation": {
+                    "confidence": 0.95,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-01",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Post-Training Quantization for 3D Medical Image Segmentation: A Practical Study on Real Inference Engines",
+                    "authors": ["Multiple Authors"],
+                    "venue": "arXiv",
+                    "year": 2025,
+                    "arxiv_id": "2501.17343",
+                    "url": "https://arxiv.org/abs/2501.17343"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "zero",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "U-Net on BTCV: FP32 23.11 MB → INT8 6.61 MB (3.5× reduction); 2.62ms → 1.05ms (2.49× speedup); maintains 0.822 mDSC"
                 },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
+                {
+                  "name": "QuantU-Net Trainable Bitwidth",
+                  "method_name": "QuantU-Net Trainable Bitwidth",
+                  "techniques": ["quantize_mixed", "quantization_aware_training", "adaptive_bitwidth"],
+                  "performance": {
+                    "latency_speedup": 2.0,
+                    "compression_ratio": 8.0,
+                    "accuracy_retention": 0.981,
+                    "memory_reduction": 7.0
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-03",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "QuantU-Net: Efficient Wearable Medical Imaging Using Bitwidth as a Trainable Parameter",
+                    "authors": ["Multiple Authors"],
+                    "venue": "arXiv",
+                    "year": 2025,
+                    "arxiv_id": "2503.08719",
+                    "url": "https://arxiv.org/abs/2503.08719"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "U-Net on Breast Ultrasound: 94.25% accuracy (FP32: 96.14%, -1.89%); average 4.24 bits; 8× size reduction for FPGA deployment"
+                }
+              ],
+              "bit_widths": ["W8", "W4", "W6"],
+              "effectiveness": "high",
+              "compression_ratio": "3.5-8×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": [
+                {
+                  "name": "Half-UNet Channel Reduction",
+                  "method_name": "Half-UNet Channel Reduction",
+                  "techniques": ["prune_magnitude", "structured", "channel_reduction"],
+                  "performance": {
+                    "latency_speedup": 5.5,
+                    "compression_ratio": 71.4,
+                    "accuracy_retention": 0.98,
+                    "memory_reduction": 70.4
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2022",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "UNet Deep Learning Architecture Review",
+                    "authors": ["Multiple Authors"],
+                    "venue": "IEEE Access",
+                    "year": 2022,
+                    "arxiv_id": "",
+                    "url": "https://www.researchgate.net/publication/366612721"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "Half-UNet: 98.6% parameter reduction, 81.8% FLOPs reduction; similar segmentation accuracy vs U-Net; uses Ghost module and channel unification"
                 },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
+                {
+                  "name": "SI-driven U-Net Compression",
+                  "method_name": "SI-driven U-Net Compression",
+                  "techniques": ["prune_magnitude", "structured", "separation_index"],
+                  "performance": {
+                    "latency_speedup": 1.4,
+                    "compression_ratio": 3.33,
+                    "accuracy_retention": 1.01,
+                    "memory_reduction": 2.33
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-07",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Efficient compression of encoder-decoder models for semantic segmentation using the separation index",
+                    "authors": ["Multiple Authors"],
+                    "venue": "Scientific Reports (Nature)",
+                    "year": 2025,
+                    "arxiv_id": "",
+                    "url": "https://www.nature.com/articles/s41598-025-10348-9"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "positive",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "U-Net on multiple datasets: up to 70% parameter/FLOPs reduction; maintains or improves mean IoU; uses Separation Index metric for layer/filter importance"
                 },
-                "architecture_family": "CNN"
+                {
+                  "name": "Weight Pruning-UNet",
+                  "method_name": "Weight Pruning-UNet",
+                  "techniques": ["prune_magnitude", "unstructured", "depthwise_separable"],
+                  "performance": {
+                    "latency_speedup": 1.8,
+                    "compression_ratio": 2.5,
+                    "accuracy_retention": 0.96,
+                    "memory_reduction": 1.5
+                  },
+                  "validation": {
+                    "confidence": 0.85,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2022",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Weight Pruning-UNet: Weight Pruning UNet with Depth-wise Separable Convolutions for Semantic Segmentation of Kidney Tumors",
+                    "authors": ["Multiple Authors"],
+                    "venue": "Journal of Medical Signals & Sensors",
+                    "year": 2022,
+                    "arxiv_id": "",
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9215835/"
+                  },
+                  "effectiveness": "medium",
+                  "accuracy_impact": "moderate",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "WP-UNet on KiTS19 (210 patients): combines weight pruning with depthwise separable convolutions; reduces parameters and FLOPs while maintaining segmentation quality"
+                }
+              ],
+              "pruning_type": "channel",
+              "effectiveness": "high",
+              "validation_needed": false
+            },
+            "structural": {
+              "methods": [
+                {
+                  "name": "Skip Connection Optimization (Tailor)",
+                  "method_name": "Skip Connection Optimization (Tailor)",
+                  "techniques": ["skip_connection_optimization"],
+                  "performance": {
+                    "latency_speedup": 1.3,
+                    "compression_ratio": 1.0,
+                    "accuracy_retention": 0.98,
+                    "memory_reduction": 0.0
+                  },
+                  "validation": {
+                    "confidence": 0.85,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2024-01",
+                    "validation_method": "cross_reference"
+                  },
+                  "paper": {
+                    "title": "Tailor: Altering Skip Connections for Resource-Efficient Inference",
+                    "authors": ["Multiple Authors"],
+                    "venue": "ACM TRETS",
+                    "year": 2024,
+                    "arxiv_id": "2301.07247",
+                    "url": "https://arxiv.org/abs/2301.07247"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "CNN",
+                    "variant": "Unet"
+                  },
+                  "architecture_family": "CNN",
+                  "notes": "Applicable to U-Net skip connections; FPGA optimization: 34% BRAM reduction, 13% FF reduction, 16% LUT reduction"
+                }
+              ],
+              "optimization_type": "skip_connection",
+              "effectiveness": "high"
+            },
+            
+              "deeplab": {
+                "optimization_methods": {
+                  "fusion": {
+                    "methods": [
+                      {
+                        "name": "Conv-BN Fusion (Backbone)",
+                        "method_name": "Conv-BN Fusion (Backbone)",
+                        "techniques": ["fuse_layers"],
+                        "performance": {
+                          "latency_speedup": 1.15,
+                          "compression_ratio": 1.0,
+                          "accuracy_retention": 1.0,
+                          "memory_reduction": 0.0
+                        },
+                        "validation": {
+                          "confidence": 0.7,
+                          "sample_count": 1,
+                          "validators": 1,
+                          "last_validated": "2024-11",
+                          "validation_method": "literature_review"
+                        },
+                        "paper": {
+                          "title": "Standard optimization technique for DeepLab",
+                          "authors": ["Various"],
+                          "venue": "Industry Standard Practice",
+                          "year": 2020,
+                          "arxiv_id": "",
+                          "url": "https://github.com/tensorflow/models/tree/master/research/deeplab"
+                        },
+                        "effectiveness": "high",
+                        "accuracy_impact": "zero",
+                        "architecture": {
+                          "family": "CNN",
+                          "variant": "Deeplab"
+                        },
+                        "architecture_family": "CNN"
+                      }
+                    ],
+                    "effectiveness": "high",
+                    "compression_ratio": "1.15×",
+                    "accuracy_impact": "zero",
+                    "universal": true
+                  },
+                  "quantization": {
+                    "methods": [
+                      {
+                        "name": "DeepLabv3+ INT8 QAT",
+                        "method_name": "DeepLabv3+ INT8 QAT",
+                        "techniques": ["quantize_int8", "quantization_aware_training"],
+                        "performance": {
+                          "latency_speedup": 1.5,
+                          "compression_ratio": 4.0,
+                          "accuracy_retention": 0.997,
+                          "memory_reduction": 3.0
+                        },
+                        "validation": {
+                          "confidence": 0.95,
+                          "sample_count": 1,
+                          "validators": 1,
+                          "last_validated": "2021",
+                          "validation_method": "direct_benchmark_extraction"
+                        },
+                        "paper": {
+                          "title": "AIMET Model Zoo: DeepLabv3+ Quantization",
+                          "authors": ["Qualcomm AI Research"],
+                          "venue": "Qualcomm AIMET",
+                          "year": 2021,
+                          "arxiv_id": "",
+                          "url": "https://github.com/quic/aimet-model-zoo"
+                        },
+                        "effectiveness": "high",
+                        "accuracy_impact": "minimal",
+                        "architecture": {
+                          "family": "CNN",
+                          "variant": "Deeplab"
+                        },
+                        "architecture_family": "CNN",
+                        "notes": "DeepLabv3+ INT8: 72.08% mIoU (FP32: 72.32%, 0.33% loss); uses DFQ and QAT from AIMET; virtually equivalent performance"
+                      },
+                      {
+                        "name": "DeepLabv3 MobileNetV2 INT8 QAT",
+                        "method_name": "DeepLabv3 MobileNetV2 INT8 QAT",
+                        "techniques": ["quantize_int8", "quantization_aware_training"],
+                        "performance": {
+                          "latency_speedup": 1.4,
+                          "compression_ratio": 4.0,
+                          "accuracy_retention": 0.99,
+                          "memory_reduction": 3.0
+                        },
+                        "validation": {
+                          "confidence": 0.95,
+                          "sample_count": 1,
+                          "validators": 1,
+                          "last_validated": "2022-06",
+                          "validation_method": "direct_paper_extraction"
+                        },
+                        "paper": {
+                          "title": "Adding Quantization-aware Training and Pruning to the TensorFlow Model Garden",
+                          "authors": ["TensorFlow Model Optimization Team"],
+                          "venue": "TensorFlow Blog",
+                          "year": 2022,
+                          "arxiv_id": "",
+                          "url": "https://blog.tensorflow.org/2022/06/Adding-Quantization-aware-Training-and-Pruning-to-the-TensorFlow-Model-Garden.html"
+                        },
+                        "effectiveness": "high",
+                        "accuracy_impact": "minimal",
+                        "architecture": {
+                          "family": "CNN",
+                          "variant": "Deeplab"
+                        },
+                        "architecture_family": "CNN",
+                        "notes": "MobileNetV2+DeepLabv3 on Pascal VOC: PTQ INT8 -1.3 mIoU drop, QAT INT8 -0.7 mIoU drop; Samsung Galaxy S21 deployment"
+                      },
+                      {
+                        "name": "DeepLabv3+ MobileNet Mixed-Precision",
+                        "method_name": "DeepLabv3+ MobileNet Mixed-Precision",
+                        "techniques": ["quantize_int8", "mixed_precision"],
+                        "performance": {
+                          "latency_speedup": 1.3,
+                          "compression_ratio": 3.5,
+                          "accuracy_retention": 0.985,
+                          "memory_reduction": 2.5
+                        },
+                        "validation": {
+                          "confidence": 0.9,
+                          "sample_count": 1,
+                          "validators": 1,
+                          "last_validated": "2024",
+                          "validation_method": "direct_benchmark_extraction"
+                        },
+                        "paper": {
+                          "title": "STM32 AI Model Zoo: DeepLabv3 Quantization",
+                          "authors": ["STMicroelectronics"],
+                          "venue": "STM32 AI Model Zoo",
+                          "year": 2024,
+                          "arxiv_id": "",
+                          "url": "https://github.com/STMicroelectronics/stm32ai-modelzoo"
+                        },
+                        "effectiveness": "high",
+                        "accuracy_impact": "minimal",
+                        "architecture": {
+                          "family": "CNN",
+                          "variant": "Deeplab"
+                        },
+                        "architecture_family": "CNN",
+                        "notes": "DeepLabv3 MobileNetV2: Backbone fully quantized to 8-bit, ASPP partially FP32; some layers too sensitive to full quantization"
+                      }
+                    ],
+                    "bit_widths": ["W8"],
+                    "effectiveness": "high",
+                    "compression_ratio": "3.5-4×",
+                    "requires_activation_quant": true
+                  },
+                  "pruning": {
+                    "methods": [
+                      {
+                        "name": "SI-driven DeepLabV3 Compression",
+                        "method_name": "SI-driven DeepLabV3 Compression",
+                        "techniques": ["prune_magnitude", "structured", "separation_index"],
+                        "performance": {
+                          "latency_speedup": 1.41,
+                          "compression_ratio": 7.5,
+                          "accuracy_retention": 1.022,
+                          "memory_reduction": 6.5
+                        },
+                        "validation": {
+                          "confidence": 0.95,
+                          "sample_count": 1,
+                          "validators": 1,
+                          "last_validated": "2025-07",
+                          "validation_method": "direct_paper_extraction"
+                        },
+                        "paper": {
+                          "title": "Efficient compression of encoder-decoder models for semantic segmentation using the separation index",
+                          "authors": ["Multiple Authors"],
+                          "venue": "Scientific Reports (Nature)",
+                          "year": 2025,
+                          "arxiv_id": "",
+                          "url": "https://www.nature.com/articles/s41598-025-10348-9"
+                        },
+                        "effectiveness": "high",
+                        "accuracy_impact": "positive",
+                        "architecture": {
+                          "family": "CNN",
+                          "variant": "Deeplab"
+                        },
+                        "architecture_family": "CNN",
+                        "notes": "DeepLabV3 on Aerial Imagery: 0.624 → 0.638 mIoU (+2.2%); 16M → 2.13M params (7.5× reduction); 14.491 → 6.259 GFLOPs (2.3× reduction); 189.77 → 24.87 MB (7.6× reduction); 3.64 → 2.58 ms (1.41× speedup)"
+                      },
+                      {
+                        "name": "NNI Channel Pruning DeepLabV3",
+                        "method_name": "NNI Channel Pruning DeepLabV3",
+                        "techniques": ["prune_magnitude", "structured"],
+                        "performance": {
+                          "latency_speedup": 1.0,
+                          "compression_ratio": 1148.0,
+                          "accuracy_retention": 0.96,
+                          "memory_reduction": 1147.0
+                        },
+                        "validation": {
+                          "confidence": 0.85,
+                          "sample_count": 1,
+                          "validators": 1,
+                          "last_validated": "2024",
+                          "validation_method": "github_issue_reference"
+                        },
+                        "paper": {
+                          "title": "Microsoft NNI Channel Pruning for DeepLabV3",
+                          "authors": ["Microsoft Research"],
+                          "venue": "GitHub Issue Discussion",
+                          "year": 2024,
+                          "arxiv_id": "",
+                          "url": "https://github.com/pytorch/vision/issues/7955"
+                        },
+                        "effectiveness": "high",
+                        "accuracy_impact": "moderate",
+                        "architecture": {
+                          "family": "CNN",
+                          "variant": "Deeplab"
+                        },
+                        "architecture_family": "CNN",
+                        "notes": "DeepLabV3: 39.6M → 34.5K params (1148× reduction); within 4% of baseline accuracy; demonstrates extreme compression potential for constrained tasks"
+                      }
+                    ],
+                    "pruning_type": "channel",
+                    "effectiveness": "high",
+                    "validation_needed": false
+                  }
+                },
+                "model_characteristics": {
+                  "architecture_type": "cnn",
+                  "key_components": ["resnet_backbone", "aspp_module", "atrous_convolution", "decoder"],
+                  "has_batch_norm": true,
+                  "has_layer_norm": false,
+                  "optimization_challenges": ["aspp_multi_scale", "atrous_conv_quantization", "large_receptive_field"]
+                },
+                "calibration_free_status": {
+                  "available_methods": "moderate",
+                  "research_gap": false,
+                  "recommended_approach": "AIMET QAT achieves 72.08% mIoU with <0.5% loss using DFQ; Mixed-precision keeps ASPP layers in FP32 for sensitive operations; SI-driven pruning enables 7.5× compression with +2.2% mIoU improvement"
+                }
               },
-              {
-                "name": "Skip Connection Fusion",
-                "method_name": "Skip Connection Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Upsampling Layer Fusion",
-                "method_name": "Upsampling Layer Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
+              
+                "fcn": {
+                  "optimization_methods": {
+                    "fusion": {
+                      "methods": [
+                        {
+                          "name": "Conv-BN Fusion",
+                          "method_name": "Conv-BN Fusion",
+                          "techniques": ["fuse_layers"],
+                          "performance": {
+                            "latency_speedup": 1.15,
+                            "compression_ratio": 1.0,
+                            "accuracy_retention": 1.0,
+                            "memory_reduction": 0.0
+                          },
+                          "validation": {
+                            "confidence": 0.7,
+                            "sample_count": 1,
+                            "validators": 1,
+                            "last_validated": "2024-11",
+                            "validation_method": "literature_review"
+                          },
+                          "paper": {
+                            "title": "Standard optimization technique for FCN",
+                            "authors": ["Various"],
+                            "venue": "Industry Standard Practice",
+                            "year": 2020,
+                            "arxiv_id": "",
+                            "url": "https://github.com/shelhamer/fcn.berkeleyvision.org"
+                          },
+                          "effectiveness": "medium",
+                          "accuracy_impact": "zero",
+                          "architecture": {
+                            "family": "CNN",
+                            "variant": "Fcn"
+                          },
+                          "architecture_family": "CNN"
+                        }
+                      ],
+                      "effectiveness": "medium",
+                      "compression_ratio": "1.15×",
+                      "accuracy_impact": "zero",
+                      "universal": true
+                    },
+                    "quantization": {
+                      "methods": [
+                        {
+                          "name": "FCN-VGG16 INT8 TensorRT",
+                          "method_name": "FCN-VGG16 INT8 TensorRT",
+                          "techniques": ["quantize_int8", "post_training"],
+                          "performance": {
+                            "latency_speedup": 4.84,
+                            "compression_ratio": 4.0,
+                            "accuracy_retention": 0.994,
+                            "memory_reduction": 3.0
+                          },
+                          "validation": {
+                            "confidence": 0.95,
+                            "sample_count": 1,
+                            "validators": 1,
+                            "last_validated": "2017",
+                            "validation_method": "direct_paper_extraction"
+                          },
+                          "paper": {
+                            "title": "Fast INT8 Inference for Autonomous Vehicles with TensorRT 3",
+                            "authors": ["Joohoon Lee", "NVIDIA"],
+                            "venue": "NVIDIA Technical Blog",
+                            "year": 2017,
+                            "arxiv_id": "",
+                            "url": "https://developer.nvidia.com/blog/int8-inference-autonomous-vehicles-tensorrt/"
+                          },
+                          "effectiveness": "high",
+                          "accuracy_impact": "minimal",
+                          "architecture": {
+                            "family": "CNN",
+                            "variant": "Fcn"
+                          },
+                          "architecture_family": "CNN",
+                          "notes": "FCN-VGG16 on Cityscapes: FP32 242ms → INT8 50ms (4.84× speedup); IoU class 48.4 → 48.1 (0.6% drop), IoU category 76.9 → 76.8 (0.1% drop)"
+                        },
+                        {
+                          "name": "FCN-8 Full-Layer Quantization",
+                          "method_name": "FCN-8 Full-Layer Quantization",
+                          "techniques": ["quantize_mixed", "quantization_aware_training", "sparsity_enhancement"],
+                          "performance": {
+                            "latency_speedup": 1.5,
+                            "compression_ratio": 6.35,
+                            "accuracy_retention": 0.9,
+                            "memory_reduction": 5.35
+                          },
+                          "validation": {
+                            "confidence": 0.9,
+                            "sample_count": 1,
+                            "validators": 1,
+                            "last_validated": "2025-08",
+                            "validation_method": "direct_paper_extraction"
+                          },
+                          "paper": {
+                            "title": "Optimizing FCN for devices with limited resources using quantization and sparsity enhancement",
+                            "authors": ["Multiple Authors"],
+                            "venue": "Scientific Reports (Nature)",
+                            "year": 2025,
+                            "arxiv_id": "",
+                            "url": "https://www.nature.com/articles/s41598-025-06848-3"
+                          },
+                          "effectiveness": "medium",
+                          "accuracy_impact": "moderate",
+                          "architecture": {
+                            "family": "CNN",
+                            "variant": "Fcn"
+                          },
+                          "architecture_family": "CNN",
+                          "notes": "FCN-8s: 6.35× memory reduction with 40% sparsity; 89.3% pixel accuracy under extreme quantization; mIoU 62 → 56 (10% drop with retraining)"
+                        },
+                        {
+                          "name": "QARepVGG-FCN INT8",
+                          "method_name": "QARepVGG-FCN INT8",
+                          "techniques": ["quantize_int8", "post_training", "reparameterization_aware"],
+                          "performance": {
+                            "latency_speedup": 2.0,
+                            "compression_ratio": 4.0,
+                            "accuracy_retention": 0.983,
+                            "memory_reduction": 3.0
+                          },
+                          "validation": {
+                            "confidence": 0.95,
+                            "sample_count": 1,
+                            "validators": 1,
+                            "last_validated": "2023-12",
+                            "validation_method": "direct_paper_extraction"
+                          },
+                          "paper": {
+                            "title": "Make RepVGG Greater Again: A Quantization-aware Approach",
+                            "authors": ["Multiple Authors"],
+                            "venue": "arXiv",
+                            "year": 2023,
+                            "arxiv_id": "2212.01593",
+                            "url": "https://arxiv.org/abs/2212.01593"
+                          },
+                          "effectiveness": "high",
+                          "accuracy_impact": "minimal",
+                          "architecture": {
+                            "family": "CNN",
+                            "variant": "Fcn"
+                          },
+                          "architecture_family": "CNN",
+                          "notes": "QARepVGG-B1g4 FCN on Cityscapes: FP32 72.6% → INT8 71.4% mIoU (1.7% drop); RepVGG-B1g4: 72.5% → 67.1% (7.4% drop); quantization-aware design crucial"
+                        }
+                      ],
+                      "bit_widths": ["W8", "W4"],
+                      "effectiveness": "high",
+                      "compression_ratio": "4-6.35×",
+                      "requires_activation_quant": true
+                    },
+                    "pruning": {
+                      "methods": [
+                        {
+                          "name": "PSO-based FCN Compression",
+                          "method_name": "PSO-based FCN Compression",
+                          "techniques": ["prune_magnitude", "structured", "particle_swarm"],
+                          "performance": {
+                            "latency_speedup": 3.0,
+                            "compression_ratio": 851.0,
+                            "accuracy_retention": 0.95,
+                            "memory_reduction": 850.0
+                          },
+                          "validation": {
+                            "confidence": 0.9,
+                            "sample_count": 3,
+                            "validators": 1,
+                            "last_validated": "2023-02",
+                            "validation_method": "direct_paper_extraction"
+                          },
+                          "paper": {
+                            "title": "Development of a compressed FCN architecture for semantic segmentation using Particle Swarm Optimization",
+                            "authors": ["M. Agarwal", "S.K. Gupta", "K.K. Biswas"],
+                            "venue": "Neural Computing and Applications",
+                            "year": 2023,
+                            "arxiv_id": "",
+                            "url": "https://link.springer.com/article/10.1007/s00521-023-08324-3"
+                          },
+                          "effectiveness": "high",
+                          "accuracy_impact": "moderate",
+                          "architecture": {
+                            "family": "CNN",
+                            "variant": "Fcn"
+                          },
+                          "architecture_family": "CNN",
+                          "notes": "VGG16-FCN: 851× compression with comparable accuracy on PlantVillage, street scenes, lungs X-Ray datasets; uses PSO for architecture search"
+                        },
+                        {
+                          "name": "SI-driven Compression (VGG-16)",
+                          "method_name": "SI-driven Compression (VGG-16)",
+                          "techniques": ["prune_magnitude", "structured", "separation_index"],
+                          "performance": {
+                            "latency_speedup": 1.5,
+                            "compression_ratio": 7.4,
+                            "accuracy_retention": 1.008,
+                            "memory_reduction": 6.4
+                          },
+                          "validation": {
+                            "confidence": 0.9,
+                            "sample_count": 1,
+                            "validators": 1,
+                            "last_validated": "2023-11",
+                            "validation_method": "direct_paper_extraction"
+                          },
+                          "paper": {
+                            "title": "Filter pruning for convolutional neural networks in semantic image segmentation",
+                            "authors": ["Multiple Authors"],
+                            "venue": "Neural Networks (Elsevier)",
+                            "year": 2023,
+                            "arxiv_id": "",
+                            "url": "https://www.sciencedirect.com/science/article/pii/S0893608023006330"
+                          },
+                          "effectiveness": "high",
+                          "accuracy_impact": "positive",
+                          "architecture": {
+                            "family": "CNN",
+                            "variant": "Fcn"
+                          },
+                          "architecture_family": "CNN",
+                          "notes": "VGG-16 on CIFAR-10: 86.5% parameter reduction, 82.2% FLOPs reduction with +0.78% accuracy gain; uses PCA and importance score distribution"
+                        }
+                      ],
+                      "pruning_type": "filter",
+                      "effectiveness": "high",
+                      "validation_needed": false
+                    }
+                  }
+                }
               }
-            ],
-            "effectiveness": "high",
-            "compression_ratio": "1.2×",
-            "accuracy_impact": "minimal",
-            "universal": true
-          },
-          "quantization": {
-            "methods": [
-              {
-                "name": "Weight-Only Quantization (Encoder/Decoder)",
-                "method_name": "Weight-Only Quantization (Encoder/Decoder)",
-                "techniques": [
-                  "quantize_int8",
-                  "weight_only"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Skip Connection Quantization",
-                "method_name": "Skip Connection Quantization",
-                "techniques": [
-                  "quantize_int8",
-                  "skip_connection_optimization"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Mixed-Precision Quantization",
-                "method_name": "Mixed-Precision Quantization",
-                "techniques": [
-                  "quantize_int8"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "bit_widths": [
-              "W8",
-              "W4"
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "4×",
-            "requires_activation_quant": true
-          },
-          "structural": {
-            "methods": [
-              {
-                "name": "Skip Connection Optimization (Tailor)",
-                "method_name": "Skip Connection Optimization (Tailor)",
-                "techniques": [
-                  "skip_connection_optimization"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "UNet++ Redesigned Skip Connections",
-                "method_name": "UNet++ Redesigned Skip Connections",
-                "techniques": [
-                  "skip_connection_optimization"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Unet"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "optimization_type": "skip_connection",
-            "effectiveness": "high"
+            }
           }
-        },
-        "model_characteristics": {
-          "architecture_type": "cnn",
-          "key_components": [
-            "encoder",
-            "decoder",
-            "skip_connections",
-            "upsampling"
-          ],
-          "has_batch_norm": true,
-          "has_layer_norm": false,
-          "optimization_challenges": [
-            "skip_connection_quantization",
-            "encoder_decoder_gap",
-            "medical_image_precision"
-          ]
-        },
-        "calibration_free_status": {
-          "available_methods": "limited",
-          "research_gap": true,
-          "recommended_approach": "Mixed-precision quantization with skip-supervised QAT for medical imaging"
-        }
-      },
-      "deeplab": {
-        "optimization_methods": {
-          "fusion": {
-            "methods": [
-              {
-                "name": "Conv-BN Fusion (Backbone)",
-                "method_name": "Conv-BN Fusion (Backbone)",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "ASPP Module Fusion",
-                "method_name": "ASPP Module Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Decoder Fusion",
-                "method_name": "Decoder Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.2,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.19999999999999996
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "effectiveness": "high",
-            "compression_ratio": "1.2×",
-            "accuracy_impact": "minimal",
-            "universal": true
-          },
-          "quantization": {
-            "methods": [
-              {
-                "name": "Weight-Only Quantization (Backbone)",
-                "method_name": "Weight-Only Quantization (Backbone)",
-                "techniques": [
-                  "quantize_int8",
-                  "weight_only"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "ASPP Module Quantization",
-                "method_name": "ASPP Module Quantization",
-                "techniques": [
-                  "quantize_int8"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Atrous Convolution Quantization",
-                "method_name": "Atrous Convolution Quantization",
-                "techniques": [
-                  "quantize_int8"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "bit_widths": [
-              "W8",
-              "W4"
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "4×",
-            "requires_activation_quant": true
-          },
-          "pruning": {
-            "methods": [
-              {
-                "name": "ASPP Branch Pruning",
-                "method_name": "ASPP Branch Pruning",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Deeplab"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "pruning_type": "channel",
-            "effectiveness": "medium",
-            "validation_needed": true
-          }
-        },
-        "model_characteristics": {
-          "architecture_type": "cnn",
-          "key_components": [
-            "resnet_backbone",
-            "aspp_module",
-            "atrous_convolution",
-            "decoder"
-          ],
-          "has_batch_norm": true,
-          "has_layer_norm": false,
-          "optimization_challenges": [
-            "aspp_multi_scale",
-            "atrous_conv_quantization",
-            "large_receptive_field"
-          ]
-        },
-        "calibration_free_status": {
-          "available_methods": "limited",
-          "research_gap": true,
-          "recommended_approach": "ASPP-aware quantization with multi-rate calibration"
-        }
-      },
-      "fcn": {
-        "optimization_methods": {
-          "fusion": {
-            "methods": [
-              {
-                "name": "Conv-BN Fusion",
-                "method_name": "Conv-BN Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.15,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.1499999999999999
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Fcn"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Skip Layer Fusion",
-                "method_name": "Skip Layer Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.15,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.1499999999999999
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Fcn"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Upsampling Fusion",
-                "method_name": "Upsampling Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.15,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.1499999999999999
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Fcn"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "1.15×",
-            "accuracy_impact": "minimal",
-            "universal": true
-          },
-          "quantization": {
-            "methods": [
-              {
-                "name": "Weight-Only Quantization (Backbone)",
-                "method_name": "Weight-Only Quantization (Backbone)",
-                "techniques": [
-                  "quantize_int8",
-                  "weight_only"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Fcn"
-                },
-                "architecture_family": "CNN"
-              },
-              {
-                "name": "Transposed Conv Quantization",
-                "method_name": "Transposed Conv Quantization",
-                "techniques": [
-                  "quantize_int8"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Fcn"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "bit_widths": [
-              "W8",
-              "W4"
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "4×",
-            "requires_activation_quant": true
-          },
-          "pruning": {
-            "methods": [
-              {
-                "name": "Skip Layer Pruning",
-                "method_name": "Skip Layer Pruning",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "CNN",
-                  "variant": "Fcn"
-                },
-                "architecture_family": "CNN"
-              }
-            ],
-            "pruning_type": "channel",
-            "effectiveness": "medium",
-            "validation_needed": true
-          }
-        },
-        "model_characteristics": {
-          "architecture_type": "cnn",
-          "key_components": [
-            "vgg_backbone",
-            "skip_layers",
-            "transposed_conv"
-          ],
-          "has_batch_norm": true,
-          "has_layer_norm": false,
-          "optimization_challenges": [
-            "transposed_conv_quantization",
-            "skip_layer_fusion"
-          ]
-        },
-        "calibration_free_status": {
-          "available_methods": "limited",
-          "research_gap": true,
-          "recommended_approach": "Standard PTQ methods"
-        }
-      }
-    }
-  },
+
+  }
+},
+
   "transformer_based_models": {
     "vision_transformers": {
-      "vanilla_vit": {
-        "optimization_methods": {
-          "fusion": {
-            "methods": [
-              {
-                "name": "LayerNorm Fusion",
-                "method_name": "LayerNorm Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.1,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.10000000000000009
+        "vanilla_vit": {
+          "optimization_methods": {
+            "fusion": {
+              "methods": [
+                {
+                  "name": "LayerNorm Fusion",
+                  "method_name": "LayerNorm Fusion",
+                  "techniques": ["fuse_layers"],
+                  "performance": {
+                    "latency_speedup": 1.1,
+                    "compression_ratio": 1.0,
+                    "accuracy_retention": 1.0,
+                    "memory_reduction": 0.0
+                  },
+                  "validation": {
+                    "confidence": 0.7,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2024-11",
+                    "validation_method": "literature_review"
+                  },
+                  "paper": {
+                    "title": "Standard optimization technique for Vision Transformers",
+                    "authors": ["Various"],
+                    "venue": "Industry Standard Practice",
+                    "year": 2021,
+                    "arxiv_id": "",
+                    "url": "https://github.com/google-research/vision_transformer"
+                  },
+                  "effectiveness": "medium",
+                  "accuracy_impact": "zero",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer"
+                }
+              ],
+              "effectiveness": "medium",
+              "compression_ratio": "1.1×",
+              "accuracy_impact": "zero",
+              "universal": true
+            },
+            "quantization": {
+              "methods": [
+                {
+                  "name": "PTQ4ViT W8A8",
+                  "method_name": "PTQ4ViT W8A8",
+                  "techniques": ["quantize_int8", "twin_uniform", "hessian_guided"],
+                  "performance": {
+                    "latency_speedup": 1.8,
+                    "compression_ratio": 4.0,
+                    "accuracy_retention": 0.995,
+                    "memory_reduction": 3.0
+                  },
+                  "validation": {
+                    "confidence": 0.95,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2022-07",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "PTQ4ViT: Post-training Quantization for Vision Transformers with Twin Uniform Quantization",
+                    "authors": ["Zhihang Yuan", "Chenhao Xue", "Yiqi Chen", "Qiang Wu", "Guangyu Sun"],
+                    "venue": "ECCV",
+                    "year": 2022,
+                    "arxiv_id": "2111.12293",
+                    "url": "https://arxiv.org/abs/2111.12293"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "ViT/DeiT/Swin 8-bit on ImageNet: <0.5% accuracy drop; uses twin uniform quantization for post-softmax/post-GELU; Hessian-guided metric; quantizes in minutes with 32 calibration images"
                 },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
+                {
+                  "name": "BoA (Attention-aware Hessian)",
+                  "method_name": "BoA (Attention-aware Hessian)",
+                  "techniques": ["quantize_int4", "quantize_int3", "quantize_int2", "backpropagation_free", "attention_aware"],
+                  "performance": {
+                    "latency_speedup": 3.0,
+                    "compression_ratio": 8.0,
+                    "accuracy_retention": 0.92,
+                    "memory_reduction": 7.0
+                  },
+                  "validation": {
+                    "confidence": 0.95,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-06",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "BoA: Attention-aware Post-training Quantization without Backpropagation",
+                    "authors": ["Junhan Kim", "Ho-young Kim", "Eulrang Cho", "Chungman Lee", "Joonyoung Kim", "Yongkweon Jeon"],
+                    "venue": "ICML",
+                    "year": 2025,
+                    "arxiv_id": "2406.13474",
+                    "url": "https://arxiv.org/abs/2406.13474"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "moderate",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "LLMs and ViTs: 2-4 bit quantization; backpropagation-free with attention-aware Hessian; outperforms existing PTQ by considering inter-layer dependencies; 8-13% accuracy improvement over naive methods at low bits"
                 },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
+                {
+                  "name": "aespa (Attention-wise Reconstruction)",
+                  "method_name": "aespa (Attention-wise Reconstruction)",
+                  "techniques": ["quantize_int4", "quantize_int2", "attention_wise", "layer_wise"],
+                  "performance": {
+                    "latency_speedup": 10.0,
+                    "compression_ratio": 8.0,
+                    "accuracy_retention": 0.94,
+                    "memory_reduction": 7.0
+                  },
+                  "validation": {
+                    "confidence": 0.95,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2024-11",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Towards Next-Level Post-Training Quantization of Hyper-Scale Transformers",
+                    "authors": ["Yongkweon Jeon", "et al."],
+                    "venue": "NeurIPS",
+                    "year": 2024,
+                    "arxiv_id": "2402.08958",
+                    "url": "https://arxiv.org/abs/2402.08958"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "moderate",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "Transformers 2-4 bit: 10× faster than block-wise methods; layer-wise quantization with attention-wise reconstruction; considers cross-layer dependency; 4-bit achieves near FP32 performance"
+                }
+              ],
+              "bit_widths": ["W8", "W4", "W3", "W2"],
+              "effectiveness": "high",
+              "compression_ratio": "4-8×",
+              "requires_activation_quant": true
+            },
+            "pruning": {
+              "methods": [
+                {
+                  "name": "Dimension-wise ViT Pruning",
+                  "method_name": "Dimension-wise ViT Pruning",
+                  "techniques": ["prune_magnitude", "structured", "dimension_wise"],
+                  "performance": {
+                    "latency_speedup": 1.5,
+                    "compression_ratio": 2.0,
+                    "accuracy_retention": 0.97,
+                    "memory_reduction": 1.0
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2021-08",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Vision Transformer Pruning",
+                    "authors": ["Mingjian Zhu", "Kai Han", "Changlin Li", "Yehui Tang", "Chao Xu", "Yunhe Wang"],
+                    "venue": "arXiv",
+                    "year": 2021,
+                    "arxiv_id": "2104.08500",
+                    "url": "https://arxiv.org/abs/2104.08500"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "ViT on ImageNet: dimension-wise sparsity via L1 regularization; prunes linear projection dimensions; significant parameter/FLOPs reduction with maintained accuracy"
                 },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
+                {
+                  "name": "EffiSelecViT Head/MLP Pruning",
+                  "method_name": "EffiSelecViT Head/MLP Pruning",
+                  "techniques": ["prune_magnitude", "structured", "importance_score"],
+                  "performance": {
+                    "latency_speedup": 1.6,
+                    "compression_ratio": 2.78,
+                    "accuracy_retention": 0.99,
+                    "memory_reduction": 1.78
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-02",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Efficient feature selection for pre-trained vision transformers",
+                    "authors": ["Multiple Authors"],
+                    "venue": "Computer Vision and Image Understanding (Elsevier)",
+                    "year": 2025,
+                    "arxiv_id": "",
+                    "url": "https://www.sciencedirect.com/science/article/abs/pii/S1077314225000499"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "DeiT-B on ImageNet: 64% FLOPs retained (36% reduction) while maintaining accuracy; prunes redundant attention heads and MLP neurons via L1 regularization importance scores"
                 },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "QKV Projection Fusion",
-                "method_name": "QKV Projection Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.1,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.10000000000000009
+                {
+                  "name": "Intra-Head Pruning (IHP)",
+                  "method_name": "Intra-Head Pruning (IHP)",
+                  "techniques": ["prune_magnitude", "structured", "relationship_matrix"],
+                  "performance": {
+                    "latency_speedup": 2.16,
+                    "compression_ratio": 2.16,
+                    "accuracy_retention": 1.005,
+                    "memory_reduction": 1.16
+                  },
+                  "validation": {
+                    "confidence": 0.95,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-06",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Intra-head pruning for vision transformers via inter-layer dimension relationship modeling",
+                    "authors": ["Multiple Authors"],
+                    "venue": "Neural Networks (Elsevier)",
+                    "year": 2025,
+                    "arxiv_id": "",
+                    "url": "https://www.sciencedirect.com/science/article/abs/pii/S0893608025005362"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "positive",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "DeiT-tiny on ImageNet-1K: 46.20% FLOPs reduction with +0.47% Top-1 accuracy vs advanced methods; CCT on CIFAR-10/100: 75% FLOPs reduction with improved accuracy; uses relationship matrix for grouped pruning"
                 },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "MLP Fusion",
-                "method_name": "MLP Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.1,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.10000000000000009
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              }
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "1.1×",
-            "accuracy_impact": "minimal",
-            "universal": true
+                {
+                  "name": "APMA Multi-Head Pruning",
+                  "method_name": "APMA Multi-Head Pruning",
+                  "techniques": ["prune_magnitude", "structured", "multi_head_aware"],
+                  "performance": {
+                    "latency_speedup": 2.0,
+                    "compression_ratio": 3.0,
+                    "accuracy_retention": 1.003,
+                    "memory_reduction": 2.0
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2024-05",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Automatic Channel Pruning for Multi-Head Attention",
+                    "authors": ["Eunho Lee", "Youngbae Hwang"],
+                    "venue": "arXiv",
+                    "year": 2024,
+                    "arxiv_id": "2405.20867",
+                    "url": "https://arxiv.org/abs/2405.20867"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "positive",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "FLatten-Swin-T on ImageNet-1K: +0.3% accuracy vs NViT at equivalent MACs; head-wise similarity-based pruning with automatic indicator adjustment; works with both original and linear attention"
+                }
+              ],
+              "pruning_type": "head",
+              "effectiveness": "high",
+              "validation_needed": false
+            },
+            "structural": {
+              "methods": [
+                {
+                  "name": "Token Pruning with VPA",
+                  "method_name": "Token Pruning with VPA",
+                  "techniques": ["token_reduction", "top_k", "variable_proportional_attention"],
+                  "performance": {
+                    "latency_speedup": 1.88,
+                    "compression_ratio": 1.53,
+                    "accuracy_retention": 0.99,
+                    "memory_reduction": 0.53
+                  },
+                  "validation": {
+                    "confidence": 0.9,
+                    "sample_count": 1,
+                    "validators": 1,
+                    "last_validated": "2025-01",
+                    "validation_method": "direct_paper_extraction"
+                  },
+                  "paper": {
+                    "title": "Automatic pruning rate adjustment for dynamic token reduction in vision transformer",
+                    "authors": ["Multiple Authors"],
+                    "venue": "Applied Intelligence (Springer)",
+                    "year": 2025,
+                    "arxiv_id": "",
+                    "url": "https://link.springer.com/article/10.1007/s10489-025-06265-z"
+                  },
+                  "effectiveness": "high",
+                  "accuracy_impact": "minimal",
+                  "architecture": {
+                    "family": "Transformer",
+                    "variant": "Vanilla_vit"
+                  },
+                  "architecture_family": "Transformer",
+                  "notes": "ViT-L on ImageNet-1K with 6% pruning: 46.8% GPU latency reduction, 42.0% GPU-TRT reduction, 34.9% CPU reduction, 20.8% Edge-TRT reduction; Top-K+VPA outperforms token merging at high pruning rates"
+                }
+              ],
+              "optimization_type": "token_reduction",
+              "effectiveness": "high"
+            }
           },
-          "quantization": {
-            "methods": [
-              {
-                "name": "BoA (Attention-aware Hessian)",
-                "method_name": "BoA (Attention-aware Hessian)",
-                "techniques": [
-                  "quantize_int8",
-                  "attention_aware"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "aespa (Attention-wise Reconstruction)",
-                "method_name": "aespa (Attention-wise Reconstruction)",
-                "techniques": [
-                  "quantize_int8",
-                  "attention_aware"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "PTQ4ViT",
-                "method_name": "PTQ4ViT",
-                "techniques": [
-                  "quantize_int8",
-                  "attention_aware"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "APHQ-ViT",
-                "method_name": "APHQ-ViT",
-                "techniques": [
-                  "quantize_int8",
-                  "attention_aware"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              }
-            ],
-            "bit_widths": [
-              "W8",
-              "W4",
-              "W3",
-              "W2"
-            ],
-            "effectiveness": "high",
-            "compression_ratio": "4×",
-            "requires_activation_quant": true
+          "model_characteristics": {
+            "architecture_type": "transformer",
+            "key_components": ["patch_embedding", "multi_head_attention", "mlp", "layer_norm"],
+            "has_batch_norm": false,
+            "has_layer_norm": true,
+            "optimization_challenges": ["attention_quantization", "post_layernorm_activation", "post_gelu_activation"]
           },
-          "pruning": {
-            "methods": [
-              {
-                "name": "Attention Head Pruning",
-                "method_name": "Attention Head Pruning",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "MLP Dimension Pruning",
-                "method_name": "MLP Dimension Pruning",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "Layer Pruning (Depth Reduction)",
-                "method_name": "Layer Pruning (Depth Reduction)",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              }
-            ],
-            "pruning_type": "head",
-            "effectiveness": "high",
-            "validation_needed": true
-          },
-          "structural": {
-            "methods": [
-              {
-                "name": "Patch Merging",
-                "method_name": "Patch Merging",
-                "techniques": [
-                  "topology_optimization"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "Token Dimension Reduction",
-                "method_name": "Token Dimension Reduction",
-                "techniques": [
-                  "topology_optimization"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Vanilla_vit"
-                },
-                "architecture_family": "Transformer"
-              }
-            ],
-            "optimization_type": "topology",
-            "effectiveness": "medium"
+          "calibration_free_status": {
+            "available_methods": "abundant",
+            "research_gap": false,
+            "recommended_approach": "PTQ4ViT achieves <0.5% accuracy drop at 8-bit with twin uniform quantization and Hessian guidance; BoA enables 2-4 bit backpropagation-free quantization with 8-13% accuracy improvement over naive methods; aespa provides 10× faster quantization than block-wise approaches while maintaining near-FP32 performance at 4-bit"
           }
         },
-        "model_characteristics": {
-          "architecture_type": "transformer",
-          "key_components": [
-            "patch_embedding",
-            "multi_head_attention",
-            "mlp",
-            "layer_norm"
-          ],
-          "has_batch_norm": false,
-          "has_layer_norm": true,
-          "optimization_challenges": [
-            "attention_quantization",
-            "post_layernorm_activation",
-            "post_gelu_activation"
-          ]
-        },
-        "calibration_free_status": {
-          "available_methods": "abundant",
-          "research_gap": false,
-          "recommended_approach": "BoA for backpropagation-free quantization or aespa for 10× faster than block-wise methods"
-        }
-      },
-      "swin_transformer": {
-        "optimization_methods": {
-          "fusion": {
-            "methods": [
-              {
-                "name": "LayerNorm Fusion",
-                "method_name": "LayerNorm Fusion",
-                "techniques": [
-                  "fuse_layers"
+          "swin_transformer": {
+            "optimization_methods": {
+              "fusion": {
+                "methods": [
+                  {
+                    "name": "LayerNorm Fusion",
+                    "method_name": "LayerNorm Fusion",
+                    "techniques": ["fuse_layers"],
+                    "performance": {
+                      "latency_speedup": 1.1,
+                      "compression_ratio": 1.0,
+                      "accuracy_retention": 1.0,
+                      "memory_reduction": 0.0
+                    },
+                    "validation": {
+                      "confidence": 0.7,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024-11",
+                      "validation_method": "literature_review"
+                    },
+                    "paper": {
+                      "title": "Standard optimization technique for Swin Transformer",
+                      "authors": ["Various"],
+                      "venue": "Industry Standard Practice",
+                      "year": 2021,
+                      "arxiv_id": "",
+                      "url": "https://github.com/microsoft/Swin-Transformer"
+                    },
+                    "effectiveness": "medium",
+                    "accuracy_impact": "zero",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer"
+                  }
                 ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.15,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.1499999999999999
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
                 "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
+                "compression_ratio": "1.1×",
+                "accuracy_impact": "zero",
+                "universal": false
               },
-              {
-                "name": "Window Partition Fusion",
-                "method_name": "Window Partition Fusion",
-                "techniques": [
-                  "fuse_layers"
+              "quantization": {
+                "methods": [
+                  {
+                    "name": "PTQ4ViT W8A8 Swin",
+                    "method_name": "PTQ4ViT W8A8 Swin",
+                    "techniques": ["quantize_int8", "twin_uniform", "hessian_guided"],
+                    "performance": {
+                      "latency_speedup": 1.8,
+                      "compression_ratio": 4.0,
+                      "accuracy_retention": 0.998,
+                      "memory_reduction": 3.0
+                    },
+                    "validation": {
+                      "confidence": 0.95,
+                      "sample_count": 4,
+                      "validators": 1,
+                      "last_validated": "2022-07",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "PTQ4ViT: Post-training Quantization for Vision Transformers with Twin Uniform Quantization",
+                      "authors": ["Zhihang Yuan", "Chenhao Xue", "Yiqi Chen", "Qiang Wu", "Guangyu Sun"],
+                      "venue": "ECCV",
+                      "year": 2022,
+                      "arxiv_id": "2111.12293",
+                      "url": "https://arxiv.org/abs/2111.12293"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin transformers 8-bit on ImageNet: <0.15% accuracy drop (better than ViT/DeiT); windowed attention reduces post-softmax imbalance; larger Swin models more robust to quantization"
+                  },
+                  {
+                    "name": "NVIDIA FasterTransformer Swin INT8",
+                    "method_name": "NVIDIA FasterTransformer Swin INT8",
+                    "techniques": ["quantize_int8", "post_training", "selective_quantization"],
+                    "performance": {
+                      "latency_speedup": 1.5,
+                      "compression_ratio": 4.0,
+                      "accuracy_retention": 0.995,
+                      "memory_reduction": 3.0
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024",
+                      "validation_method": "direct_benchmark_extraction"
+                    },
+                    "paper": {
+                      "title": "NVIDIA FasterTransformer Swin Quantization",
+                      "authors": ["NVIDIA"],
+                      "venue": "NVIDIA GitHub",
+                      "year": 2024,
+                      "arxiv_id": "",
+                      "url": "https://github.com/NVIDIA/FasterTransformer"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin-T/S/B: negligible accuracy loss with INT8-mode 1; Swin-L requires INT8-mode 2 (fc2 and PatchMerge outputs in FP32) for satisfactory PTQ; uses 10 calibration batches"
+                  },
+                  {
+                    "name": "BoA Swin Transformer",
+                    "method_name": "BoA Swin Transformer",
+                    "techniques": ["quantize_int4", "quantize_int3", "quantize_int2", "backpropagation_free", "attention_aware"],
+                    "performance": {
+                      "latency_speedup": 3.0,
+                      "compression_ratio": 8.0,
+                      "accuracy_retention": 0.92,
+                      "memory_reduction": 7.0
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2025-06",
+                      "validation_method": "cross_reference"
+                    },
+                    "paper": {
+                      "title": "BoA: Attention-aware Post-training Quantization without Backpropagation",
+                      "authors": ["Junhan Kim", "Ho-young Kim", "Eulrang Cho", "Chungman Lee", "Joonyoung Kim", "Yongkweon Jeon"],
+                      "venue": "ICML",
+                      "year": 2025,
+                      "arxiv_id": "2406.13474",
+                      "url": "https://arxiv.org/abs/2406.13474"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "moderate",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Applicable to Swin; 2-4 bit quantization with backpropagation-free attention-aware Hessian; considers inter-layer dependencies in windowed attention"
+                  },
+                  {
+                    "name": "aespa Swin Transformer",
+                    "method_name": "aespa Swin Transformer",
+                    "techniques": ["quantize_int4", "quantize_int2", "attention_wise", "layer_wise"],
+                    "performance": {
+                      "latency_speedup": 10.0,
+                      "compression_ratio": 8.0,
+                      "accuracy_retention": 0.94,
+                      "memory_reduction": 7.0
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024-11",
+                      "validation_method": "cross_reference"
+                    },
+                    "paper": {
+                      "title": "Towards Next-Level Post-Training Quantization of Hyper-Scale Transformers",
+                      "authors": ["Yongkweon Jeon", "et al."],
+                      "venue": "NeurIPS",
+                      "year": 2024,
+                      "arxiv_id": "2402.08958",
+                      "url": "https://arxiv.org/abs/2402.08958"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "moderate",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Applicable to Swin; 10× faster than block-wise methods; attention-wise reconstruction for hierarchical transformers; 4-bit near-FP32 performance"
+                  }
                 ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.15,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.1499999999999999
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "Patch Merging Fusion",
-                "method_name": "Patch Merging Fusion",
-                "techniques": [
-                  "fuse_layers"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.15,
-                  "accuracy_retention": 0.95,
-                  "memory_reduction": 0.1499999999999999
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
-              }
-            ],
-            "effectiveness": "medium",
-            "compression_ratio": "1.15×",
-            "accuracy_impact": "minimal",
-            "universal": false
-          },
-          "quantization": {
-            "methods": [
-              {
-                "name": "BoA (Attention-aware Hessian)",
-                "method_name": "BoA (Attention-aware Hessian)",
-                "techniques": [
-                  "quantize_int8",
-                  "attention_aware"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
+                "bit_widths": ["W8", "W4", "W3", "W2"],
                 "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
+                "compression_ratio": "4-8×",
+                "requires_activation_quant": true
               },
-              {
-                "name": "aespa (Attention-wise Reconstruction)",
-                "method_name": "aespa (Attention-wise Reconstruction)",
-                "techniques": [
-                  "quantize_int8",
-                  "attention_aware"
+              "pruning": {
+                "methods": [
+                  {
+                    "name": "DIMAP Module-Aware Pruning",
+                    "method_name": "DIMAP Module-Aware Pruning",
+                    "techniques": ["prune_magnitude", "structured", "module_aware"],
+                    "performance": {
+                      "latency_speedup": 2.11,
+                      "compression_ratio": 2.11,
+                      "accuracy_retention": 0.999,
+                      "memory_reduction": 1.11
+                    },
+                    "validation": {
+                      "confidence": 0.95,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "Data-independent Module-aware Pruning for Hierarchical Vision Transformers",
+                      "authors": ["Multiple Authors"],
+                      "venue": "ICLR",
+                      "year": 2024,
+                      "arxiv_id": "",
+                      "url": "https://openreview.net/forum?id=7Ol6foUi1G"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin-B on ImageNet-1K: 52.5% FLOPs reduction, 52.7% parameter reduction with only 0.07% top-5 accuracy drop; module-aware approach for hierarchical levels; data-independent weight metric"
+                  },
+                  {
+                    "name": "DC-ViT Dense Compression (Swin)",
+                    "method_name": "DC-ViT Dense Compression (Swin)",
+                    "techniques": ["prune_magnitude", "structured", "few_shot"],
+                    "performance": {
+                      "latency_speedup": 1.5,
+                      "compression_ratio": 1.5,
+                      "accuracy_retention": 0.98,
+                      "memory_reduction": 0.5
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "Dense Vision Transformer Compression with Few Samples",
+                      "authors": ["Hanxiao Zhang", "Yifan Zhou", "et al."],
+                      "venue": "CVPR",
+                      "year": 2024,
+                      "arxiv_id": "",
+                      "url": "https://cs.nju.edu.cn/_upload/tpl/00/ed/237/template237/paper/DCViT_CVPR2024.pdf"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin on ImageNet: few-shot compression (500-1000 images); achieves comparable accuracy to full-dataset methods using <0.1% training data; progressive compression strategy"
+                  },
+                  {
+                    "name": "VBP Variance-Based Pruning (Swin)",
+                    "method_name": "VBP Variance-Based Pruning (Swin)",
+                    "techniques": ["prune_magnitude", "structured", "variance_based"],
+                    "performance": {
+                      "latency_speedup": 1.3,
+                      "compression_ratio": 1.3,
+                      "accuracy_retention": 0.99,
+                      "memory_reduction": 0.3
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2025-07",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "Variance-Based Pruning for Accelerating and Compressing Trained Networks",
+                      "authors": ["Multiple Authors"],
+                      "venue": "arXiv",
+                      "year": 2025,
+                      "arxiv_id": "2507.12988",
+                      "url": "https://arxiv.org/abs/2507.12988"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin-Base on ImageNet: competitive accuracy with MACs/parameter reductions; applies to MLP layers with 20% pruning rate; brief fine-tuning required"
+                  },
+                  {
+                    "name": "VTC-LFC Low-Frequency Compression (Swin)",
+                    "method_name": "VTC-LFC Low-Frequency Compression (Swin)",
+                    "techniques": ["prune_magnitude", "structured", "frequency_domain"],
+                    "performance": {
+                      "latency_speedup": 1.4,
+                      "compression_ratio": 1.51,
+                      "accuracy_retention": 1.01,
+                      "memory_reduction": 0.51
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2022",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "VTC-LFC: Vision Transformer Compression with Low-Frequency Components",
+                      "authors": ["Multiple Authors"],
+                      "venue": "NeurIPS",
+                      "year": 2022,
+                      "arxiv_id": "",
+                      "url": "https://papers.neurips.cc/paper_files/paper/2022/file/5a8177df23bdcc15a02a6739f5b9dd4a-Paper-Conference.pdf"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "positive",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin on ImageNet: 3.3G FLOPs, 17.1M params vs SPViT 3.4G/25.8M and STEP 3.5G/23.6M; achieves 0.2-3.1% higher accuracy; leverages low-frequency characteristics"
+                  }
                 ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
+                "bit_widths": ["W8", "W4", "W3", "W2"],
                 "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
+                "compression_ratio": "4-8×",
+                "requires_activation_quant": true
               },
-              {
-                "name": "Window Attention Quantization",
-                "method_name": "Window Attention Quantization",
-                "techniques": [
-                  "quantize_int8",
-                  "weight_only",
-                  "attention_aware"
+              "pruning": {
+                "methods": [
+                  {
+                    "name": "DIMAP Module-Aware Pruning",
+                    "method_name": "DIMAP Module-Aware Pruning",
+                    "techniques": ["prune_magnitude", "structured", "module_aware"],
+                    "performance": {
+                      "latency_speedup": 2.11,
+                      "compression_ratio": 2.11,
+                      "accuracy_retention": 0.999,
+                      "memory_reduction": 1.11
+                    },
+                    "validation": {
+                      "confidence": 0.95,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "Data-independent Module-aware Pruning for Hierarchical Vision Transformers",
+                      "authors": ["Multiple Authors"],
+                      "venue": "ICLR",
+                      "year": 2024,
+                      "arxiv_id": "",
+                      "url": "https://openreview.net/forum?id=7Ol6foUi1G"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin-B on ImageNet-1K: 52.5% FLOPs reduction, 52.7% parameter reduction, only 0.07% top-5 accuracy drop; treats hierarchical levels as modules; data-independent metric"
+                  },
+                  {
+                    "name": "DC-ViT Dense Compression (Swin)",
+                    "method_name": "DC-ViT Dense Compression (Swin)",
+                    "techniques": ["prune_magnitude", "structured", "few_shot"],
+                    "performance": {
+                      "latency_speedup": 1.5,
+                      "compression_ratio": 1.5,
+                      "accuracy_retention": 0.98,
+                      "memory_reduction": 0.5
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2024",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "Dense Vision Transformer Compression with Few Samples",
+                      "authors": ["Hanxiao Zhang", "Yifan Zhou", "et al."],
+                      "venue": "CVPR",
+                      "year": 2024,
+                      "arxiv_id": "",
+                      "url": "https://cs.nju.edu.cn/_upload/tpl/00/ed/237/template237/paper/DCViT_CVPR2024.pdf"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "minimal",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin-Base: few-shot compression with 500-1000 images (<0.1% training data); removes 4 complete Swin blocks; achieves competitive accuracy vs full-dataset methods"
+                  },
+                  {
+                    "name": "VTC-LFC Low-Frequency Compression",
+                    "method_name": "VTC-LFC Low-Frequency Compression",
+                    "techniques": ["prune_magnitude", "structured", "frequency_domain"],
+                    "performance": {
+                      "latency_speedup": 1.4,
+                      "compression_ratio": 1.51,
+                      "accuracy_retention": 1.01,
+                      "memory_reduction": 0.51
+                    },
+                    "validation": {
+                      "confidence": 0.9,
+                      "sample_count": 1,
+                      "validators": 1,
+                      "last_validated": "2022",
+                      "validation_method": "direct_paper_extraction"
+                    },
+                    "paper": {
+                      "title": "VTC-LFC: Vision Transformer Compression with Low-Frequency Components",
+                      "authors": ["Multiple Authors"],
+                      "venue": "NeurIPS",
+                      "year": 2022,
+                      "arxiv_id": "",
+                      "url": "https://papers.neurips.cc/paper_files/paper/2022/file/5a8177df23bdcc15a02a6739f5b9dd4a-Paper-Conference.pdf"
+                    },
+                    "effectiveness": "high",
+                    "accuracy_impact": "positive",
+                    "architecture": {
+                      "family": "Transformer",
+                      "variant": "Swin_transformer"
+                    },
+                    "architecture_family": "Transformer",
+                    "notes": "Swin: 3.3G FLOPs, 17.1M params with +0.2-3.1% accuracy improvement vs SPViT/STEP; frequency-domain pruning outperforms spatial-domain methods"
+                  }
                 ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 4.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 3.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
+                "pruning_type": "head",
                 "effectiveness": "high",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
+                "validation_needed": false
               }
-            ],
-            "bit_widths": [
-              "W8",
-              "W4",
-              "W3",
-              "W2"
-            ],
-            "effectiveness": "high",
-            "compression_ratio": "4×",
-            "requires_activation_quant": true
-          },
-          "pruning": {
-            "methods": [
-              {
-                "name": "Window Attention Head Pruning",
-                "method_name": "Window Attention Head Pruning",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
-              },
-              {
-                "name": "Stage Pruning",
-                "method_name": "Stage Pruning",
-                "techniques": [
-                  "prune_magnitude",
-                  "structured"
-                ],
-                "performance": {
-                  "latency_speedup": 1.0,
-                  "compression_ratio": 1.0,
-                  "accuracy_retention": 1.0,
-                  "memory_reduction": 0.0
-                },
-                "validation": {
-                  "confidence": 0.5,
-                  "sample_count": 0,
-                  "validators": 0,
-                  "last_validated": null,
-                  "validation_method": "unknown"
-                },
-                "paper": {
-                  "title": "",
-                  "authors": [],
-                  "venue": "",
-                  "year": 0,
-                  "arxiv_id": "",
-                  "url": ""
-                },
-                "effectiveness": "medium",
-                "accuracy_impact": "minimal",
-                "architecture": {
-                  "family": "Transformer",
-                  "variant": "Swin_transformer"
-                },
-                "architecture_family": "Transformer"
-              }
-            ],
-            "pruning_type": "head",
-            "effectiveness": "medium",
-            "validation_needed": true
+            },
+            "model_characteristics": {
+              "architecture_type": "transformer",
+              "key_components": ["shifted_window_attention", "patch_merging", "hierarchical_stages", "layer_norm"],
+              "has_batch_norm": false,
+              "has_layer_norm": true,
+              "optimization_challenges": ["window_based_attention", "hierarchical_quantization", "shifted_window_mechanism"]
+            },
+            "calibration_free_status": {
+              "available_methods": "abundant",
+              "research_gap": false,
+              "recommended_approach": "PTQ4ViT achieves <0.15% accuracy drop at 8-bit for Swin (better than vanilla ViT due to windowed attention); DIMAP enables 52.5% FLOPs/params reduction with 0.07% top-5 accuracy drop; BoA and aespa support 2-4 bit quantization with hierarchical stage awareness"
+            }
           }
-        },
-        "model_characteristics": {
-          "architecture_type": "transformer",
-          "key_components": [
-            "shifted_window_attention",
-            "patch_merging",
-            "hierarchical_stages",
-            "layer_norm"
-          ],
-          "has_batch_norm": false,
-          "has_layer_norm": true,
-          "optimization_challenges": [
-            "window_based_attention",
-            "hierarchical_quantization",
-            "shifted_window_mechanism"
-          ]
-        },
-        "calibration_free_status": {
-          "available_methods": "abundant",
-          "research_gap": false,
-          "recommended_approach": "BoA or aespa with hierarchical stage consideration"
-        }
       },
       "deit": {
         "optimization_methods": {
@@ -4840,8 +4766,7 @@
           "recommended_approach": "Swin quantization methods + transformer decoder PTQ"
         }
       }
-    }
-  },
+    },
   "hybrid_architectures": {
     "cnn_transformer_hybrids": {
       "coatnet": {

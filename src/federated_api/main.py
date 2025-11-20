@@ -38,11 +38,14 @@ def create_app() -> FastAPI:
             service = TreeService()
             tree_id = "default"
             
-            # Try multiple possible paths for the file
+            # Try multiple possible paths for the file (prefer v2, fallback to v1)
             possible_paths = [
-                "backups/base_tree.json",  # Relative to project root
+                "backups/base_tree_v2.json",  # Updated taxonomy (v2)
+                "backups/base_tree.json",  # Original taxonomy (fallback)
+                os.path.join(os.path.dirname(__file__), "..", "..", "backups", "base_tree_v2.json"),  # From src/federated_api
                 os.path.join(os.path.dirname(__file__), "..", "..", "backups", "base_tree.json"),  # From src/federated_api
-                "/app/backups/base_tree.json",  # Docker container path
+                "/app/backups/base_tree_v2.json",  # Docker container path (v2)
+                "/app/backups/base_tree.json",  # Docker container path (fallback)
             ]
             
             file_path = None

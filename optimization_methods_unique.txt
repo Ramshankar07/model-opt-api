@@ -1,0 +1,142 @@
+================================================================================
+Unique Optimization Method Names: 138
+================================================================================
+
+  1. APMA Multi-Head Pruning
+  2. AQD 2-bit RetinaNet-ResNet18
+  3. AnyNet Block Quantization
+  4. Attention Head Pruning (Transformer Blocks)
+  5. Attention Head Pruning (ViT Blocks)
+  6. BOE-NMS
+  7. BRECQ (Block Reconstruction PTQ)
+  8. Block Pruning
+  9. Block Pruning (Weight-Based)
+ 10. BoA (Attention-aware Hessian)
+ 11. BoA Swin Transformer
+ 12. Bottleneck Optimization
+ 13. CAP-YOLO Channel Attention Pruning
+ 14. Channel Pruning
+ 15. Channel Pruning (CNN Blocks)
+ 16. Channel Pruning (Depthwise)
+ 17. Channel Pruning (MobileNet Blocks)
+ 18. Codebook Quantization
+ 19. Conv-BN Fusion
+ 20. Conv-BN Fusion (Backbone)
+ 21. Conv-BN Fusion (CNN Blocks)
+ 22. Conv-BN Fusion (Encoder/Decoder)
+ 23. Conv-BN Fusion (MobileNet Blocks)
+ 24. Conv-BN Fusion (Neck)
+ 25. Conv-BN Fusion (Vision Encoder)
+ 26. Conv-ReLU Fusion
+ 27. Convolutional Projection Fusion
+ 28. Convolutional Projection Quantization
+ 29. Convolutional Token Embedding Quantization
+ 30. Cross-Attention Quantization
+ 31. DC-ViT Dense Compression (Swin)
+ 32. DIMAP Module-Aware Pruning
+ 33. Depthwise Conv Quantization
+ 34. Depthwise-Pointwise Fusion
+ 35. Dimension-wise ViT Pruning
+ 36. Distillation Token Quantization
+ 37. Distillation Token Removal
+ 38. EffiSelecViT Head/MLP Pruning
+ 39. EfficientQuant
+ 40. Encoder-Decoder Fusion
+ 41. FPGM (Geometric Median Pruning)
+ 42. Feature Maps Clustering Pruning
+ 43. Filter Pruning (Weight Magnitude)
+ 44. Graph Fusion (Conv+BN+ReLU)
+ 45. HQOD 4-bit RetinaNet-ResNet18
+ 46. Half-UNet Channel Reduction
+ 47. Hardware-Aware Quantization (HAQ)
+ 48. Hierarchical Stage Fusion
+ 49. HyQ
+ 50. Intra-Head Pruning (IHP)
+ 51. Inverted Bottleneck Fusion
+ 52. Inverted Residual Fusion
+ 53. Inverted Residual Quantization
+ 54. L1-norm Filter Pruning
+ 55. Large Kernel Quantization
+ 56. Layer Scale Fusion
+ 57. LayerNorm Fusion
+ 58. M2-ViT
+ 59. MBConv Fusion
+ 60. MBConv Quantization
+ 61. Masked Token Quantization
+ 62. Mix-QViT
+ 63. Multi-Modal Feature Fusion
+ 64. Multi-layer Filter Pruning (SSD300)
+ 65. Multi-layer Filter Pruning (SSD512)
+ 66. Multi-scale Feature Fusion
+ 67. NVIDIA FasterTransformer Swin INT8
+ 68. Object Query Quantization
+ 69. P4Q (Prompt for Quantization)
+ 70. PTQ4ViT W8A8
+ 71. PTQ4ViT W8A8 Swin
+ 72. Path Pruning
+ 73. Per-Channel Weight Quantization
+ 74. Per-Layer Weight Quantization
+ 75. Pixel Decoder Quantization
+ 76. Pointwise Conv Quantization
+ 77. Projection Layer Fusion
+ 78. Q-HyViT
+ 79. Q-VLM
+ 80. QADS (Per-channel Scaling)
+ 81. QSI-NMS
+ 82. QuantU-Net Trainable Bitwidth
+ 83. Quantized Prompt
+ 84. Reconstruction Head Removal
+ 85. Relative Attention Quantization
+ 86. ResNeXt (Bottleneck Restructuring)
+ 87. Residual Connection Fusion
+ 88. RetinaNet-ResNet18 FQN 4-bit
+ 89. RetinaNet-ResNet50 INT8 TensorRT
+ 90. SI-driven U-Net Compression
+ 91. SSD-MobileNet Channel Pruning + Quantization
+ 92. SSD-MobileNetV1 INT8 (COCO)
+ 93. SSD-MobileNetV2 INT8 (COCO)
+ 94. SSD-VGG16 INT8 (Pascal VOC)
+ 95. SSDLite-MobileNetV2 Partial INT8
+ 96. Self-Attention Quantization
+ 97. Separable Conv Quantization
+ 98. Sequential Layer Fusion
+ 99. Skip Connection Optimization (Tailor)
+100. SlimYOLOv3 L1-norm Channel Pruning
+101. Soft-NMS
+102. Stage Pruning
+103. Stage Transition Fusion
+104. Stem Fusion
+105. Structured Layer Pruning
+106. Tailor (Skip Connection Optimization)
+107. Taylor-FO-BN (BN Scale Pruning)
+108. Text Encoder Pruning
+109. ThiNet (Layer-wise Pruning)
+110. Token Pruning with VPA
+111. Transformer Decoder Quantization
+112. Transformer-Conv Transition Fusion
+113. U-Net Fixed-Point W4A6
+114. U-Net PTQ INT8 (TensorRT)
+115. VLCQ (Variable-Length Coding)
+116. VTC-LFC Low-Frequency Compression
+117. Vision Encoder Pruning
+118. Weight Clustering (K-means)
+119. Weight Pruning-UNet
+120. Weight-Only Quantization
+121. Weight-Only Quantization (CNN Blocks)
+122. Weight-Only Quantization (Encoder)
+123. Weight-Only Quantization (Encoder/Decoder)
+124. Weight-Only Quantization (Q-Former)
+125. Weight-Only Quantization (Swin Backbone)
+126. Weight-Only Quantization (Text Decoder)
+127. Weight-Only Quantization (Transformer Blocks)
+128. Weight-Only Quantization (Vision Encoder)
+129. Width Multiplier Adjustment
+130. YOLO-X Tiny INT8 PTQ
+131. YOLOv4 Channel Pruning
+132. YOLOv5 DLA INT8 QAT
+133. YOLOv5 L1-norm Pruning
+134. YOLOv6+ INT8 PTQ
+135. YOLOv7 C-shape-wise PWLQ 4-bit
+136. aespa (Attention-wise Reconstruction)
+137. aespa Swin Transformer
+138. eQSI-NMS

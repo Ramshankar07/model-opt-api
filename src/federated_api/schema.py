@@ -9,6 +9,7 @@ The schema supports multiple optimization categories:
 - Fusion (layer, block, graph fusion)
 - Pruning (structured, unstructured)
 - Structural optimizations (topology, algorithm, parameter adjustment)
+- Decomposition (SVD, low-rank factorization, tensor decomposition)
 
 Each method includes full paper metadata: title, link, venue, year, authors, etc.
 

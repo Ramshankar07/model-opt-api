@@ -1,0 +1,2466 @@
+{
+  "cnn_based_models": {
+    "classification": {
+      "resnet": {
+        "optimization_methods": {
+          "quantization": {
+            "methods": [
+              {
+                "name": "INT8 Per-Channel Weight-Only Quantization",
+                "method_name": "int8_per_channel",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "per_channel_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "FP16 Quantization",
+                "method_name": "fp16",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "half_precision"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "INT8 Per-Tensor Weight-Only Quantization",
+                "method_name": "int8_per_tensor",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "per_tensor_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "INT8 Weight Equalization",
+                "method_name": "int8_weight_equalization",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "weight_equalization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Data-Free Quantization (DFQ)",
+                "method_name": "dfq",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "data_free_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Zero-Shot Quantization (ZeroQ)",
+                "method_name": "zeroq",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "zero_shot_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "MinMax PTQ",
+                "method_name": "minmax_ptq",
+                "mode_class": "calibrated_quantizer",
+                "techniques": [
+                  "minmax_calibration"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Entropy PTQ",
+                "method_name": "entropy_ptq",
+                "mode_class": "calibrated_quantizer",
+                "techniques": [
+                  "entropy_calibration"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "BRECQ",
+                "method_name": "brecq",
+                "mode_class": "calibrated_quantizer",
+                "techniques": [
+                  "block_reconstruction"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "pruning": {
+            "methods": [
+              {
+                "name": "Global L1 Pruning",
+                "method_name": "l1_norm_channel",
+                "mode_class": "l1_norm_channel_pruner",
+                "techniques": [
+                  "l1_norm_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Global L2 Pruning",
+                "method_name": "magnitude_filter",
+                "mode_class": "magnitude_filter_pruner",
+                "techniques": [
+                  "l2_norm_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "FPGM Pruning",
+                "method_name": "fpgm",
+                "mode_class": "structured_pruner",
+                "techniques": [
+                  "geometric_median_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Channel Pruning by Magnitude",
+                "method_name": "bn_scale_channel",
+                "mode_class": "bn_scale_channel_pruner",
+                "techniques": [
+                  "bn_scaling_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Reconstruction-Based Channel Pruning",
+                "method_name": "reconstruction_channel",
+                "mode_class": "reconstruction_channel_pruner",
+                "techniques": [
+                  "reconstruction_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Bottleneck Pruning",
+                "method_name": "bottleneck",
+                "mode_class": "bottleneck_pruner",
+                "techniques": [
+                  "bottleneck_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "fusion": {
+            "methods": [
+              {
+                "name": "Conv-BN Fusion",
+                "method_name": "conv_bn",
+                "mode_class": "conv_bn_fuser",
+                "techniques": [
+                  "fuse_layers"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Conv-BN-ReLU Fusion",
+                "method_name": "conv_bn_relu",
+                "mode_class": "conv_bn_relu_fuser",
+                "techniques": [
+                  "sequential_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Conv-BN-GELU Fusion",
+                "method_name": "conv_bn_gelu",
+                "mode_class": "conv_bn_gelu_fuser",
+                "techniques": [
+                  "activation_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Skip Connection Fusion",
+                "method_name": "skip_connection",
+                "mode_class": "skip_connection_fuser",
+                "techniques": [
+                  "residual_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Stem Fusion",
+                "method_name": "stem",
+                "mode_class": "stem_fuser",
+                "techniques": [
+                  "initial_layer_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Stage Transition Fusion",
+                "method_name": "stage_transition",
+                "mode_class": "stage_transition_fuser",
+                "techniques": [
+                  "stage_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "decomposition": {
+            "methods": [
+              {
+                "name": "SVD Decomposition (95% Energy)",
+                "method_name": "svd",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "singular_value_decomposition"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Low-Rank Factorization",
+                "method_name": "low_rank",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "low_rank_factorization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Tucker-2 Decomposition",
+                "method_name": "tucker",
+                "mode_class": "tucker_decomposer",
+                "techniques": [
+                  "tucker_decomposition"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "CP Decomposition",
+                "method_name": "cp",
+                "mode_class": "cp_decomposer",
+                "techniques": [
+                  "cp_decomposition"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "ResNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          }
+        },
+        "model_characteristics": {
+          "architecture_type": "cnn",
+          "key_components": [
+            "residual_blocks",
+            "skip_connections",
+            "batch_norm"
+          ],
+          "has_batch_norm": true,
+          "has_layer_norm": false,
+          "optimization_challenges": [
+            "skip_connection_memory",
+            "channel_redundancy"
+          ]
+        }
+      },
+      "mobilenet": {
+        "optimization_methods": {
+          "quantization": {
+            "methods": [
+              {
+                "name": "INT8 Per-Channel Weight-Only Quantization",
+                "method_name": "int8_per_channel",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "per_channel_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "FP16 Quantization",
+                "method_name": "fp16",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "half_precision"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "pruning": {
+            "methods": [
+              {
+                "name": "Global L1 Pruning",
+                "method_name": "l1_norm_channel",
+                "mode_class": "l1_norm_channel_pruner",
+                "techniques": [
+                  "l1_norm_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "fusion": {
+            "methods": [
+              {
+                "name": "Depthwise-Pointwise Fusion",
+                "method_name": "depthwise_pointwise",
+                "mode_class": "depthwise_pointwise_fuser",
+                "techniques": [
+                  "depthwise_separable_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Inverted Residual Fusion",
+                "method_name": "inverted_residual",
+                "mode_class": "inverted_residual_fuser",
+                "techniques": [
+                  "inverted_residual_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Conv-BN Fusion",
+                "method_name": "conv_bn",
+                "mode_class": "conv_bn_fuser",
+                "techniques": [
+                  "fuse_layers"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "decomposition": {
+            "methods": [
+              {
+                "name": "SVD Decomposition (95% Energy)",
+                "method_name": "svd",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "singular_value_decomposition"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "MobileNet"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          }
+        },
+        "model_characteristics": {
+          "architecture_type": "cnn",
+          "key_components": [
+            "depthwise_separable_conv",
+            "inverted_residuals",
+            "batch_norm"
+          ],
+          "has_batch_norm": true,
+          "has_layer_norm": false,
+          "optimization_challenges": [
+            "depthwise_conv_efficiency",
+            "channel_imbalance"
+          ]
+        }
+      }
+    },
+    "detection": {
+      "yolo": {
+        "optimization_methods": {
+          "quantization": {
+            "methods": [
+              {
+                "name": "INT8 Per-Channel Weight-Only Quantization",
+                "method_name": "int8_per_channel",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "per_channel_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "YOLO"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "pruning": {
+            "methods": [
+              {
+                "name": "Global L1 Pruning",
+                "method_name": "l1_norm_channel",
+                "mode_class": "l1_norm_channel_pruner",
+                "techniques": [
+                  "l1_norm_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "YOLO"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "fusion": {
+            "methods": [
+              {
+                "name": "Detection Head Fusion",
+                "method_name": "detection_head",
+                "mode_class": "detection_head_fuser",
+                "techniques": [
+                  "detection_head_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "YOLO"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Conv-BN Fusion",
+                "method_name": "conv_bn",
+                "mode_class": "conv_bn_fuser",
+                "techniques": [
+                  "fuse_layers"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "YOLO"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "decomposition": {
+            "methods": [
+              {
+                "name": "SVD Decomposition (95% Energy)",
+                "method_name": "svd",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "singular_value_decomposition"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "YOLO"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          }
+        },
+        "model_characteristics": {
+          "architecture_type": "cnn",
+          "key_components": [
+            "detection_heads",
+            "feature_pyramid",
+            "batch_norm"
+          ],
+          "has_batch_norm": true,
+          "has_layer_norm": false,
+          "optimization_challenges": [
+            "multi_scale_detection",
+            "head_complexity"
+          ]
+        }
+      }
+    },
+    "segmentation": {
+      "unet": {
+        "optimization_methods": {
+          "quantization": {
+            "methods": [
+              {
+                "name": "INT8 Per-Channel Weight-Only Quantization",
+                "method_name": "int8_per_channel",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "per_channel_quantization"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "U-Net"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "pruning": {
+            "methods": [
+              {
+                "name": "Global L1 Pruning",
+                "method_name": "l1_norm_channel",
+                "mode_class": "l1_norm_channel_pruner",
+                "techniques": [
+                  "l1_norm_pruning"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "U-Net"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "fusion": {
+            "methods": [
+              {
+                "name": "Encoder-Decoder Fusion",
+                "method_name": "encoder_decoder",
+                "mode_class": "encoder_decoder_fuser",
+                "techniques": [
+                  "encoder_decoder_fusion"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "U-Net"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Conv-BN Fusion",
+                "method_name": "conv_bn",
+                "mode_class": "conv_bn_fuser",
+                "techniques": [
+                  "fuse_layers"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "U-Net"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "decomposition": {
+            "methods": [
+              {
+                "name": "SVD Decomposition (95% Energy)",
+                "method_name": "svd",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "singular_value_decomposition"
+                ],
+                "architecture": {
+                  "family": "CNN",
+                  "variant": "U-Net"
+                },
+                "architecture_family": "CNN",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          }
+        },
+        "model_characteristics": {
+          "architecture_type": "cnn",
+          "key_components": [
+            "encoder_decoder",
+            "skip_connections",
+            "upsampling"
+          ],
+          "has_batch_norm": true,
+          "has_layer_norm": false,
+          "optimization_challenges": [
+            "encoder_decoder_balance",
+            "skip_connection_overhead"
+          ]
+        }
+      }
+    }
+  },
+  "transformer_based_models": {
+    "vision": {
+      "vit": {
+        "optimization_methods": {
+          "quantization": {
+            "methods": [
+              {
+                "name": "PTQ4ViT",
+                "method_name": "ptq4vit",
+                "mode_class": "ptq4vit_quantizer",
+                "techniques": [
+                  "twin_uniform_quantization"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "FQ-ViT",
+                "method_name": "fq_vit",
+                "mode_class": "fq_vit_quantizer",
+                "techniques": [
+                  "fully_quantized_vit"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "I-ViT",
+                "method_name": "i_vit",
+                "mode_class": "calibrated_quantizer",
+                "techniques": [
+                  "information_rectification"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "INT8 Per-Channel Weight-Only Quantization",
+                "method_name": "int8_per_channel",
+                "mode_class": "weight_only_quantizer",
+                "techniques": [
+                  "per_channel_quantization"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "pruning": {
+            "methods": [
+              {
+                "name": "Token Pruning (ToMe)",
+                "method_name": "vit_tome",
+                "mode_class": "vit_tome_pruner",
+                "techniques": [
+                  "token_merging"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Attention Head Pruning (Importance)",
+                "method_name": "importance_attention_head",
+                "mode_class": "importance_attention_head_pruner",
+                "techniques": [
+                  "importance_based_head_pruning"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Attention Head Pruning (Magnitude)",
+                "method_name": "magnitude_attention_head",
+                "mode_class": "magnitude_attention_head_pruner",
+                "techniques": [
+                  "magnitude_based_head_pruning"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "MLP Dimension Pruning",
+                "method_name": "mlp_dimension",
+                "mode_class": "mlp_dimension_pruner",
+                "techniques": [
+                  "mlp_pruning"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Layer Depth Pruning",
+                "method_name": "layer_depth",
+                "mode_class": "layer_depth_pruner",
+                "techniques": [
+                  "layer_dropping"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "fusion": {
+            "methods": [
+              {
+                "name": "LayerNorm Fusion",
+                "method_name": "layernorm",
+                "mode_class": "layernorm_fuser",
+                "techniques": [
+                  "layernorm_fusion"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "LayerNorm-Linear Fusion",
+                "method_name": "layernorm_linear",
+                "mode_class": "layernorm_linear_fuser",
+                "techniques": [
+                  "layernorm_linear_fusion"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "QKV Projection Fusion",
+                "method_name": "qkv_projection",
+                "mode_class": "qkv_projection_fuser",
+                "techniques": [
+                  "qkv_fusion"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Multi-Head Attention Fusion",
+                "method_name": "mha",
+                "mode_class": "mha_fuser",
+                "techniques": [
+                  "mha_fusion"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          },
+          "decomposition": {
+            "methods": [
+              {
+                "name": "SVD Decomposition (95% Energy)",
+                "method_name": "svd",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "singular_value_decomposition"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              },
+              {
+                "name": "Low-Rank Factorization",
+                "method_name": "low_rank",
+                "mode_class": "svd_decomposer",
+                "techniques": [
+                  "low_rank_factorization"
+                ],
+                "architecture": {
+                  "family": "Transformer",
+                  "variant": "ViT"
+                },
+                "architecture_family": "Transformer",
+                "mcts_stats": {
+                  "visit_count": 0,
+                  "q_value": 0.0,
+                  "total_reward": 0.0,
+                  "last_updated": "2024-11-19T00:00:00Z"
+                },
+                "performance": {
+                  "latency_speedup": 1.0,
+                  "compression_ratio": 1.0,
+                  "accuracy_retention": 1.0,
+                  "memory_reduction": 0.0
+                },
+                "validation": {
+                  "confidence": 0.5,
+                  "sample_count": 0,
+                  "validators": 0,
+                  "last_validated": null,
+                  "validation_method": "unknown"
+                },
+                "paper": {
+                  "title": "",
+                  "authors": [],
+                  "venue": "",
+                  "year": 0,
+                  "arxiv_id": "",
+                  "url": ""
+                }
+              }
+            ]
+          }
+        },
+        "model_characteristics": {
+          "architecture_type": "transformer",
+          "key_components": [
+            "self_attention",
+            "layer_norm",
+            "mlp_blocks",
+            "patch_embedding"
+          ],
+          "has_batch_norm": false,
+          "has_layer_norm": true,
+          "optimization_challenges": [
+            "attention_computation",
+            "token_redundancy",
+            "softmax_quantization"
+          ]
+        }
+      }
+    }
+  }
+}

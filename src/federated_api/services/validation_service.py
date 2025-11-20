@@ -54,7 +54,7 @@ class ValidationService:
                         raise ValueError(f"optimization_methods must be a dictionary")
                     
                     # Validate categories
-                    valid_categories = ['quantization', 'fusion', 'pruning', 'structural']
+                    valid_categories = ['quantization', 'fusion', 'pruning', 'structural', 'decomposition']
                     for category in opt_methods.keys():
                         if category not in valid_categories:
                             raise ValueError(f"Invalid category '{category}'. Must be one of {valid_categories}")

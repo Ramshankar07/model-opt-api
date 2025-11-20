@@ -57,15 +57,23 @@ async def get_tree(tree_id: str) -> OptimizationTaxonomy:
 
 @authed.put("/{tree_id}")
 async def update_tree_from_file(tree_id: str) -> Dict[str, Any]:
-    """Update a tree by loading data from backups/base_tree.json.
+    """Update a tree by loading data from backups/base_tree_v2.json (or base_tree.json as fallback).
     
     This endpoint replaces the entire tree data for the specified tree_id
-    with the contents of backups/base_tree.json. The file is validated
-    before updating.
+    with the contents of the taxonomy file. The file is validated before updating.
     """
     try:
-        # Load from base_tree.json (relative to project root)
-        file_path = "backups/base_tree.json"
+        # Try base_tree_v2.json first, fallback to base_tree.json
+        import os
+        file_path = None
+        for path in ["backups/base_tree_v2.json", "backups/base_tree.json"]:
+            if os.path.exists(path):
+                file_path = path
+                break
+        
+        if not file_path:
+            raise FileNotFoundError("Neither base_tree_v2.json nor base_tree.json found in backups/")
+        
         result = service.load_from_file(tree_id, file_path)
         return result
     except FileNotFoundError as e:

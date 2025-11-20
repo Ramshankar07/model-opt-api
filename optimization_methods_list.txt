@@ -1,0 +1,178 @@
+================================================================================
+Total Optimization Methods: 162
+================================================================================
+
+FUSION (38 methods):
+--------------------------------------------------------------------------------
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion
+  • Conv-BN Fusion (Backbone)
+  • Conv-BN Fusion (CNN Blocks)
+  • Conv-BN Fusion (Encoder/Decoder)
+  • Conv-BN Fusion (MobileNet Blocks)
+  • Conv-BN Fusion (Neck)
+  • Conv-BN Fusion (Vision Encoder)
+  • Conv-ReLU Fusion
+  • Conv-ReLU Fusion
+  • Convolutional Projection Fusion
+  • Depthwise-Pointwise Fusion
+  • Depthwise-Pointwise Fusion
+  • Depthwise-Pointwise Fusion
+  • Encoder-Decoder Fusion
+  • Graph Fusion (Conv+BN+ReLU)
+  • Hierarchical Stage Fusion
+  • Inverted Bottleneck Fusion
+  • Inverted Residual Fusion
+  • Layer Scale Fusion
+  • LayerNorm Fusion
+  • LayerNorm Fusion
+  • LayerNorm Fusion
+  • MBConv Fusion
+  • Multi-Modal Feature Fusion
+  • Multi-scale Feature Fusion
+  • Projection Layer Fusion
+  • Residual Connection Fusion
+  • Sequential Layer Fusion
+  • Stage Transition Fusion
+  • Stem Fusion
+  • Transformer-Conv Transition Fusion
+
+PRUNING (38 methods):
+--------------------------------------------------------------------------------
+  • APMA Multi-Head Pruning
+  • Attention Head Pruning (Transformer Blocks)
+  • Attention Head Pruning (ViT Blocks)
+  • Block Pruning
+  • Block Pruning (Weight-Based)
+  • CAP-YOLO Channel Attention Pruning
+  • Channel Pruning
+  • Channel Pruning (CNN Blocks)
+  • Channel Pruning (Depthwise)
+  • Channel Pruning (MobileNet Blocks)
+  • DC-ViT Dense Compression (Swin)
+  • DIMAP Module-Aware Pruning
+  • Dimension-wise ViT Pruning
+  • EffiSelecViT Head/MLP Pruning
+  • FPGM (Geometric Median Pruning)
+  • Feature Maps Clustering Pruning
+  • Filter Pruning (Weight Magnitude)
+  • Half-UNet Channel Reduction
+  • Intra-Head Pruning (IHP)
+  • L1-norm Filter Pruning
+  • Multi-layer Filter Pruning (SSD300)
+  • Multi-layer Filter Pruning (SSD512)
+  • Path Pruning
+  • SI-driven U-Net Compression
+  • SSD-MobileNet Channel Pruning + Quantization
+  • SlimYOLOv3 L1-norm Channel Pruning
+  • Stage Pruning
+  • Stage Pruning
+  • Structured Layer Pruning
+  • Taylor-FO-BN (BN Scale Pruning)
+  • Text Encoder Pruning
+  • ThiNet (Layer-wise Pruning)
+  • VTC-LFC Low-Frequency Compression
+  • Vision Encoder Pruning
+  • Weight Pruning-UNet
+  • Width Multiplier Adjustment
+  • YOLOv4 Channel Pruning
+  • YOLOv5 L1-norm Pruning
+
+QUANTIZATION (72 methods):
+--------------------------------------------------------------------------------
+  • AQD 2-bit RetinaNet-ResNet18
+  • AnyNet Block Quantization
+  • BRECQ (Block Reconstruction PTQ)
+  • BoA (Attention-aware Hessian)
+  • BoA (Attention-aware Hessian)
+  • BoA Swin Transformer
+  • Codebook Quantization
+  • Convolutional Projection Quantization
+  • Convolutional Token Embedding Quantization
+  • Cross-Attention Quantization
+  • Cross-Attention Quantization
+  • Depthwise Conv Quantization
+  • Depthwise Conv Quantization
+  • Distillation Token Quantization
+  • EfficientQuant
+  • HQOD 4-bit RetinaNet-ResNet18
+  • Hardware-Aware Quantization (HAQ)
+  • HyQ
+  • Inverted Residual Quantization
+  • Large Kernel Quantization
+  • M2-ViT
+  • MBConv Quantization
+  • Masked Token Quantization
+  • Mix-QViT
+  • NVIDIA FasterTransformer Swin INT8
+  • Object Query Quantization
+  • P4Q (Prompt for Quantization)
+  • PTQ4ViT W8A8
+  • PTQ4ViT W8A8 Swin
+  • Per-Channel Weight Quantization
+  • Per-Layer Weight Quantization
+  • Pixel Decoder Quantization
+  • Pointwise Conv Quantization
+  • Q-HyViT
+  • Q-VLM
+  • QADS (Per-channel Scaling)
+  • QuantU-Net Trainable Bitwidth
+  • Quantized Prompt
+  • Relative Attention Quantization
+  • RetinaNet-ResNet18 FQN 4-bit
+  • RetinaNet-ResNet50 INT8 TensorRT
+  • SSD-MobileNetV1 INT8 (COCO)
+  • SSD-MobileNetV2 INT8 (COCO)
+  • SSD-VGG16 INT8 (Pascal VOC)
+  • SSDLite-MobileNetV2 Partial INT8
+  • Self-Attention Quantization
+  • Separable Conv Quantization
+  • Transformer Decoder Quantization
+  • U-Net Fixed-Point W4A6
+  • U-Net PTQ INT8 (TensorRT)
+  • VLCQ (Variable-Length Coding)
+  • Weight Clustering (K-means)
+  • Weight-Only Quantization
+  • Weight-Only Quantization
+  • Weight-Only Quantization
+  • Weight-Only Quantization
+  • Weight-Only Quantization
+  • Weight-Only Quantization
+  • Weight-Only Quantization (CNN Blocks)
+  • Weight-Only Quantization (Encoder)
+  • Weight-Only Quantization (Encoder/Decoder)
+  • Weight-Only Quantization (Q-Former)
+  • Weight-Only Quantization (Swin Backbone)
+  • Weight-Only Quantization (Text Decoder)
+  • Weight-Only Quantization (Transformer Blocks)
+  • Weight-Only Quantization (Vision Encoder)
+  • YOLO-X Tiny INT8 PTQ
+  • YOLOv5 DLA INT8 QAT
+  • YOLOv6+ INT8 PTQ
+  • YOLOv7 C-shape-wise PWLQ 4-bit
+  • aespa (Attention-wise Reconstruction)
+  • aespa Swin Transformer
+
+STRUCTURAL (14 methods):
+--------------------------------------------------------------------------------
+  • BOE-NMS
+  • Bottleneck Optimization
+  • Distillation Token Removal
+  • QSI-NMS
+  • QSI-NMS
+  • QSI-NMS
+  • Reconstruction Head Removal
+  • ResNeXt (Bottleneck Restructuring)
+  • Skip Connection Optimization (Tailor)
+  • Soft-NMS
+  • Soft-NMS
+  • Tailor (Skip Connection Optimization)
+  • Token Pruning with VPA
+  • eQSI-NMS
+
